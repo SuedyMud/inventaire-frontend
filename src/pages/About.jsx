@@ -1,17 +1,16 @@
-import React from 'react';
-
 import Header from '../components/Header';
 
 
-function Home(){
+
+function About(){
     return (
         <>
 
         <Header/>
-        <h2>Home Page</h2>
+        <h2>About Page</h2>
         
         </>
     );
 
 }
-export default Home;
+export default About;
