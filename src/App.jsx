@@ -13,6 +13,8 @@ import LoginButton from "./components/LoginButton.jsx";
 import LogoutButton from "./components/LogoutButton.jsx";
 import {useAuth0} from "@auth0/auth0-react";
 import {Spinner} from "react-bootstrap";
+import Projet from "./pages/Projet.jsx";
+import ProjetDetail from "./pages/ProjetDetail.jsx";
 
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
                   <Route path="/about" element={<About/>}/>
                   <Route path="/contact" element={<Contact/>}/>
                   <Route path="/unite" element={<Unite/>}/>
+                  <Route path="/projet" element={<Projet/>}/>
+                  <Route path="/projet/:id" element={<ProjetDetail/>}/>
                   <Route path="*" element={<NoPage/>}/>
 
                 </Routes>

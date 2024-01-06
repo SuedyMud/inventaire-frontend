@@ -1,14 +1,11 @@
-// Projet.jsx
 import axios from "axios";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import projetDetail from "./ProjetDetail.jsx";
 
-function Projet() {
+function ProjetDetail() {
     const { getAccessTokenSilently } = useAuth0();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
@@ -17,7 +14,7 @@ function Projet() {
     const fetchData = async () => {
         try {
             const accessToken = await getAccessTokenSilently();
-            const response = await axios.get("api/zprojet/liste", {
+            const response = await axios.get(`api/zprojet/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -47,21 +44,31 @@ function Projet() {
             <Header />
             <h2>Liste des Projets</h2>
             <div>
-                <ListGroup as="ol" numbered>
+                <ListGroup>
                     {data.map((item) => (
-                        <ListGroup.Item
-                            as="li"
-                            key={item.idprojet}
-                            className="d-flex justify-content-between align-items-center my-1"
-                        >
-                            <div>
-                                <Link to={`/projet/${item.idprojet}`}>
-                                    <h4>{item.nom}</h4>
-                                </Link>
+                        <ListGroup.Item key={item.idprojet} className="d-flex justify-content-between align-items-center my-1">
+                            <div onClick={() => handleItemClick(item.idprojet)}>
+                                <h4>{item.nom}</h4>
                             </div>
+                            {selectedItemId === item.idprojet && (
+                                <div>
+                                    <p>Date début: {item.datedebut}</p>
+                                    <p>Date fin: {item.datefin}</p>
+                                    <p>Résumé: {item.resume}</p>
+                                    <p>Site: {item.site}</p>
+                                    <p>Début de l'inscription: {item.dDebut}</p>
+                                    <p>Ordre: {item.ordre}</p>
+                                    <p>Programme: {item.nomprogramme}</p>
+                                    <p>Programme (en anglais): {item.nomprogrammeUK}</p>
+                                    <p>Résumé (en anglais): {item.resumeUK}</p>
+                                    <p>Fin de l'inscription: {item.dFin}</p>
+                                    <p>Projet provenant de CV: {item.fromCv}</p>
+                                </div>
+                            )}
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
+
                 <div className="pagination">
                     <Button
                         variant="outline-secondary"
@@ -88,4 +95,5 @@ function Projet() {
         </>
     );
 }
-export default Projet;
+
+export default ProjetDetail;
