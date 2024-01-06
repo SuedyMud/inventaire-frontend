@@ -1,4 +1,5 @@
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 
 
@@ -8,6 +9,8 @@ function About(){
 
         <Header/>
         <h2>About Page</h2>
+
+        <Footer/>
         
         </>
     );

@@ -8,51 +8,48 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import NoPage from './pages/Nopage';
+import Unite from './pages/Unite';
+import LoginButton from "./components/LoginButton.jsx";
+import LogoutButton from "./components/LogoutButton.jsx";
+import {useAuth0} from "@auth0/auth0-react";
+import {Spinner} from "react-bootstrap";
 
 
 function App() {
   const [count, setCount] = useState(0)
+    const {user:user, isAuthenticated , isLoading} = useAuth0();
+
+  if(isLoading){
+      return <Spinner/>;
+  }
 
   return (
-
-  
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<Home/>}/>
-          <Route path="/home" element={<Home/>}/>
-          <Route path="/about" element={<About/>}/>
-          <Route path="/contact" element={<Contact/>}/>
-          <Route path="*" element={<NoPage/>}/> ffd
-          
-        </Routes>
-
-      </BrowserRouter>
 
 
+        <h1>Inventaire de la recherche</h1>
 
-      {/* <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p> */}
+          {isAuthenticated ?
+              <>
+            <LogoutButton/>
+
+              <BrowserRouter>
+                <Routes>
+                  <Route index element={<Home/>}/>
+                  <Route path="/home" element={<Home/>}/>
+                  <Route path="/about" element={<About/>}/>
+                  <Route path="/contact" element={<Contact/>}/>
+                  <Route path="/unite" element={<Unite/>}/>
+                  <Route path="*" element={<NoPage/>}/>
+
+                </Routes>
+
+              </BrowserRouter>
+        </>
+        : <LoginButton/>}
+
     </>
-  )
+  );
 }
 
 export default App
