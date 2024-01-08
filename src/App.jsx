@@ -15,6 +15,11 @@ import {useAuth0} from "@auth0/auth0-react";
 import {Spinner} from "react-bootstrap";
 import Projet from "./pages/Projet.jsx";
 import ProjetDetail from "./pages/ProjetDetail.jsx";
+import Chercheur from "./pages/Chercheur.jsx";
+import Faculte from "./pages/Faculte.jsx";
+import Frascati from "./pages/Frascati.jsx";
+import SFI from "./pages/SFI.jsx";
+import Discipline from "./pages/Discipline.jsx";
 
 
 function App() {
@@ -44,6 +49,11 @@ function App() {
                   <Route path="/unite" element={<Unite/>}/>
                   <Route path="/projet" element={<Projet/>}/>
                   <Route path="/projet/:id" element={<ProjetDetail/>}/>
+                  <Route path="/chercheur" element={<Chercheur/>}/>
+                  <Route path="/faculte" element={<Faculte/>}/>
+                  <Route path="/frascati" element={<Frascati/>}/>
+                  <Route path="/sfi" element={<SFI/>}/>
+                  <Route path="/discipline" element={<Discipline/>}/>
                   <Route path="*" element={<NoPage/>}/>
 
                 </Routes>

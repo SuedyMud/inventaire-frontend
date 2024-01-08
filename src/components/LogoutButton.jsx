@@ -6,7 +6,7 @@ const LogoutButton = () => {
 
     return (
 
-        <Button variant="outline-warning" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+        <Button  variant="outline-warning" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
             Log Out
         </Button>
 
