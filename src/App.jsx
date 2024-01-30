@@ -34,8 +34,6 @@ function App() {
     <>
 
 
-        <h1>Inventaire de la recherche</h1>
-
           {isAuthenticated ?
               <>
             <LogoutButton/>
@@ -46,11 +44,11 @@ function App() {
                   <Route path="/home" element={<Home/>}/>
                   <Route path="/about" element={<About/>}/>
                   <Route path="/contact" element={<Contact/>}/>
+                  <Route path="/faculte" element={<Faculte/>}/>
                   <Route path="/unite" element={<Unite/>}/>
                   <Route path="/projet" element={<Projet/>}/>
                   <Route path="/projet/:id" element={<ProjetDetail/>}/>
                   <Route path="/chercheur" element={<Chercheur/>}/>
-                  <Route path="/faculte" element={<Faculte/>}/>
                   <Route path="/frascati" element={<Frascati/>}/>
                   <Route path="/sfi" element={<SFI/>}/>
                   <Route path="/discipline" element={<Discipline/>}/>

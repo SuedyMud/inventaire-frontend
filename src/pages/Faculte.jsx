@@ -11,6 +11,22 @@ function Faculte() {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
 
+    const liensFacultes = {
+        "École de Santé publique": "https://esp.ulb.be/fr/la-recherche/les-centres-de-recherche",
+        "École polytechnique de Bruxelles": "https://polytech.ulb.be/fr/recherche/sciences-de-l-ingenieur",
+        "Faculté d'Architecture (La Cambre-Horta)": "https://archi.ulb.be/version-francaise/la-recherche/les-centres-de-recherche",
+        "Faculté de Droit et de Criminologie": "https://droit.ulb.be/fr/navigation/la-recherche/nos-centres-de-recherche",
+        "Faculté de Lettres, Traduction et Communication": "https://ltc.ulb.be/nos-centres-de-recherche",
+        "Faculté de Médecine": " ",
+        "Faculté de Pharmacie": "https://pharmacie.ulb.be/version-francaise/la-recherche/les-unites-de-recherche",
+        "Faculté de Philosophie et Sciences Sociales": "https://phisoc.ulb.be/fr/centres-de-recherche",
+        "Faculté des Sciences": "https://sciences.ulb.be/la-recherche/unites-de-recherche",
+        "Faculté des Sciences de la Motricité": "https://fsm.ulb.be/fr/recherche/les-unites-de-recherche",
+        "Faculté des Sciences psychologiques et de l'éducation": "https://psycho.ulb.be/la-recherche/les-centres-et-unites-de-recherche-1",
+        "Faculté Solvay Brussels School of Economics and Managements": "https://sbsem.ulb.be/centres-de-recherche",
+        "Instituts d'Enseignement Interfacultaire": "",
+    };
+
     const fetchData = async () => {
         try {
             const accessToken = await getAccessTokenSilently();
@@ -20,13 +36,20 @@ function Faculte() {
                 },
                 params: {
                     page: currentPage,
-                    size: 10,
+                    size: 30,
+
                 },
             });
 
             if (response.status === 200) {
-                setData(response.data.content);
+
+                // Trier les données par ordre alphabétique du nom de la faculté
+                const sortedData = response.data.content.sort((a, b) => a.faculte.localeCompare(b.faculte));
+                setData(sortedData);
                 setTotalPages(response.data.totalPages);
+
+               /* setData(response.data.content);
+                setTotalPages(response.data.totalPages);*/
             } else {
                 console.error("Erreur lors de la récupération des données");
             }
@@ -41,28 +64,33 @@ function Faculte() {
 
     return (
         <>
-            <Header />
-            <h2>Facultés</h2>
+            <Header/>
+            <h2>Répertoire des Unité par Facultés, Département</h2>
             <div>
                 <ListGroup as="ol" numbered>
                     {data.map((item) => (
-                        <ListGroup.Item
-                            as="li"
-                            key={item.fac}
-                            className="d-flex justify-content-between align-items-center my-1"
-                        >
-                            <div>
-                                <p>{item.faculte}</p>
-                                <p>Faculté UK: {item.faculteUK}</p>
-                                <p>Sigle: {item.sigle}</p>
-                                <p>Date Maj: {item.dMaj}</p>
-                                <p>CC: {item.cc}</p>
-                                <p>Infofin: {item.infofin}</p>
-                                <p>ID Fac: {item.idFac}</p>
-                                <p>Actif: {item.actif}</p>
-                                <p>Groupe: {item.groupe}</p>
-                                <p>Invent20: {item.invent20}</p> </div>
-                        </ListGroup.Item>
+                        // Ajout d'une condition pour afficher uniquement les éléments avec actif='1' et invent20='1'
+                        (item.actif === '1' && item.invent20 === '1') && (
+                            <ListGroup.Item
+                                as="li"
+                                key={item.fac}
+                                className="d-flex justify-content-between align-items-center my-1"
+                            >
+                                <div>
+                                    <a href={liensFacultes[item.faculte]}>{item.faculte}</a>
+
+                                    <p>Faculté UK: {item.faculteUK}</p>
+                                    <p>Sigle: {item.sigle}</p>
+                                    <p>Date Maj: {item.dMaj}</p>
+                                    <p>CC: {item.cc}</p>
+                                    <p>Infofin: {item.infofin}</p>
+                                    <p>ID Fac: {item.idFac}</p>
+                                    <p>Actif: {item.actif}</p>
+                                    <p>Groupe: {item.groupe}</p>
+                                    <p>Invent20: {item.invent20}</p>
+                                </div>
+                            </ListGroup.Item>
+                        )
                     ))}
                 </ListGroup>
                 <div className="pagination">
