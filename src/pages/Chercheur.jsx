@@ -53,7 +53,7 @@ function Chercheur() {
                             <div>
                                 <p>{item.nom}</p>
                                 <p>Prénom: {item.prenom}</p>
-                                <p>Titre: {item.titre}</p>
+                                {/*<p>Titre: {item.titre}</p>
                                 <p>Matricule: {item.matricule}</p>
                                 <p>CPI: {item.cpi}</p>
                                 <p>Téléphone: {item.telephone}</p>
@@ -63,7 +63,7 @@ function Chercheur() {
                                 <p>Corps: {item.corps}</p>
                                 <p>Date de Dig: {item.dDig}</p>
                                 <p>FacChe: {item.facChe}</p>
-                                <p>Publication Préférée: {item.prefPublication}</p>
+                                <p>Publication Préférée: {item.prefPublication}</p>*/}
                             </div>
                         </ListGroup.Item>
                     ))}

@@ -52,8 +52,8 @@ function Unite() {
                             className="d-flex justify-content-between align-items-center my-1">
                             <div>
                                 <h3>{item.nom}</h3>
-                                <p>ID: {item.idunite}</p>
-                                <p>Description: {item.description}</p>
+                                {/*<p>ID: {item.idunite}</p>*/}
+                                {/*<p>Description: {item.description}</p>
                                 <p>Adresse: {item.rue}, {item.numero}, {item.boite}, {item.codepostal} {item.localite}</p>
                                 <p>Téléphone: {item.telephone}</p>
                                 <p>Fax: {item.fax}</p>
@@ -74,7 +74,7 @@ function Unite() {
                                 <p>Stat Anciens Membres: {item.statAnciensmembres}</p>
                                 <p>Stat Délégué: {item.statDelegue}</p>
                                 <p>Stat Adzion: {item.statAdzion}</p>
-                                <p>Niveau: {item.niveau}</p>
+                                <p>Niveau: {item.niveau}</p>*/}
                             </div>
                         </ListGroup.Item>
                     ))}

@@ -79,7 +79,7 @@ function Faculte() {
                                 <div>
                                     <a href={liensFacultes[item.faculte]}>{item.faculte}</a>
 
-                                    <p>Faculté UK: {item.faculteUK}</p>
+                                    {/*<p>Faculté UK: {item.faculteUK}</p>
                                     <p>Sigle: {item.sigle}</p>
                                     <p>Date Maj: {item.dMaj}</p>
                                     <p>CC: {item.cc}</p>
@@ -87,7 +87,7 @@ function Faculte() {
                                     <p>ID Fac: {item.idFac}</p>
                                     <p>Actif: {item.actif}</p>
                                     <p>Groupe: {item.groupe}</p>
-                                    <p>Invent20: {item.invent20}</p>
+                                    <p>Invent20: {item.invent20}</p>*/}
                                 </div>
                             </ListGroup.Item>
                         )
