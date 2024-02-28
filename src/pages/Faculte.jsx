@@ -11,7 +11,7 @@ function Faculte() {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
 
-    const liensFacultes = {
+   /* const liensFacultes = {
         "École de Santé publique": "https://esp.ulb.be/fr/la-recherche/les-centres-de-recherche",
         "École polytechnique de Bruxelles": "https://polytech.ulb.be/fr/recherche/sciences-de-l-ingenieur",
         "Faculté d'Architecture (La Cambre-Horta)": "https://archi.ulb.be/version-francaise/la-recherche/les-centres-de-recherche",
@@ -25,7 +25,7 @@ function Faculte() {
         "Faculté des Sciences psychologiques et de l'éducation": "https://psycho.ulb.be/la-recherche/les-centres-et-unites-de-recherche-1",
         "Faculté Solvay Brussels School of Economics and Managements": "https://sbsem.ulb.be/centres-de-recherche",
         "Instituts d'Enseignement Interfacultaire": "",
-    };
+    };*/
 
     const fetchData = async () => {
         try {

@@ -1,3 +1,4 @@
+/*
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -6,11 +7,11 @@
   color-scheme: light dark;
   color: #242424;
   background-color: rgba(255, 255, 255, 0.87);
-  /*
+  !*
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-  background-color: #242424; couleur d'arrière plan du site*/
+  background-color: #242424; couleur d'arrière plan du site*!
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -73,3 +74,4 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+*/

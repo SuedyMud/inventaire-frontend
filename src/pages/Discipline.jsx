@@ -44,7 +44,7 @@ function Discipline() {
             <Header />
             <h2>Disciplines</h2>
             <div>
-                <ListGroup as="ol" numbered>
+                <ListGroup as="ul">
                     {data.map((item) => (
                         <ListGroup.Item
                             as="li"
@@ -53,7 +53,7 @@ function Discipline() {
                         >
                             <div>
                                 <h3>{item.discipline}</h3>
-                                <p>Discipline UK: {item.disciplineUK}</p>
+                                {/*<p>Discipline UK: {item.disciplineUK}</p>*/}
 
 
                             </div>

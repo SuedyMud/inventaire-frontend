@@ -23,7 +23,7 @@ function Projet() {
                 },
                 params: {
                     page: currentPage,
-                    size: 10, // number of items per page
+                    size: 20, // number of items per page
                 },
             });
 
@@ -45,23 +45,30 @@ function Projet() {
     return (
         <>
             <Header />
+
             <h2>Liste des Projets</h2>
             <div>
-                <ListGroup as="ol" numbered>
+                <ListGroup as="ul">
                     {data.map((item) => (
                         <ListGroup.Item
                             as="li"
                             key={item.idprojet}
                             className="d-flex justify-content-between align-items-center my-1"
+                            action onClick
                         >
+
                             <div>
                                 <Link to={`/projet/${item.idprojet}`}>
                                     <h4>{item.nom}</h4>
                                 </Link>
                             </div>
+
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
+
+
+
                 <div className="pagination">
                     <Button
                         variant="outline-secondary"
@@ -78,8 +85,7 @@ function Projet() {
                         onClick={() =>
                             setCurrentPage(Math.min(currentPage + 1, totalPages - 1))
                         }
-                        disabled={currentPage === totalPages - 1}
-                    >
+                        disabled={currentPage === totalPages - 1}>
                         Page suivante
                     </Button>
                 </div>

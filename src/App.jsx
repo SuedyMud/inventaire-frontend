@@ -36,7 +36,7 @@ function App() {
 
           {isAuthenticated ?
               <>
-            <LogoutButton/>
+
 
               <BrowserRouter>
                 <Routes>

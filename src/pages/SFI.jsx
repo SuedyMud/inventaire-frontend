@@ -44,7 +44,7 @@ function SFI() {
             <Header />
             <h2>Départements</h2>
             <div>
-                <ListGroup as="ol" numbered>
+                <ListGroup as="ul">
                     {data.map((item) => (
                         <ListGroup.Item
                             as="li"
@@ -53,9 +53,9 @@ function SFI() {
                         >
                             <div>
                                 <h3>{item.depart}</h3>
-                                <p>Departement UK: {item.departUK}</p>
+                                {/*<p>Departement UK: {item.departUK}</p>
                                 <p>Ref Faculte: {item.reffac}</p>
-                                <p>Ordre: {item.ordre}</p>
+                                <p>Ordre: {item.ordre}</p>*/}
 
 
                             </div>

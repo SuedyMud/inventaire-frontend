@@ -44,7 +44,7 @@ function Unite() {
             <Header />
             <h2>Unite</h2>
             <div>
-                <ListGroup as="ol" numbered>
+                <ListGroup as="ul">
                     {data.map((item) => (
                         <ListGroup.Item
                             as="li"
