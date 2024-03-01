@@ -1,9 +1,9 @@
 import axios from "axios";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";
+import Layout from "../components/Layout.jsx";
+import {Link} from "react-router-dom";
 
 function SFI() {
     const { getAccessTokenSilently } = useAuth0();
@@ -41,7 +41,7 @@ function SFI() {
 
     return (
         <>
-            <Header />
+            <Layout>
             <h2>Départements</h2>
             <div>
                 <ListGroup as="ul">
@@ -52,7 +52,12 @@ function SFI() {
                             className="d-flex justify-content-between align-items-center my-1"
                         >
                             <div>
-                                <h3>{item.depart}</h3>
+
+                                <Link to={`/sfi/${item.iddepart}`} style={{ textDecoration: 'none' }}>
+                                    <p>{item.depart}</p>
+                                </Link>
+
+
                                 {/*<p>Departement UK: {item.departUK}</p>
                                 <p>Ref Faculte: {item.reffac}</p>
                                 <p>Ordre: {item.ordre}</p>*/}
@@ -84,7 +89,7 @@ function SFI() {
                     </Button>
                 </div>
             </div>
-            <Footer />
+                </Layout>
         </>
     );
 }

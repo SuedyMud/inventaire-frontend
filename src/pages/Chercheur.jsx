@@ -1,9 +1,9 @@
 import axios from "axios";
-import Header from "../components/Header";
-import Footer from '../components/Footer';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";
+import Layout from "../components/Layout.jsx";
+import {Link} from "react-router-dom";
 
 function Chercheur() {
     const { getAccessTokenSilently } = useAuth0();
@@ -40,19 +40,23 @@ function Chercheur() {
     }, [currentPage, getAccessTokenSilently]);
 
     return (
-        <>
-            <Header />
-            <h2>Chercheur</h2>
+            <Layout>
+            <h2>Répertoire des Chercheurs</h2>
             <div>
-                <ListGroup as="ol" numbered>
+                <ListGroup as="ul">
                     {data.map((item) => (
                         <ListGroup.Item
                             as="li"
                             key={item.idche}
                             className="d-flex justify-content-between align-items-center my-1">
                             <div>
-                                <p>{item.nom}</p>
-                                <p>Prénom: {item.prenom}</p>
+
+                                <Link to={`/chercheur/${item.idche}`} style={{ textDecoration: 'none' }}>
+                                   <p> {item.nom} {item.prenom}</p>
+                                </Link>
+
+
+                               {/* <p>{item.prenom}</p>*/}
                                 {/*<p>Titre: {item.titre}</p>
                                 <p>Matricule: {item.matricule}</p>
                                 <p>CPI: {item.cpi}</p>
@@ -86,8 +90,7 @@ function Chercheur() {
                     </Button>
                 </div>
             </div>
-            <Footer />
-        </>
+            </Layout>
     );
 }
 

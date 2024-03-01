@@ -1,9 +1,9 @@
 import axios from "axios";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";
+import Layout from "../components/Layout.jsx";
+import {Link} from "react-router-dom";
 
 function Faculte() {
     const { getAccessTokenSilently } = useAuth0();
@@ -36,20 +36,15 @@ function Faculte() {
                 },
                 params: {
                     page: currentPage,
-                    size: 30,
+                    size: 10,
 
                 },
             });
 
             if (response.status === 200) {
 
-                // Trier les données par ordre alphabétique du nom de la faculté
-                const sortedData = response.data.content.sort((a, b) => a.faculte.localeCompare(b.faculte));
-                setData(sortedData);
+               setData(response.data.content);
                 setTotalPages(response.data.totalPages);
-
-               /* setData(response.data.content);
-                setTotalPages(response.data.totalPages);*/
             } else {
                 console.error("Erreur lors de la récupération des données");
             }
@@ -64,20 +59,22 @@ function Faculte() {
 
     return (
         <>
-            <Header/>
-            <h2>Répertoire des Unité par Facultés, Département</h2>
+            <Layout>
+            <h2>Répertoires des Unités par Facultés, Départements</h2>
             <div>
-                <ListGroup as="ol" numbered>
+                <ListGroup as="ul">
                     {data.map((item) => (
-                        // Ajout d'une condition pour afficher uniquement les éléments avec actif='1' et invent20='1'
-                        (item.actif === '1' && item.invent20 === '1') && (
+
                             <ListGroup.Item
                                 as="li"
                                 key={item.fac}
                                 className="d-flex justify-content-between align-items-center my-1"
                             >
                                 <div>
-                                    <a href={liensFacultes[item.faculte]}>{item.faculte}</a>
+                                    <Link to={`/faculte/${item.fac}`} style={{ textDecoration: 'none' }}>
+                                        <p>{item.faculte}</p>
+                                    </Link>
+
 
                                     {/*<p>Faculté UK: {item.faculteUK}</p>
                                     <p>Sigle: {item.sigle}</p>
@@ -91,7 +88,7 @@ function Faculte() {
                                 </div>
                             </ListGroup.Item>
                         )
-                    ))}
+                    )}
                 </ListGroup>
                 <div className="pagination">
                     <Button
@@ -115,7 +112,7 @@ function Faculte() {
                     </Button>
                 </div>
             </div>
-            <Footer />
+            < /Layout>
         </>
     );
 }

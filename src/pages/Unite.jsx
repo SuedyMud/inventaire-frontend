@@ -1,9 +1,9 @@
 import axios from "axios";
-import Header from "../components/Header";
-import Footer from '../components/Footer';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";
+import Layout from "../components/Layout.jsx";
+import {Link} from "react-router-dom";
 
 function Unite() {
     const { getAccessTokenSilently } = useAuth0();
@@ -41,8 +41,10 @@ function Unite() {
 
     return (
         <>
-            <Header />
-            <h2>Unite</h2>
+            <Layout>
+
+            <h2>Répertoires par Unités</h2>
+
             <div>
                 <ListGroup as="ul">
                     {data.map((item) => (
@@ -51,7 +53,15 @@ function Unite() {
                             key={item.idunite}
                             className="d-flex justify-content-between align-items-center my-1">
                             <div>
-                                <h3>{item.nom}</h3>
+
+                                <Link to={`/unite/${item.idunite}`} style={{ textDecoration: 'none' }}>
+                                    <p>{item.nom}</p>
+                                </Link>
+
+
+
+
+
                                 {/*<p>ID: {item.idunite}</p>*/}
                                 {/*<p>Description: {item.description}</p>
                                 <p>Adresse: {item.rue}, {item.numero}, {item.boite}, {item.codepostal} {item.localite}</p>
@@ -97,7 +107,7 @@ function Unite() {
                     </Button>
                 </div>
             </div>
-            <Footer />
+                </Layout>
         </>
     );
 }

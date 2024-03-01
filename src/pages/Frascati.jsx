@@ -4,6 +4,8 @@ import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";
+import Layout from "../components/Layout.jsx";
+import {Link} from "react-router-dom";
 
 function Faculte() {
     const { getAccessTokenSilently } = useAuth0();
@@ -41,10 +43,10 @@ function Faculte() {
 
     return (
         <>
-            <Header />
+            <Layout>
             <h2>Facultés</h2>
             <div>
-                <ListGroup as="ol" numbered>
+                <ListGroup as="ul">
                     {data.map((item) => (
                         <ListGroup.Item
                             as="li"
@@ -52,12 +54,15 @@ function Faculte() {
                             className="d-flex justify-content-between align-items-center my-1"
                         >
                             <div>
-                                <p>{item.frascati}</p>
-                                <p>Frascati UK: {item.frascatiUK}</p>
+                                <Link to={`/frascati/${item.fac}`} style={{ textDecoration: 'none' }}>
+                                    <p>{item.frascati}</p>
+                                </Link>
+
+                                {/*<p>Frascati UK: {item.frascatiUK}</p>
                                 <p>Description: {item.description}</p>
                                 <p>Description UK: {item.descriptionUK}</p>
                                 <p>Refgrdiscip: {item.refgrdiscip}</p>
-                                <p>Ordre: {item.ordre}</p>
+                                <p>Ordre: {item.ordre}</p>*/}
                             </div>
                         </ListGroup.Item>
                     ))}
@@ -84,7 +89,7 @@ function Faculte() {
                     </Button>
                 </div>
             </div>
-            <Footer />
+            < /Layout>
         </>
     );
 }

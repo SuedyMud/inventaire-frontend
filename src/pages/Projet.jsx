@@ -1,12 +1,10 @@
-// Projet.jsx
 import axios from "axios";
-import Header from "../components/Header.jsx";
-import Footer from "../components/Footer.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import projetDetail from "./ProjetDetail.jsx";
+import Layout from "../components/Layout.jsx";
+
 
 function Projet() {
     const { getAccessTokenSilently } = useAuth0();
@@ -23,7 +21,7 @@ function Projet() {
                 },
                 params: {
                     page: currentPage,
-                    size: 20, // number of items per page
+                    size: 10, // number of items per page
                 },
             });
 
@@ -44,9 +42,9 @@ function Projet() {
 
     return (
         <>
-            <Header />
+            <Layout>
 
-            <h2>Liste des Projets</h2>
+            <h2>Répertoire par Projets</h2>
             <div>
                 <ListGroup as="ul">
                     {data.map((item) => (
@@ -54,14 +52,11 @@ function Projet() {
                             as="li"
                             key={item.idprojet}
                             className="d-flex justify-content-between align-items-center my-1"
-                            action onClick
                         >
 
-                            <div>
-                                <Link to={`/projet/${item.idprojet}`}>
-                                    <h4>{item.nom}</h4>
+                                <Link to={`/projet/${item.idprojet}`} style={{ textDecoration: 'none' }}>
+                                    <p>{item.nom}</p>
                                 </Link>
-                            </div>
 
                         </ListGroup.Item>
                     ))}
@@ -90,7 +85,7 @@ function Projet() {
                     </Button>
                 </div>
             </div>
-            <Footer />
+                </Layout>
         </>
     );
 }
