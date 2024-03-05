@@ -1,12 +1,12 @@
 import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
-import { ListGroup, Button } from "react-bootstrap";
+import {useAuth0} from "@auth0/auth0-react";
+import {useEffect, useState} from "react";
+import {ListGroup, Button} from "react-bootstrap";
 import Layout from "../components/Layout.jsx";
 import {Link} from "react-router-dom";
 
 function Unite() {
-    const { getAccessTokenSilently } = useAuth0();
+    const {getAccessTokenSilently} = useAuth0();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
@@ -43,27 +43,24 @@ function Unite() {
         <>
             <Layout>
 
-            <h2>Répertoires par Unités</h2>
+                <h2>Répertoires par Unités</h2>
 
-            <div>
-                <ListGroup as="ul">
-                    {data.map((item) => (
-                        <ListGroup.Item
-                            as="li"
-                            key={item.idunite}
-                            className="d-flex justify-content-between align-items-center my-1">
-                            <div>
+                <div>
+                    <ListGroup as="ul">
+                        {data.map((item) => (
+                            <ListGroup.Item
+                                as="li"
+                                key={item.idunite}
+                                className="d-flex justify-content-between align-items-center my-1">
+                                <div>
 
-                                <Link to={`/unite/${item.idunite}`} style={{ textDecoration: 'none' }}>
-                                    <p>{item.nom}</p>
-                                </Link>
-
-
+                                    <Link to={`/unite/${item.idunite}`} style={{textDecoration: 'none'}}>
+                                        <p>{item.nom}</p>
+                                    </Link>
 
 
-
-                                {/*<p>ID: {item.idunite}</p>*/}
-                                {/*<p>Description: {item.description}</p>
+                                    {/*<p>ID: {item.idunite}</p>*/}
+                                    {/*<p>Description: {item.description}</p>
                                 <p>Adresse: {item.rue}, {item.numero}, {item.boite}, {item.codepostal} {item.localite}</p>
                                 <p>Téléphone: {item.telephone}</p>
                                 <p>Fax: {item.fax}</p>
@@ -85,30 +82,31 @@ function Unite() {
                                 <p>Stat Délégué: {item.statDelegue}</p>
                                 <p>Stat Adzion: {item.statAdzion}</p>
                                 <p>Niveau: {item.niveau}</p>*/}
-                            </div>
-                        </ListGroup.Item>
-                    ))}
-                </ListGroup>
-                <div className="pagination">
-                    <Button
-                        variant="outline-secondary"
-                        onClick={() => setCurrentPage(Math.max(currentPage - 1, 0))}
-                        disabled={currentPage === 0}>
-                        Page précédente
-                    </Button>
-                    <span className="mx-3">
+                                </div>
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                    <div className="pagination">
+                        <Button
+                            variant="outline-secondary"
+                            onClick={() => setCurrentPage(Math.max(currentPage - 1, 0))}
+                            disabled={currentPage === 0}>
+                            Page précédente
+                        </Button>
+                        <span className="mx-3">
                         Page {currentPage + 1} sur {totalPages}
                     </span>
-                    <Button
-                        variant="outline-secondary"
-                        onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages - 1))}
-                        disabled={currentPage === totalPages - 1} >
-                        Page suivante
-                    </Button>
+                        <Button
+                            variant="outline-secondary"
+                            onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages - 1))}
+                            disabled={currentPage === totalPages - 1}>
+                            Page suivante
+                        </Button>
+                    </div>
                 </div>
-            </div>
-                </Layout>
+            </Layout>
         </>
     );
 }
+
 export default Unite;

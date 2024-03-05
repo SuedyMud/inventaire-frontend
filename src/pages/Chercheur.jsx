@@ -1,12 +1,12 @@
 import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
-import { ListGroup, Button } from "react-bootstrap";
+import {useAuth0} from "@auth0/auth0-react";
+import {useEffect, useState} from "react";
+import {ListGroup, Button} from "react-bootstrap";
 import Layout from "../components/Layout.jsx";
 import {Link} from "react-router-dom";
 
 function Chercheur() {
-    const { getAccessTokenSilently } = useAuth0();
+    const {getAccessTokenSilently} = useAuth0();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
@@ -40,7 +40,7 @@ function Chercheur() {
     }, [currentPage, getAccessTokenSilently]);
 
     return (
-            <Layout>
+        <Layout>
             <h2>Répertoire des Chercheurs</h2>
             <div>
                 <ListGroup as="ul">
@@ -51,12 +51,12 @@ function Chercheur() {
                             className="d-flex justify-content-between align-items-center my-1">
                             <div>
 
-                                <Link to={`/chercheur/${item.idche}`} style={{ textDecoration: 'none' }}>
-                                   <p> {item.nom} {item.prenom}</p>
+                                <Link to={`/chercheur/${item.idche}`} style={{textDecoration: 'none'}}>
+                                    <p> {item.nom} {item.prenom}</p>
                                 </Link>
 
 
-                               {/* <p>{item.prenom}</p>*/}
+                                {/* <p>{item.prenom}</p>*/}
                                 {/*<p>Titre: {item.titre}</p>
                                 <p>Matricule: {item.matricule}</p>
                                 <p>CPI: {item.cpi}</p>
@@ -85,12 +85,12 @@ function Chercheur() {
                     <Button
                         variant="outline-secondary"
                         onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages - 1))}
-                        disabled={currentPage === totalPages - 1} >
+                        disabled={currentPage === totalPages - 1}>
                         Page suivante
                     </Button>
                 </div>
             </div>
-            </Layout>
+        </Layout>
     );
 }
 

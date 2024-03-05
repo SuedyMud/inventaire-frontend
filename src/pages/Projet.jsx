@@ -1,19 +1,15 @@
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
-import { ListGroup, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import {useQuery} from "react-query";
+import {useAuth0} from "@auth0/auth0-react";
+import {ListGroup, Button} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import Layout from "../components/Layout.jsx";
-
+import axios from "axios";
 
 function Projet() {
-    const { getAccessTokenSilently } = useAuth0();
-    const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
-
-    const fetchData = async () => {
-        try {
+    const {getAccessTokenSilently} = useAuth0();
+    const {data, isLoading, isError} = useQuery(
+        ["projetData", currentPage],
+        async () => {
             const accessToken = await getAccessTokenSilently();
             const response = await axios.get("api/zprojet/liste", {
                 headers: {
@@ -24,69 +20,66 @@ function Projet() {
                     size: 10, // number of items per page
                 },
             });
-
-            if (response.status === 200) {
-                setData(response.data.content);
-                setTotalPages(response.data.totalPages);
-            } else {
-                console.error("Erreur lors de la récupération des données");
-            }
-        } catch (error) {
-            console.error("Erreur lors de la récupération des données : ", error);
+            return response.data;
         }
+    );
+
+    const totalPages = data ? data.totalPages : 0;
+
+    const currentPage = 0;
+
+    const handlePreviousPage = () => {
+        setCurrentPage(Math.max(currentPage - 1, 0));
     };
 
-    useEffect(() => {
-        fetchData();
-    }, [currentPage, getAccessTokenSilently]);
+    const handleNextPage = () => {
+        setCurrentPage(Math.min(currentPage + 1, totalPages - 1));
+    };
+
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error fetching data</div>;
 
     return (
         <>
             <Layout>
-
-            <h2>Répertoire par Projets</h2>
-            <div>
-                <ListGroup as="ul">
-                    {data.map((item) => (
-                        <ListGroup.Item
-                            as="li"
-                            key={item.idprojet}
-                            className="d-flex justify-content-between align-items-center my-1"
-                        >
-
-                                <Link to={`/projet/${item.idprojet}`} style={{ textDecoration: 'none' }}>
+                <h2>Répertoire par Projets</h2>
+                <div>
+                    <ListGroup as="ul">
+                        {data.content.map((item) => (
+                            <ListGroup.Item
+                                as="li"
+                                key={item.idprojet}
+                                className="d-flex justify-content-between align-items-center my-1"
+                            >
+                                <Link to={`/projet/${item.idprojet}`} style={{textDecoration: 'none'}}>
                                     <p>{item.nom}</p>
                                 </Link>
-
-                        </ListGroup.Item>
-                    ))}
-                </ListGroup>
-
-
-
-                <div className="pagination">
-                    <Button
-                        variant="outline-secondary"
-                        onClick={() => setCurrentPage(Math.max(currentPage - 1, 0))}
-                        disabled={currentPage === 0}
-                    >
-                        Page précédente
-                    </Button>
-                    <span className="mx-3">
-            Page {currentPage + 1} sur {totalPages}
-          </span>
-                    <Button
-                        variant="outline-secondary"
-                        onClick={() =>
-                            setCurrentPage(Math.min(currentPage + 1, totalPages - 1))
-                        }
-                        disabled={currentPage === totalPages - 1}>
-                        Page suivante
-                    </Button>
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                    <div className="pagination">
+                        <Button
+                            variant="outline-secondary"
+                            onClick={handlePreviousPage}
+                            disabled={currentPage === 0}
+                        >
+                            Page précédente
+                        </Button>
+                        <span className="mx-3">
+                            Page {currentPage + 1} sur {totalPages}
+                        </span>
+                        <Button
+                            variant="outline-secondary"
+                            onClick={handleNextPage}
+                            disabled={currentPage === totalPages - 1}
+                        >
+                            Page suivante
+                        </Button>
+                    </div>
                 </div>
-            </div>
-                </Layout>
+            </Layout>
         </>
     );
 }
+
 export default Projet;
