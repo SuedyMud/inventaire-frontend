@@ -5,22 +5,30 @@ import App from './App.jsx'
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import {BrowserRouter} from "react-router-dom";
+
 
 const queryClient = new QueryClient()
 const root = createRoot(document.getElementById('root'));
 
 root.render(
   <Auth0Provider
-    domain="student-projet-2223.eu.auth0.com"
-    clientId="23dT9oUENIA4Todeng1rMvchPN6y9WXm"
+    domain={import.meta.env.VITE_AUTH0_DOMAIN}
+    clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+    useRefreshTokens={true}
     authorizationParams={{
-      redirect_uri: window.location.origin
+      redirect_uri: window.location.origin,
+        audience:import.meta.env.VITE_AUTH0_AUDIENCE,
     }}
   >
       <React.StrictMode>
           <QueryClientProvider client={queryClient}>
-              <App />
-              {/*<ReactQueryDevtools />*/}
+              <BrowserRouter>
+                  <App />
+              </BrowserRouter>
+
+              <ReactQueryDevtools />
           </QueryClientProvider>
 
       </React.StrictMode>
