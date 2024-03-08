@@ -1,7 +1,21 @@
+export const RenderHeader = () => {
+
+    return (
+        <div className="header">
+            <div className="logo">
+                <img onClick={ () => { window.location.href="https://www.youtube.com/@kodiecode"} } src="/kodie-logo.jpg" alt="Kodie"/>
+            </div>
+            <h1>Authentication Tutorial</h1>
+        </div>
+    )
+}
+
+
+/*
 import React from 'react';
 import {Navbar, Nav, Container} from "react-bootstrap";
-import logoULB from "../images/logo_ulb_blanc.png";
-import logoULBHeader from "../images/imageHeaderInventaire.jpg";
+import logoULB from "../../images/logo_ulb_blanc.png";
+import logoULBHeader from "../../images/imageHeaderInventaire.jpg";
 import {Link} from "react-router-dom";
 
 function Header(){
@@ -26,9 +40,9 @@ function Header(){
             <Navbar expand="lg" className="ustify-content-center">
 
 
-                    {/*<Navbar.Brand href="Faculte">
+                    {/!*<Navbar.Brand href="Faculte">
                         <img src={logoULB} alt="Logo ULB" style={{ width: '190px', borderRadius: '5px', marginRight: '10px' }} />
-                    </Navbar.Brand>*/}
+                    </Navbar.Brand>*!/}
 
 
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -45,16 +59,16 @@ function Header(){
                         </Nav>
 
                         <Nav>
-                            {/*<Nav.Link href="#"><Button variant="primary">Sign Up</Button></Nav.Link>
-                            <Nav.Link href="#"><Button variant="secondary">Login</Button></Nav.Link>*/}
+                            {/!*<Nav.Link href="#"><Button variant="primary">Sign Up</Button></Nav.Link>
+                            <Nav.Link href="#"><Button variant="secondary">Login</Button></Nav.Link>*!/}
 
-                            {/*<Nav.Link href="#">
+                            {/!*<Nav.Link href="#">
                                 <LoginButton/>
-                            </Nav.Link>*/}
-                           {/* <Nav.Link href="#">
+                            </Nav.Link>*!/}
+                           {/!* <Nav.Link href="#">
 
                                 <LogoutButton/>
-                            </Nav.Link>*/}
+                            </Nav.Link>*!/}
                         </Nav>
                     </Navbar.Collapse>
 
@@ -65,4 +79,4 @@ function Header(){
 
 }
 
-export default Header;
+export default Header;*/

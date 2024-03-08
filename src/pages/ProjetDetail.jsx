@@ -1,5 +1,5 @@
 import axios from "axios";
-import Header from "../components/Header.jsx";
+import Header from "../components/structure/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
