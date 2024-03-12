@@ -7,8 +7,9 @@ import {useAuth0} from "@auth0/auth0-react";
 import {Spinner} from "react-bootstrap";
 
 import Layout from "./components/structure/Layout.jsx";
-import Lang from "./components/langue/Lang.jsx";
+
 import { useTranslation } from "react-i18next";
+import {BrowserRouter as Router} from "react-router-dom";
 
 function App() {
     const {isAuthenticated, isLoading} = useAuth0();
@@ -19,23 +20,33 @@ function App() {
     }
 
     return (
-        <div >
-            <Header/>
-            {isAuthenticated ? (
-                    <div>
-                        <LogoutButton/>
-                        {/*<Profile/>*/}
-                        <Layout/>
-                        <Lang/>
-                        <p>{t('common.translated-text')}</p>
 
-                    </div>
-                ) :(
-                <div>
-                    <LoginButton/>
+            <Router>
+                <div >
+                    <Header/>
+                    {isAuthenticated ? (
+                        <div>
+                            <LogoutButton/>
+                            {/*<Profile/>*/}
+
+                            <Layout/>
+
+
+
+                            {/*<Lang/>
+                        <p>{t('common.translated-text')}</p>*/}
+
+                        </div>
+                    ) :(
+                        <div>
+                            <LoginButton/>
+                        </div>
+                    )}
                 </div>
-                )}
-        </div>
+
+            </Router>
+
+
     );
 }
 

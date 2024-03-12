@@ -1,3 +1,4 @@
+/*
 import React, { ChangeEvent, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { Language } from "../enums/Language";
@@ -26,8 +27,8 @@ const Lang = () => {
         <div>
             <div>
                 <select value={lang} name="language" onChange={changeLanguage}>
-                    <option value={Language.FR}>FR</option> {/* Utilisation de l'énumération */}
-                    <option value={Language.EN}>EN</option> {/* Utilisation de l'énumération */}
+                    <option value={Language.FR}>FR</option> {/!* Utilisation de l'énumération *!/}
+                    <option value={Language.EN}>EN</option> {/!* Utilisation de l'énumération *!/}
                 </select>
             </div>
         </div>
@@ -35,3 +36,4 @@ const Lang = () => {
 };
 
 export default Lang;
+*/
