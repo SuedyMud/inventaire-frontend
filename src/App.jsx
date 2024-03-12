@@ -1,10 +1,14 @@
-import React from "react";
+
+import LoginButton from "./components/buttons/LoginButton.jsx";
+import LogoutButton from "./components/buttons/LogoutButton.jsx";
+import Profile from "./components/pages/Profile.jsx";
 
 function App() {
     return (
         <>
             <div>
-                <h1>Hello World!</h1>
+                <p><LoginButton/> <LogoutButton/></p>
+                <Profile/>
             </div>
         </>
     );
