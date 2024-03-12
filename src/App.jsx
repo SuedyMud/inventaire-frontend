@@ -5,13 +5,14 @@ import LogoutButton from "./components/buttons/LogoutButton.jsx";
 import Header from "./components/structure/Header.jsx";
 import {useAuth0} from "@auth0/auth0-react";
 import {Spinner} from "react-bootstrap";
-import Profile from "./components/pages/Profile.jsx";
-import AppRoutes from "./components/structure/AppRoutes.jsx";
-import {Router} from "react-router-dom";
+
 import Layout from "./components/structure/Layout.jsx";
+import Lang from "./components/langue/Lang.jsx";
+import { useTranslation } from "react-i18next";
 
 function App() {
     const {isAuthenticated, isLoading} = useAuth0();
+    const { t } = useTranslation();
 
     if (isLoading) {
         return <Spinner/>;
@@ -25,16 +26,14 @@ function App() {
                         <LogoutButton/>
                         {/*<Profile/>*/}
                         <Layout/>
-
+                        <Lang/>
+                        <p>{t('common.translated-text')}</p>
 
                     </div>
-
                 ) :(
                 <div>
                     <LoginButton/>
-
                 </div>
-
                 )}
         </div>
     );
