@@ -1,5 +1,5 @@
-import { About } from "../pages/About"
-import { Account } from "../pages/Account"
+import { About } from "../pages/About.jsx"
+import { Account } from "../pages/Account.jsx"
 import { Home } from "../pages/Home"
 import { Login } from "../pages/Login"
 import { Private } from "../pages/Private"

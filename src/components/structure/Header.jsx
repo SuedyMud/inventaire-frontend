@@ -1,15 +1,19 @@
-/*
-export const RenderHeader = () => {
+import inventaireLogo from '../../images/logo_Inventaire.jpg';
+function Header(){
 
     return (
         <div className="header">
             <div className="logo">
-                <img onClick={ () => { window.location.href="https://www.youtube.com/@kodiecode"} } src="/kodie-logo.jpg" alt="Kodie"/>
+                <img
+                    src={inventaireLogo}
+                    alt="Inventaire"
+                    onClick={() => { window.location.href = "https://cvchercheurs.ulb.ac.be/Site/repertoire.php" }}
+                />
             </div>
-            <h1>Authentication Tutorial</h1>
         </div>
     )
 }
-*/
+export default Header;
+
 
 

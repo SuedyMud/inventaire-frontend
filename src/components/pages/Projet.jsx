@@ -2,7 +2,7 @@ import {useQuery} from "react-query";
 import {useAuth0} from "@auth0/auth0-react";
 import {ListGroup, Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import Layout from "../components/Layout.jsx";
+import Layout from "../structure/Layout.jsx";
 import axios from "axios";
 
 function Projet() {

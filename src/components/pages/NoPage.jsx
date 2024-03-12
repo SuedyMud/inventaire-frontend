@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "../components/structure/Header.jsx";
-import Footer from "../components/Footer";
+import Header from "../structure/Header.jsx";
+import Footer from "../structure/Footer.jsx";
 
 
 function NoPage(){

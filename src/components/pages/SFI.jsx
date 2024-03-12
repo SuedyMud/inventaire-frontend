@@ -1,13 +1,11 @@
 import axios from "axios";
-import Header from "../components/structure/Header.jsx";
-import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";
-import Layout from "../components/Layout.jsx";
+import Layout from "../structure/Layout.jsx";
 import {Link} from "react-router-dom";
 
-function Faculte() {
+function SFI() {
     const { getAccessTokenSilently } = useAuth0();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
@@ -16,7 +14,7 @@ function Faculte() {
     const fetchData = async () => {
         try {
             const accessToken = await getAccessTokenSilently();
-            const response = await axios.get("api/zfrascati/liste", {
+            const response = await axios.get("api/zsfi/liste", {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -44,25 +42,27 @@ function Faculte() {
     return (
         <>
             <Layout>
-            <h2>Facultés</h2>
+            <h2>Départements</h2>
             <div>
                 <ListGroup as="ul">
                     {data.map((item) => (
                         <ListGroup.Item
                             as="li"
-                            key={item.fac}
+                            key={item.iddepart}
                             className="d-flex justify-content-between align-items-center my-1"
                         >
                             <div>
-                                <Link to={`/frascati/${item.fac}`} style={{ textDecoration: 'none' }}>
-                                    <p>{item.frascati}</p>
+
+                                <Link to={`/sfi/${item.iddepart}`} style={{ textDecoration: 'none' }}>
+                                    <p>{item.depart}</p>
                                 </Link>
 
-                                {/*<p>Frascati UK: {item.frascatiUK}</p>
-                                <p>Description: {item.description}</p>
-                                <p>Description UK: {item.descriptionUK}</p>
-                                <p>Refgrdiscip: {item.refgrdiscip}</p>
+
+                                {/*<p>Departement UK: {item.departUK}</p>
+                                <p>Ref Faculte: {item.reffac}</p>
                                 <p>Ordre: {item.ordre}</p>*/}
+
+
                             </div>
                         </ListGroup.Item>
                     ))}
@@ -89,9 +89,9 @@ function Faculte() {
                     </Button>
                 </div>
             </div>
-            < /Layout>
+                </Layout>
         </>
     );
 }
 
-export default Faculte;
+export default SFI;

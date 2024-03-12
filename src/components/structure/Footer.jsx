@@ -1,5 +1,5 @@
 import React from 'react';
-import logoULB from '../images/logo_ulb_bleu.png';
+import logoULB from '../../images/logo_ulb_bleu.png';
 import {Col, Container, Image, Row} from "react-bootstrap";
 
 function Footer() {

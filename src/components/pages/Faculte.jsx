@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { ListGroup, Button } from "react-bootstrap";
-import Layout from "../components/Layout.jsx";
+import Layout from "../structure/Layout.jsx";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";

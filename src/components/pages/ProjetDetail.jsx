@@ -1,6 +1,6 @@
 import axios from "axios";
-import Header from "../components/structure/Header.jsx";
-import Footer from "../components/Footer.jsx";
+import Header from "../structure/Header.jsx";
+import Footer from "../structure/Footer.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";

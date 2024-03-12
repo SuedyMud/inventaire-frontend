@@ -1,11 +1,13 @@
 import axios from "axios";
+import Header from "../structure/Header.jsx";
+import Footer from "../structure/Footer.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";
-import Layout from "../components/Layout.jsx";
+import Layout from "../structure/Layout.jsx";
 import {Link} from "react-router-dom";
 
-function SFI() {
+function Faculte() {
     const { getAccessTokenSilently } = useAuth0();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
@@ -14,7 +16,7 @@ function SFI() {
     const fetchData = async () => {
         try {
             const accessToken = await getAccessTokenSilently();
-            const response = await axios.get("api/zsfi/liste", {
+            const response = await axios.get("api/zfrascati/liste", {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -42,27 +44,25 @@ function SFI() {
     return (
         <>
             <Layout>
-            <h2>Départements</h2>
+            <h2>Facultés</h2>
             <div>
                 <ListGroup as="ul">
                     {data.map((item) => (
                         <ListGroup.Item
                             as="li"
-                            key={item.iddepart}
+                            key={item.fac}
                             className="d-flex justify-content-between align-items-center my-1"
                         >
                             <div>
-
-                                <Link to={`/sfi/${item.iddepart}`} style={{ textDecoration: 'none' }}>
-                                    <p>{item.depart}</p>
+                                <Link to={`/frascati/${item.fac}`} style={{ textDecoration: 'none' }}>
+                                    <p>{item.frascati}</p>
                                 </Link>
 
-
-                                {/*<p>Departement UK: {item.departUK}</p>
-                                <p>Ref Faculte: {item.reffac}</p>
+                                {/*<p>Frascati UK: {item.frascatiUK}</p>
+                                <p>Description: {item.description}</p>
+                                <p>Description UK: {item.descriptionUK}</p>
+                                <p>Refgrdiscip: {item.refgrdiscip}</p>
                                 <p>Ordre: {item.ordre}</p>*/}
-
-
                             </div>
                         </ListGroup.Item>
                     ))}
@@ -89,9 +89,9 @@ function SFI() {
                     </Button>
                 </div>
             </div>
-                </Layout>
+            < /Layout>
         </>
     );
 }
 
-export default SFI;
+export default Faculte;

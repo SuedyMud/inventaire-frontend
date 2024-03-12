@@ -2,7 +2,7 @@ import axios from "axios";
 import {useAuth0} from "@auth0/auth0-react";
 import {useEffect, useState} from "react";
 import {ListGroup, Button} from "react-bootstrap";
-import Layout from "../components/Layout.jsx";
+import Layout from "../structure/Layout.jsx";
 import {Link} from "react-router-dom";
 
 function Discipline() {

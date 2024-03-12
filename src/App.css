@@ -1,3 +1,42 @@
+.header {
+    background-color: #f1f1f1;
+    padding: 20px;
+    text-align: center;
+}
+
+.header h1 {
+    text-align: center;
+    margin-bottom: 0;
+    font-size: 20px;
+}
+
+.header p {
+    text-align: center;
+}
+
+.logo img {
+    cursor: pointer;
+    width: 1300px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*.header {
     background-color: #f1f1f1;
     padding: 20px;
