@@ -1,55 +1,20 @@
-import { Link, Route, Routes } from "react-router-dom";
-import { AuthData } from "../../auth/AuthWrapper";
-import { nav } from "./navigation";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import { Home, About, Contact, Faculte, Unite, Projet } from "../pages";
 
-
-export const RenderRoutes = () => {
-
-    const { user } = AuthData();
-
+function AppRoutes() {
     return (
         <Routes>
-            { nav.map((r, i) => {
-
-                if (r.isPrivate && user.isAuthenticated) {
-                    return <Route key={i} path={r.path} element={r.element}/>
-                } else if (!r.isPrivate) {
-                    return <Route key={i} path={r.path} element={r.element}/>
-                } else return false
-            })}
-
+            <Route index element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route index element={<Faculte />} />
+            <Route path="/faculte" element={<Faculte />} />
+            <Route path="/unite" element={<Unite />} />
+            <Route path="/projet" element={<Projet />} />
         </Routes>
-    )
+    );
 }
 
-export const RenderMenu = () => {
-
-    const { user, logout } = AuthData()
-
-    const MenuItem = ({r}) => {
-        return (
-            <div className="menuItem"><Link to={r.path}>{r.name}</Link></div>
-        )
-    }
-    return (
-        <div className="menu">
-            { nav.map((r, i) => {
-
-                if (!r.isPrivate && r.isMenu) {
-                    return (
-                        <MenuItem key={i} r={r}/>
-                    )
-                } else if (user.isAuthenticated && r.isMenu) {
-                    return (
-                        <MenuItem key={i} r={r}/>
-                    )
-                } else return false
-            } )}
-
-            { user.isAuthenticated ?
-                <div className="menuItem"><Link to={'#'} onClick={logout}>Log out</Link></div>
-                :
-                <div className="menuItem"><Link to={'login'}>Log in</Link></div> }
-        </div>
-    )
-}
+export default AppRoutes;

@@ -1,14 +1,16 @@
 import React from 'react';
-import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import {Container} from "react-bootstrap";
+import Navigation from "./Navigation.jsx";
+import AppRoutes from "./AppRoutes.jsx";
 
 
 export default function Layout({children}) {
 
     return (
         <>
-            <Header/>
+            <Navigation/>
+            <AppRoutes/>
             <Container className="w-75">{children}</Container>
             <Footer/>
         </>
