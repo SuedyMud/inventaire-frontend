@@ -10,6 +10,9 @@ import Layout from "./components/structure/Layout.jsx";
 
 /*import { useTranslation } from "react-i18next";*/
 import {BrowserRouter as Router} from "react-router-dom";
+import Footer from "./components/structure/Footer.jsx";
+import Navigation from "./components/structure/Navigation.jsx";
+import React from "react";
 
 function App() {
     const {isAuthenticated, isLoading} = useAuth0();
@@ -24,13 +27,11 @@ function App() {
             <Router>
                 <div >
                     <Header/>
+                    <Navigation/>
                     {isAuthenticated ? (
                         <div>
-
                             {/*<Profile/>*/}
-
-                            <Layout/>
-
+                                <Layout/>
 
                             {/*<Lang/>
                         <p>{t('common.translated-text')}</p>*/}
@@ -38,9 +39,12 @@ function App() {
                         </div>
                     ) :(
                         <div>
-                            <LoginButton/>
+                            <p>vous n'êtes pas connectez!</p>
+                           {/* <LoginButton/>*/}
                         </div>
                     )}
+
+                    <Footer/>
                 </div>
 
             </Router>

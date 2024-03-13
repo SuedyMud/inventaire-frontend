@@ -2,9 +2,13 @@ import React from "react";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import {Link} from "react-router-dom";
 import LogoutButton from "../buttons/LogoutButton.jsx";
+import {useAuth0} from "@auth0/auth0-react";
+import LoginButton from "../buttons/LoginButton.jsx";
+import SignInButton from "../buttons/SignInButton.jsx";
 
 
 function Navigation() {
+    const {isAuthenticated } = useAuth0();
 
     return (
         <Navbar expand="lg" bg="light">
@@ -19,9 +23,21 @@ function Navigation() {
                         <Nav.Link as={Link} to="/frascati">Classement par Frascati</Nav.Link>
                         <Nav.Link as={Link} to="/discipline"> Discipline CREF</Nav.Link>
                     </Nav>
-                    <ul className="nav navbar-nav navbar-right">
-                        <li><a href="#"><span className="glyphicon glyphicon-log-in"></span> <LogoutButton/></a></li>
-                    </ul>
+
+                    {isAuthenticated ?( <ul className="nav navbar-nav navbar-right">
+                            <li><a href="#"><span className="glyphicon glyphicon-log-out"></span> <LogoutButton/></a></li>
+                        </ul>
+
+                        ):(
+
+                        <ul className="nav navbar-nav navbar-right">
+                            <li><a href="#"><span className="glyphicon glyphicon-log-user"></span> <SignInButton/></a></li>
+                            <li><a href="#"><span className="glyphicon glyphicon-log-in"></span> <LoginButton/></a></li>
+                        </ul>
+                        )
+
+                    }
+
                 </Navbar.Collapse>
             </Container>
         </Navbar>

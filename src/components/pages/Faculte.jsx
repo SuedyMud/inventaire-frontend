@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ListGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Layout from "../structure/Layout.jsx";
 
 function Faculte() {
     const { getAccessTokenSilently } = useAuth0();
     const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
@@ -18,13 +18,11 @@ function Faculte() {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
-                    params: {
-                        page: currentPage,
-                        size: 10,
-                    },
                 });
                 if (response.status === 200) {
-                    setData(response.data.content);
+                    const filteredData = response.data.content.filter(item => item.actif === 1 && item.invent20 === 1);
+
+                    setData(filteredData.sort((a, b) => a.faculte.localeCompare(b.faculte)));
                     setTotalPages(response.data.totalPages);
                 } else {
                     console.error("Erreur lors de la récupération des données");
@@ -35,11 +33,12 @@ function Faculte() {
         };
 
         fetchData();
-    }, [currentPage, getAccessTokenSilently]);
+    }, [getAccessTokenSilently]);
 
     return (
-        <>
+        <div >
             <h2>Répertoires des Unités par Facultés, Départements</h2>
+            <p>Classement par Facultés</p>
             <div>
                 <ListGroup as="ul">
                     {data.map((item) => (
@@ -56,27 +55,8 @@ function Faculte() {
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
-                <div className="pagination">
-                    <Button
-                        variant="outline-secondary"
-                        onClick={() => setCurrentPage(Math.max(currentPage - 1, 0))}
-                        disabled={currentPage === 0}
-                    >
-                        Page précédente
-                    </Button>
-                    <span className="mx-3">
-                        Page {currentPage + 1} sur {totalPages}
-                    </span>
-                    <Button
-                        variant="outline-secondary"
-                        onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages - 1))}
-                        disabled={currentPage === totalPages - 1}
-                    >
-                        Page suivante
-                    </Button>
-                </div>
             </div>
-        </>
+        </div>
     );
 }
 

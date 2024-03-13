@@ -8,7 +8,6 @@ import Discipline from "../pages/Discipline.jsx";
 import Frascati from "../pages/Frascati.jsx";
 
 
-
 function AppRoutes() {
     return (
 

@@ -25,6 +25,21 @@
     border-radius: 5px;
 }
 
+/*.footer {
+    background-color: #f1f1f1;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer .logo img {
+    cursor: pointer;
+    width: 100%;
+    max-width: 100px; !* Ajustement de la largeur maximale du logo *!
+    display: block;
+    margin: 0 auto;
+    border-radius: 5px;
+}*/
+
 
 
 /*.layout{
@@ -34,7 +49,6 @@
     margin: 0 auto; !* Centrer le conteneur *!
     max-width: 75%; !* Limiter la largeur à 75% *!
 }*/
-
 
 
 
