@@ -40,8 +40,8 @@ function Discipline() {
     }, [currentPage, getAccessTokenSilently]);
 
     return (
-        <>
-            <Layout>
+
+            <>
                 <h2>Répertoire des Unités par Disciplines CREF</h2>
                 <div>
                     <ListGroup as="ul">
@@ -86,8 +86,7 @@ function Discipline() {
                         </Button>
                     </div>
                 </div>
-            </Layout>
-        </>
+            </>
     );
 }
 

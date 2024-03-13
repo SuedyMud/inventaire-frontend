@@ -4,6 +4,8 @@
     text-align: center;
 }
 
+
+
 .header h1 {
     text-align: center;
     margin-bottom: 0;
@@ -22,6 +24,19 @@
     margin: 0 auto;
     border-radius: 5px;
 }
+
+
+
+/*.layout{
+    background-color: #f1f1f1;
+    padding: 20px;
+    text-align: center;
+    margin: 0 auto; !* Centrer le conteneur *!
+    max-width: 75%; !* Limiter la largeur à 75% *!
+}*/
+
+
+
 
 .menu {
     background-color: #000;

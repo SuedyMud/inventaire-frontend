@@ -1,10 +1,8 @@
 import axios from "axios";
-import Header from "../structure/Header.jsx";
-import Footer from "../structure/Footer.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";
-import Layout from "../structure/Layout.jsx";
+
 import {Link} from "react-router-dom";
 
 function Faculte() {
@@ -42,8 +40,8 @@ function Faculte() {
     }, [currentPage, getAccessTokenSilently]);
 
     return (
-        <>
-            <Layout>
+
+            <>
             <h2>Facultés</h2>
             <div>
                 <ListGroup as="ul">
@@ -89,8 +87,7 @@ function Faculte() {
                     </Button>
                 </div>
             </div>
-            < /Layout>
-        </>
+            < />
     );
 }
 

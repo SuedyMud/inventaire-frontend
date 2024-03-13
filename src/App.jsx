@@ -8,12 +8,12 @@ import {Spinner} from "react-bootstrap";
 
 import Layout from "./components/structure/Layout.jsx";
 
-import { useTranslation } from "react-i18next";
+/*import { useTranslation } from "react-i18next";*/
 import {BrowserRouter as Router} from "react-router-dom";
 
 function App() {
     const {isAuthenticated, isLoading} = useAuth0();
-    const { t } = useTranslation();
+    /*const { t } = useTranslation();*/
 
     if (isLoading) {
         return <Spinner/>;
@@ -26,11 +26,10 @@ function App() {
                     <Header/>
                     {isAuthenticated ? (
                         <div>
-                            <LogoutButton/>
+
                             {/*<Profile/>*/}
 
                             <Layout/>
-
 
 
                             {/*<Lang/>

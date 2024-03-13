@@ -40,7 +40,7 @@ function Chercheur() {
     }, [currentPage, getAccessTokenSilently]);
 
     return (
-        <Layout>
+        <>
             <h2>Répertoire des Chercheurs</h2>
             <div>
                 <ListGroup as="ul">
@@ -90,7 +90,7 @@ function Chercheur() {
                     </Button>
                 </div>
             </div>
-        </Layout>
+        </>
     );
 }
 
