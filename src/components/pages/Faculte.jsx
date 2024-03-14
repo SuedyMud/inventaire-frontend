@@ -1,9 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ListGroup, Button } from "react-bootstrap";
+import { ListGroup} from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Layout from "../structure/Layout.jsx";
+
 
 function Faculte() {
     const { getAccessTokenSilently } = useAuth0();

@@ -1,16 +1,18 @@
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import {useAuth0} from "@auth0/auth0-react";
-import {useEffect, useState} from "react";
-import {ListGroup, Button} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import { ListGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import Pagination from 'react-bootstrap/Pagination';
 
 function Unite() {
-    const {getAccessTokenSilently} = useAuth0();
+    const { getAccessTokenSilently } = useAuth0();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [firstLetters, setFirstLetters] = useState([]);
 
-    const fetchData = async () => {
+    const fetchData = async (page) => {
         try {
             const accessToken = await getAccessTokenSilently();
             const response = await axios.get("api/zunite/liste", {
@@ -18,14 +20,18 @@ function Unite() {
                     Authorization: `Bearer ${accessToken}`,
                 },
                 params: {
-                    page: currentPage,
-                    size: 10, // nombre d'éléments par page
+                    page: page,
                 },
             });
 
             if (response.status === 200) {
-                setData(response.data.content);
+                const sortedData = response.data.content.sort((a, b) => a.nom.localeCompare(b.nom));
+                setData(sortedData);
                 setTotalPages(response.data.totalPages);
+
+                const letters = sortedData.map(item => item.nom.charAt(0).toUpperCase());
+                const uniqueLetters = [...new Set(letters)];
+                setFirstLetters(uniqueLetters);
             } else {
                 console.error("Erreur lors de la récupération des données");
             }
@@ -35,73 +41,43 @@ function Unite() {
     };
 
     useEffect(() => {
-        fetchData();
+        fetchData(currentPage);
     }, [currentPage, getAccessTokenSilently]);
 
+    const handlePaginationClick = (letter) => {
+        const index = firstLetters.indexOf(letter);
+        setCurrentPage(index);
+    };
+
+    const paginationItems = firstLetters.map((letter, index) => (
+        <Pagination.Item key={index} active={index === currentPage} onClick={() => handlePaginationClick(letter)}>
+            {letter}
+        </Pagination.Item>
+    ));
+
     return (
-            <>
-                <h2>Répertoires par Unités</h2>
-
-                <div>
-                    <ListGroup as="ul">
-                        {data.map((item) => (
-                            <ListGroup.Item
-                                as="li"
-                                key={item.idunite}
-                                className="d-flex justify-content-between align-items-center my-1">
-                                <div>
-
-                                    <Link to={`/unite/${item.idunite}`} style={{textDecoration: 'none'}}>
-                                        <p>{item.nom}</p>
-                                    </Link>
-
-
-                                    {/*<p>ID: {item.idunite}</p>*/}
-                                    {/*<p>Description: {item.description}</p>
-                                <p>Adresse: {item.rue}, {item.numero}, {item.boite}, {item.codepostal} {item.localite}</p>
-                                <p>Téléphone: {item.telephone}</p>
-                                <p>Fax: {item.fax}</p>
-                                <p>Email: {item.email}</p>
-                                <p>Site 1: {item.site1}</p>
-                                <p>Site 2: {item.site2}</p>
-                                <p>Lien Thèse: {item.lienthese}</p>
-                                <p>Lien Publica: {item.lienpublica}</p>
-                                <p>Date Début: {item.datedeb}</p>
-                                <p>Date Fin: {item.datefin}</p>
-                                <p>Date Mise à Jour: {item.datemaj}</p>
-                                <p>Remarque: {item.remarque}</p>
-                                <p>Nombre Visite: {item.nbvisit}</p>
-                                <p>Brouillon: {item.brouillon}</p>
-                                <p>Publication Préférée: {item.prefPublication}</p>
-                                <p>Stat Export: {item.statExport}</p>
-                                <p>Stat Projet CV: {item.statProjetcv}</p>
-                                <p>Stat Anciens Membres: {item.statAnciensmembres}</p>
-                                <p>Stat Délégué: {item.statDelegue}</p>
-                                <p>Stat Adzion: {item.statAdzion}</p>
-                                <p>Niveau: {item.niveau}</p>*/}
-                                </div>
-                            </ListGroup.Item>
-                        ))}
-                    </ListGroup>
-                    <div className="pagination">
-                        <Button
-                            variant="outline-secondary"
-                            onClick={() => setCurrentPage(Math.max(currentPage - 1, 0))}
-                            disabled={currentPage === 0}>
-                            Page précédente
-                        </Button>
-                        <span className="mx-3">
-                        Page {currentPage + 1} sur {totalPages}
-                    </span>
-                        <Button
-                            variant="outline-secondary"
-                            onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages - 1))}
-                            disabled={currentPage === totalPages - 1}>
-                            Page suivante
-                        </Button>
-                    </div>
+        <>
+            <h2>Répertoires par Unités</h2>
+            <div>
+                <ListGroup as="ul">
+                    {data.map((item) => (
+                        <ListGroup.Item
+                            as="li"
+                            key={item.idunite}
+                            className="d-flex justify-content-between align-items-center my-1">
+                            <div>
+                                <Link to={`/unite/${item.idunite}`} style={{ textDecoration: 'none' }}>
+                                    <p>{item.nom}</p>
+                                </Link>
+                            </div>
+                        </ListGroup.Item>
+                    ))}
+                </ListGroup>
+                <div className="pagination">
+                    <Pagination>{paginationItems}</Pagination>
                 </div>
-            </>
+            </div>
+        </>
     );
 }
 

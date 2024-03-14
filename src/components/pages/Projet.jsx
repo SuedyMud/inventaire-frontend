@@ -1,8 +1,9 @@
 import {useAuth0} from "@auth0/auth0-react";
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {ListGroup, Button} from "react-bootstrap";
+import {ListGroup} from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Pagination from "react-bootstrap/Pagination";
 
 function Projet() {
     const {getAccessTokenSilently} = useAuth0();
@@ -20,11 +21,12 @@ function Projet() {
                     },
                     params: {
                         page: currentPage,
-                        size: 10,
+                        size: 20,
                     },
                 });
                 if (response.status === 200) {
-                    setData(response.data.content);
+                    const sortedData = response.data.content.sort((a, b) => a.nom.localeCompare(b.nom));
+                    setData(sortedData);
                     setTotalPages(response.data.totalPages);
                 } else {
                     console.error("Erreur lors de la récupération des données");
@@ -35,6 +37,20 @@ function Projet() {
         };
         fetchData();
     }, [currentPage, getAccessTokenSilently]);
+
+
+    const handlePaginationClick = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const paginationItems = [];
+    for (let number = 1; number <= totalPages; number++) {
+        paginationItems.push(
+            <Pagination.Item key={number} active={number === currentPage + 1} onClick={() => handlePaginationClick(number - 1)}>
+                {number}
+            </Pagination.Item>,
+        );
+    }
 
     return (
         <>
@@ -56,23 +72,7 @@ function Projet() {
                     ))}
                 </ListGroup>
                 <div className="pagination">
-                    <Button
-                        variant="outline-secondary"
-                        onClick={() => setCurrentPage(Math.max(currentPage - 1, 0))}
-                        disabled={currentPage === 0}
-                    >
-                        Page précédente
-                    </Button>
-                    <span className="mx-3">
-                        Page {currentPage + 1} sur {totalPages}
-                    </span>
-                    <Button
-                        variant="outline-secondary"
-                        onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages - 1))}
-                        disabled={currentPage === totalPages - 1}
-                    >
-                        Page suivante
-                    </Button>
+                    <Pagination>{paginationItems}</Pagination>
                 </div>
             </div>
         </>

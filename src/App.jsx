@@ -1,6 +1,4 @@
 import './App.css';
-import LoginButton from "./components/buttons/LoginButton.jsx";
-import LogoutButton from "./components/buttons/LogoutButton.jsx";
 
 import Header from "./components/structure/Header.jsx";
 import {useAuth0} from "@auth0/auth0-react";
@@ -12,7 +10,7 @@ import Layout from "./components/structure/Layout.jsx";
 import {BrowserRouter as Router} from "react-router-dom";
 import Footer from "./components/structure/Footer.jsx";
 import Navigation from "./components/structure/Navigation.jsx";
-import React from "react";
+
 
 function App() {
     const {isAuthenticated, isLoading} = useAuth0();
