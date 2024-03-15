@@ -62,7 +62,7 @@ function UniteDetail() {
                             <div>
                                 <p>(Code : {item.idunite})</p>
 
-                                <p>Responsables de l'unité : </p>
+                                <p>Responsables de l'unité :  </p>
 
                                 <p>Description: {item.Description}</p>
 
