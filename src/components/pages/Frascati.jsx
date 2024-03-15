@@ -20,7 +20,7 @@ function Faculte() {
                 },
                 params: {
                     page: currentPage,
-                    size: 10,
+
                 },
             });
 

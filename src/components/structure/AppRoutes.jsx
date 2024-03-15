@@ -7,6 +7,7 @@ import Chercheur from "../pages/Chercheur.jsx";
 import Discipline from "../pages/Discipline.jsx";
 import Frascati from "../pages/Frascati.jsx";
 import FaculteDetail from "../pages/FaculteDetail.jsx";
+import UniteDetail from "../pages/UniteDetail.jsx";
 
 
 function AppRoutes() {
@@ -17,6 +18,7 @@ function AppRoutes() {
                 <Route path="/faculte" element={<Faculte/>}/>
                 <Route path="/faculte/:facId" component={FaculteDetail} />
                 <Route path="/unite" element={<Unite/>}/>
+                <Route path="/unite/:idunite" element={<UniteDetail/>} />
                 <Route path="/projet" element={<Projet/>}/>
                 <Route path="/chercheur" element={<Chercheur/>}/>
                 <Route path="/frascati" element={<Frascati/>}/>

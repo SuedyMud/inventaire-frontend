@@ -22,3 +22,4 @@ function FaculteDetail() {
 }
 
 export default FaculteDetail;
+
