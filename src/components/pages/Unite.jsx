@@ -8,11 +8,11 @@ import Pagination from 'react-bootstrap/Pagination';
 function Unite() {
     const { getAccessTokenSilently } = useAuth0();
     const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(0);
+    const [currentPage, setCurrentPage] = useState('A');
     const [totalPages, setTotalPages] = useState(0);
     const [firstLetters, setFirstLetters] = useState([]);
 
-    const fetchData = async (page) => {
+    const fetchData = async (letter) => {
         try {
             const accessToken = await getAccessTokenSilently();
             const response = await axios.get("api/zunite/liste", {
@@ -20,7 +20,7 @@ function Unite() {
                     Authorization: `Bearer ${accessToken}`,
                 },
                 params: {
-                    page: page,
+                    lettre: letter,
                 },
             });
 
@@ -28,10 +28,6 @@ function Unite() {
                 const sortedData = response.data.content.sort((a, b) => a.nom.localeCompare(b.nom));
                 setData(sortedData);
                 setTotalPages(response.data.totalPages);
-
-                const letters = sortedData.map(item => item.nom.charAt(0).toUpperCase());
-                const uniqueLetters = [...new Set(letters)];
-                setFirstLetters(uniqueLetters);
             } else {
                 console.error("Erreur lors de la récupération des données");
             }
@@ -45,22 +41,34 @@ function Unite() {
     }, [currentPage, getAccessTokenSilently]);
 
     const handlePaginationClick = (letter) => {
-        const index = firstLetters.indexOf(letter);
-        setCurrentPage(index);
+        setCurrentPage(letter);
     };
 
-    const paginationItems = firstLetters.map((letter, index) => (
-        <Pagination.Item key={index} active={index === currentPage} onClick={() => handlePaginationClick(letter)}>
-            {letter}
-        </Pagination.Item>
-    ));
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const paginationItems = alphabet.split('').map((letter, index) => {
+        // Vérifier s'il y a des éléments commençant par cette lettre
+        const letterIsActive = data.some(item => item.nom.charAt(0).toUpperCase() === letter);
+        return (
+            <Pagination.Item
+                key={index}
+                active={letter === currentPage}
+                disabled={!letterIsActive}
+                onClick={() => handlePaginationClick(letter)}
+            >
+                {letter}
+            </Pagination.Item>
+        );
+    });
+
+    // Filtrer les données pour n'afficher que les éléments commençant par la lettre de la page actuelle
+    const filteredData = data.filter(item => item.nom.charAt(0).toUpperCase() === currentPage);
 
     return (
         <>
             <h2>Répertoires par Unités</h2>
             <div>
                 <ListGroup as="ul">
-                    {data.map((item) => (
+                    {filteredData.map((item) => (
                         <ListGroup.Item
                             as="li"
                             key={item.idunite}

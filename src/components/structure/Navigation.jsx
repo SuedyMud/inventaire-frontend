@@ -17,6 +17,8 @@ function Navigation() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/faculte">Faculte / Département</Nav.Link>
+                        <Nav.Link as={Link} to="/faculteStat">Faculte Stat</Nav.Link>
+
                         <Nav.Link as={Link} to="/unite">Répertoire des Unités</Nav.Link>
                         <Nav.Link as={Link} to="/projet">Répertoire des Projets</Nav.Link>
                         <Nav.Link as={Link} to="/chercheur">Répertoire des Chercheurs</Nav.Link>
