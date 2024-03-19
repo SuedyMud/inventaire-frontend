@@ -9,8 +9,7 @@ function Unite() {
     const { getAccessTokenSilently } = useAuth0();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState('A');
-    const [totalPages, setTotalPages] = useState(0);
-    const [firstLetters, setFirstLetters] = useState([]);
+
 
     const fetchData = async (letter) => {
         try {
@@ -21,13 +20,13 @@ function Unite() {
                 },
                 params: {
                     lettre: letter,
+                    datefin: '0000-00-00 00:00:00' // Ajout du filtre de datefin
                 },
             });
 
             if (response.status === 200) {
                 const sortedData = response.data.content.sort((a, b) => a.nom.localeCompare(b.nom));
                 setData(sortedData);
-                setTotalPages(response.data.totalPages);
             } else {
                 console.error("Erreur lors de la récupération des données");
             }
@@ -60,12 +59,15 @@ function Unite() {
         );
     });
 
-    // Filtrer les données pour n'afficher que les éléments commençant par la lettre de la page actuelle
+    // Filtrer les données pour n'afficher que les éléments dont le nom commence par la lettre de la page actuelle
     const filteredData = data.filter(item => item.nom.charAt(0).toUpperCase() === currentPage);
+
+
 
     return (
         <>
             <h2>Répertoires par Unités</h2>
+            <p>Classement par ordre alphabétique</p>
             <div>
                 <ListGroup as="ul">
                     {filteredData.map((item) => (

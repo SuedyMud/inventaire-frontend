@@ -8,8 +8,6 @@ import {Link} from "react-router-dom";
 function Discipline() {
     const {getAccessTokenSilently} = useAuth0();
     const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
 
     const fetchData = async () => {
         try {
@@ -18,15 +16,12 @@ function Discipline() {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
-                params: {
-                    page: currentPage,
-                    size: 10,
-                },
+
             });
 
             if (response.status === 200) {
+
                 setData(response.data.content);
-                setTotalPages(response.data.totalPages);
             } else {
                 console.error("Erreur lors de la récupération des données");
             }
@@ -37,7 +32,8 @@ function Discipline() {
 
     useEffect(() => {
         fetchData();
-    }, [currentPage, getAccessTokenSilently]);
+    }, [getAccessTokenSilently]);
+
 
     return (
 
@@ -64,27 +60,7 @@ function Discipline() {
                             </ListGroup.Item>
                         ))}
                     </ListGroup>
-                    <div className="pagination">
-                        <Button
-                            variant="outline-secondary"
-                            onClick={() => setCurrentPage(Math.max(currentPage - 1, 0))}
-                            disabled={currentPage === 0}
-                        >
-                            Page précédente
-                        </Button>
-                        <span className="mx-3">
-                        Page {currentPage + 1} sur {totalPages}
-                    </span>
-                        <Button
-                            variant="outline-secondary"
-                            onClick={() =>
-                                setCurrentPage(Math.min(currentPage + 1, totalPages - 1))
-                            }
-                            disabled={currentPage === totalPages - 1}
-                        >
-                            Page suivante
-                        </Button>
-                    </div>
+
                 </div>
             </>
     );
