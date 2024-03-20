@@ -62,7 +62,7 @@ function FaculteStat() {
                     </p>
                 )}
                 {totalSigles !== 0 && (
-                    <p>{totalSigles} facultés proviennent de l'Instituts d'Enseignement Interfacultaire</p>
+                    <p>{totalSigles} facultés proviennent de l Instituts d Enseignement Interfacultaire</p>
                 )}
                 {totalDateMajs !== 0 && (
                     <p>{totalDateMajs} facultés ne possèdent pas de date de mise à jour</p>

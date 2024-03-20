@@ -1,15 +1,12 @@
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import { ListGroup, Button } from "react-bootstrap";
-
-import {Link} from "react-router-dom";
+import { ListGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function Faculte() {
     const { getAccessTokenSilently } = useAuth0();
     const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
 
     const fetchData = async () => {
         try {
@@ -18,15 +15,10 @@ function Faculte() {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
-                params: {
-                    page: currentPage,
-
-                },
             });
 
             if (response.status === 200) {
                 setData(response.data.content);
-                setTotalPages(response.data.totalPages);
             } else {
                 console.error("Erreur lors de la récupération des données");
             }
@@ -37,57 +29,66 @@ function Faculte() {
 
     useEffect(() => {
         fetchData();
-    }, [currentPage, getAccessTokenSilently]);
+    }, [getAccessTokenSilently]);
 
-    return (
+    // Fonction pour organiser les données en groupes de catégories
+    const organizeDataByCategories = (data) => {
+        const organizedData = {
+            '1': [],
+            '2': [],
+            '3': [],
+            '4': [],
+            '5': [],
+            '6': [],
+        };
 
-            <>
-            <h2>Facultés</h2>
-            <div>
+        data.forEach((item) => {
+            organizedData[item.idfrascati[0]].push(item);
+        });
+
+        return organizedData;
+    };
+
+    // Fonction pour afficher les éléments dans chaque catégorie
+    const renderCategories = (data) => {
+        const categories = {
+            '1': 'Sciences exactes et naturelles',
+            '2': 'Sciences de l\'ingénieur',
+            '3': 'Sciences médicales',
+            '4': 'Sciences agronomiques',
+            '5': 'Sciences sociales',
+            '6': 'Sciences humaines',
+        };
+
+        return Object.keys(categories).map((categoryId) => (
+            <div key={categoryId}>
+                <h3>{categories[categoryId]}</h3>
                 <ListGroup as="ul">
-                    {data.map((item) => (
+                    {data[categoryId].map((item) => (
                         <ListGroup.Item
                             as="li"
-                            key={item.fac}
+                            key={item.idfrascati}
                             className="d-flex justify-content-between align-items-center my-1"
                         >
                             <div>
-                                <Link to={`/frascati/${item.fac}`} style={{ textDecoration: 'none' }}>
-                                    <p>{item.frascati}</p>
+                                <Link to={`api/frascati/${item.idfrascati}`} style={{ textDecoration: 'none' }}>
+                                    <p>{item.idfrascati} {item.frascati}</p>
                                 </Link>
-
-                                {/*<p>Frascati UK: {item.frascatiUK}</p>
-                                <p>Description: {item.description}</p>
-                                <p>Description UK: {item.descriptionUK}</p>
-                                <p>Refgrdiscip: {item.refgrdiscip}</p>
-                                <p>Ordre: {item.ordre}</p>*/}
                             </div>
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
-                <div className="pagination">
-                    <Button
-                        variant="outline-secondary"
-                        onClick={() => setCurrentPage(Math.max(currentPage - 1, 0))}
-                        disabled={currentPage === 0}
-                    >
-                        Page précédente
-                    </Button>
-                    <span className="mx-3">
-                        Page {currentPage + 1} sur {totalPages}
-                    </span>
-                    <Button
-                        variant="outline-secondary"
-                        onClick={() =>
-                            setCurrentPage(Math.min(currentPage + 1, totalPages - 1))
-                        }
-                        disabled={currentPage === totalPages - 1}
-                    >
-                        Page suivante
-                    </Button>
-                </div>
             </div>
-            < />
+        ));
+    };
+
+    return (
+        <>
+            <h2>Facultés</h2>
+            <div>
+                {renderCategories(organizeDataByCategories(data))}
+            </div>
+        </>
     );
 }
 
