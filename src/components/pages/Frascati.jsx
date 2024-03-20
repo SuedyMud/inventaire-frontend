@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import { ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-function Faculte() {
+function Frascati() {
     const { getAccessTokenSilently } = useAuth0();
     const [data, setData] = useState([]);
+
 
     const fetchData = async () => {
         try {
@@ -84,7 +85,7 @@ function Faculte() {
 
     return (
         <>
-            <h2>Facultés</h2>
+            <h2>Répertoire des Unités par Frascati</h2>
             <div>
                 {renderCategories(organizeDataByCategories(data))}
             </div>
@@ -92,4 +93,4 @@ function Faculte() {
     );
 }
 
-export default Faculte;
+export default Frascati;
