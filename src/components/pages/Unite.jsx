@@ -10,7 +10,6 @@ function Unite() {
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState('A');
 
-
     const fetchData = async (letter) => {
         try {
             const accessToken = await getAccessTokenSilently();
@@ -20,13 +19,19 @@ function Unite() {
                 },
                 params: {
                     lettre: letter,
-                    datefin: '0000-00-00 00:00:00' // Ajout du filtre de datefin
+                    page: 0, // Page numéro 0 (première page)
+                    size: 10000, // Nombre d'éléments par page
                 },
             });
 
             if (response.status === 200) {
-                const sortedData = response.data.content.sort((a, b) => a.nom.localeCompare(b.nom));
-                setData(sortedData);
+                const filteredData = response.data.content.filter(
+                    (item) => item.datefin === '0000-00-00 00:00:00'  || !item.datefin
+                );
+
+                setData(
+                    filteredData.sort((a, b) => a.nom.localeCompare(b.nom))
+                );
             } else {
                 console.error("Erreur lors de la récupération des données");
             }
@@ -61,8 +66,6 @@ function Unite() {
 
     // Filtrer les données pour n'afficher que les éléments dont le nom commence par la lettre de la page actuelle
     const filteredData = data.filter(item => item.nom.charAt(0).toUpperCase() === currentPage);
-
-
 
     return (
         <>

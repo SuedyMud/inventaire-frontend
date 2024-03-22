@@ -45,18 +45,29 @@ function Discipline() {
         };
 
         data.forEach((item) => {
-            const categoryId = item.idcodecref.substring(0, 3);
-            if (categoryId >= '1000' && categoryId < '2000') {
-                organizedData['1000'].push(item);
-            } else if (categoryId >= '2000' && categoryId < '3000') {
-                organizedData['2000'].push(item);
-            } else if (categoryId >= '3000' && categoryId < '4000') {
-                organizedData['3000'].push(item);
-            } else if (categoryId >= '4000' && categoryId < '5000') {
-                organizedData['4000'].push(item);
-            } else {
-                //organizedData['100'].push(item);
-                console.error(`Catégorie inconnue: ${categoryId}`);
+            const categoryId = parseInt(item.idcodecref.substring(0, 4));
+            switch (true) {
+                case categoryId == 100:
+                    organizedData['100'].push(item);
+                    break;
+                case categoryId >= 1100 && categoryId < 1500:
+                    organizedData['1000'].push(item);
+                    break;
+                case categoryId >= 2000 && categoryId < 3000:
+                    organizedData['2000'].push(item);
+                    break;
+                case categoryId >= 3000 && categoryId < 4000:
+                    organizedData['3000'].push(item);
+                    break;
+                case categoryId >= 4000 && categoryId < 5000:
+                    organizedData['4000'].push(item);
+                    break;
+                case categoryId >= 5000 && categoryId < 6000:
+                    organizedData['5000'].push(item);
+                    break;
+                default:
+                    console.error(`Catégorie inconnue: ${categoryId}`);
+                    break;
             }
         });
 
@@ -87,7 +98,7 @@ function Discipline() {
                         >
                             <div>
                                 <Link to={`api/discipline/${item.idcodecref}`} style={{ textDecoration: 'none' }}>
-                                    <p>{item.discipline}</p>
+                                    <p>{item.idcodecref} {item.discipline}</p>
                                 </Link>
                             </div>
                         </ListGroup.Item>

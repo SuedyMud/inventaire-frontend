@@ -9,8 +9,7 @@ function Chercheur() {
     const { getAccessTokenSilently } = useAuth0();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState('A');
-    const [totalPages, setTotalPages] = useState(0);
-    const [firstLetters, setFirstLetters] = useState([]);
+
 
     const fetchData = async (letter) => {
         try {
@@ -21,13 +20,15 @@ function Chercheur() {
                 },
                 params: {
                     lettre: letter,
+                    page: 0, // Page numéro 0 (première page)
+                    size: 10000, // Nombre d'éléments par page
                 },
             });
 
             if (response.status === 200) {
                 const sortedData = response.data.content.sort((a, b) => a.nom.localeCompare(b.nom));
                 setData(sortedData);
-                setTotalPages(response.data.totalPages);
+
             } else {
                 console.error("Erreur lors de la récupération des données");
             }
