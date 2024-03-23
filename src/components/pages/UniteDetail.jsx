@@ -22,7 +22,8 @@ function UniteDetail() {
                         Authorization: `Bearer ${accessToken}`,
                     },
                     params: {
-                        page: currentPage,
+                        page: currentPage, // Page numéro 0 (première page)
+                        size: 10000, // Nombre d'éléments par page
                     },
                 });
 

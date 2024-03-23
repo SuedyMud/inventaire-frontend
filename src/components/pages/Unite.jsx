@@ -26,7 +26,7 @@ function Unite() {
 
             if (response.status === 200) {
                 const filteredData = response.data.content.filter(
-                    (item) => item.datefin === '0000-00-00 00:00:00'  || !item.datefin
+                    (item) => item.datefin === '0000-00-00 00:00:00'
                 );
 
                 setData(
