@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 
@@ -9,7 +9,6 @@ function Chercheur() {
     const { getAccessTokenSilently } = useAuth0();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState('A');
-
 
     const fetchData = async (letter) => {
         try {
@@ -28,7 +27,6 @@ function Chercheur() {
             if (response.status === 200) {
                 const sortedData = response.data.content.sort((a, b) => a.nom.localeCompare(b.nom));
                 setData(sortedData);
-
             } else {
                 console.error("Erreur lors de la récupération des données");
             }
@@ -64,27 +62,37 @@ function Chercheur() {
     // Filtrer les données pour n'afficher que les éléments commençant par la lettre de la page actuelle
     const filteredData = data.filter(item => item.nom.charAt(0).toUpperCase() === currentPage);
 
+    // Diviser les données en groupes de trois
+    const groupedData = [];
+    for (let i = 0; i < filteredData.length; i += 3) {
+        groupedData.push(filteredData.slice(i, i + 3));
+    }
+
     return (
         <>
             <h2>Répertoire des Chercheurs</h2>
+            <p>Classement par ordre alphabétique</p>
             <div>
-                <ListGroup as="ul">
-                    {filteredData.map((item) => (
-                        <ListGroup.Item
-                            as="li"
-                            key={item.idche}
-                            className="d-flex justify-content-between align-items-center my-1">
-                            <div>
-                                <Link to={`/chercheur/${item.idche}`} style={{ textDecoration: 'none' }}>
-                                    <p>{item.nom}</p>
-                                </Link>
-                            </div>
-                        </ListGroup.Item>
-                    ))}
-                </ListGroup>
-                <div className="pagination">
-                    <Pagination>{paginationItems}</Pagination>
-                </div>
+                <Pagination>{paginationItems}</Pagination>
+                {groupedData.map((group, index) => (
+                    <Row key={index}>
+                        {group.map((item) => (
+                            <Col key={item.idche} sm={4}>
+                                <ListGroup as="ul">
+                                    <ListGroup.Item
+                                        as="li"
+                                        className="d-flex justify-content-between align-items-center my-1"
+                                    >
+                                        <Link to={`/chercheur/${item.idche}`} style={{ textDecoration: 'none' }}>
+                                            <p>{item.nom} {item.prenom}</p>
+                                        </Link>
+                                    </ListGroup.Item>
+                                </ListGroup>
+                            </Col>
+                        ))}
+                    </Row>
+                ))}
+                <Pagination>{paginationItems}</Pagination>
             </div>
         </>
     );

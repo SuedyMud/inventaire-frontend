@@ -77,6 +77,9 @@ function Projet() {
         <>
             <h2>Répertoire par Projets</h2>
             <div>
+                <div className="pagination">
+                    <Pagination>{paginationItems}</Pagination>
+                </div>
                 <ListGroup as="ul">
                     {filteredData.map((item) => (
                         <ListGroup.Item

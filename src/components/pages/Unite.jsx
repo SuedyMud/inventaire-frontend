@@ -26,7 +26,7 @@ function Unite() {
 
             if (response.status === 200) {
                 const filteredData = response.data.content.filter(
-                    (item) => item.datefin === '0000-00-00 00:00:00'
+                    (item) => item.datefin === '0000-00-00 00:00:00' || !item.datefin
                 );
 
                 setData(
@@ -72,6 +72,9 @@ function Unite() {
             <h2>Répertoires par Unités</h2>
             <p>Classement par ordre alphabétique</p>
             <div>
+                <div className="pagination">
+                    <Pagination>{paginationItems}</Pagination>
+                </div>
                 <ListGroup as="ul">
                     {filteredData.map((item) => (
                         <ListGroup.Item

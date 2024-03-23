@@ -71,7 +71,7 @@ function Faculte() {
                                     rel="noopener noreferrer"
                                     style={{ textDecoration: "none" }}
                                 >
-                                    <p>{item.faculte}</p>
+                                    <p>{item.faculte}
                                 </a>
                             </div>
                         </ListGroup.Item>
