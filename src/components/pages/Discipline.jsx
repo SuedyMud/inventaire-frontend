@@ -16,6 +16,11 @@ function Discipline() {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
+                params: {
+
+                    page: 0, // Page numéro 0 (première page)
+                    size: 10000, // Nombre d'éléments par page
+                },
             });
 
             if (response.status === 200) {
@@ -50,19 +55,27 @@ function Discipline() {
                 case categoryId == 100:
                     organizedData['100'].push(item);
                     break;
-                case categoryId >= 1100 && categoryId < 1500:
+                case categoryId >= 1100 && categoryId < 2000:
+
+                   /* if(categoryId >= 1100 && categoryId < 1200) {
+
+                    }else if(categoryId >= 1200 && categoryId < 1300){
+
+                    }else if()*/
+
+
                     organizedData['1000'].push(item);
                     break;
-                case categoryId >= 2000 && categoryId < 3000:
+                case categoryId >= 2100 && categoryId < 3000:
                     organizedData['2000'].push(item);
                     break;
-                case categoryId >= 3000 && categoryId < 4000:
+                case categoryId >= 3100 && categoryId < 4000:
                     organizedData['3000'].push(item);
                     break;
-                case categoryId >= 4000 && categoryId < 5000:
+                case categoryId >= 4100 && categoryId < 5000:
                     organizedData['4000'].push(item);
                     break;
-                case categoryId >= 5000 && categoryId < 6000:
+                case categoryId >= 5100 && categoryId < 6000:
                     organizedData['5000'].push(item);
                     break;
                 default:
@@ -98,7 +111,7 @@ function Discipline() {
                         >
                             <div>
                                 <Link to={`api/discipline/${item.idcodecref}`} style={{ textDecoration: 'none' }}>
-                                    <p>{item.idcodecref} {item.discipline}</p>
+                                    <p>{item.discipline}</p>
                                 </Link>
                             </div>
                         </ListGroup.Item>

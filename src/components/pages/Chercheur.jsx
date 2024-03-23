@@ -83,9 +83,14 @@ function Chercheur() {
                                         as="li"
                                         className="d-flex justify-content-between align-items-center my-1"
                                     >
-                                        <Link to={`/chercheur/${item.idche}`} style={{ textDecoration: 'none' }}>
+                                        <Link to={{
+                                            pathname: `/chercheurDetail/${item.idche}`,
+                                            state : {nom : item.nom, prenom : item.prenom}
+                                        }}
+                                              style={{ textDecoration: 'none' }}>
                                             <p>{item.nom} {item.prenom}</p>
                                         </Link>
+
                                     </ListGroup.Item>
                                 </ListGroup>
                             </Col>

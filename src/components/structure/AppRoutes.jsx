@@ -9,6 +9,7 @@ import Frascati from "../pages/Frascati.jsx";
 import FaculteDetail from "../pages/FaculteDetail.jsx";
 import UniteDetail from "../pages/UniteDetail.jsx";
 import FaculteStat from "../pages/FaculteStat.jsx";
+import ChercheurDetail from "../pages/ChercheurDetail.jsx";
 
 
 function AppRoutes() {
@@ -23,6 +24,7 @@ function AppRoutes() {
                 <Route path="/unite/:idunite" element={<UniteDetail/>} />
                 <Route path="/projet" element={<Projet/>}/>
                 <Route path="/chercheur" element={<Chercheur/>}/>
+                <Route path="/chercheurDetail/:idche" element={<ChercheurDetail />} /> {/*// Ajoutez cette ligne pour ChercheurDetail*/}
                 <Route path="/frascati" element={<Frascati/>}/>
                 <Route path="/discipline" element={<Discipline/>}/>
             </Routes>
