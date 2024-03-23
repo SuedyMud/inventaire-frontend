@@ -16,6 +16,11 @@ function Frascati() {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
+                params: {
+
+                    page: 0, // Page numéro 0 (première page)
+                    size: 10000, // Nombre d'éléments par page
+                },
             });
 
             if (response.status === 200) {
