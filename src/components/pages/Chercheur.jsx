@@ -1,20 +1,18 @@
-// Importations nécessaires
+
 import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
+import {useAuth0} from "@auth0/auth0-react";
+import {useEffect, useState} from "react";
 import {ListGroup, Row, Col, Button} from "react-bootstrap";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 
 
-/*function countI(){
-    console.log('run function 1x')
-    return 'A'
-}*/
+
 function Chercheur() {
-    const { getAccessTokenSilently } = useAuth0();
+    const {getAccessTokenSilently} = useAuth0();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState('A');
+
 
     const fetchData = async (letter) => {
         try {
@@ -30,12 +28,12 @@ function Chercheur() {
                 },
             });
 
-            /*console.log("Réponse de l'API:", response.data); // Log de la réponse de l'API*/
 
             if (response.status === 200) {
                 const sortedData = response.data.content.sort((a, b) => a.nom.localeCompare(b.nom));
                 setData(sortedData);
-                /*console.log("Données stockées dans l'état:", sortedData);*/ // Log des données stockées dans l'état
+                /*console.log("Données stockées dans l'état:", sortedData);*/
+
             } else {
                 console.error("Erreur lors de la récupération des données");
             }
@@ -46,16 +44,13 @@ function Chercheur() {
 
     useEffect(() => {
         fetchData(currentPage);
+        /* console.log('used for chercheur')*/
     }, [currentPage, getAccessTokenSilently]);
 
     const handlePaginationClick = (letter) => {
         setCurrentPage(letter);
     };
 
-    const handleModifierClick = (idche) => {
-        // Redirection vers la page de modification avec l'ID du chercheur
-        window.location.href = `/chercheurUpdate/${idche}`;
-    };
 
     const handleDeleteClick = async (idche) => {
         const accessToken = await getAccessTokenSilently();
@@ -96,13 +91,12 @@ function Chercheur() {
     const filteredData = data.filter(item => item.nom.charAt(0).toUpperCase() === currentPage);
 
 
-
     // Diviser les données en groupes de trois
     const groupedData = [];
     for (let i = 0; i < filteredData.length; i += 3) {
         groupedData.push(filteredData.slice(i, i + 3));
     }
-   /* console.log("Données transmises aux liens:", groupedData);*/ // Log des données transmises aux liens
+    /* console.log("Données transmises aux liens:", groupedData);*/ // Log des données transmises aux liens
 
 
     return (
@@ -135,7 +129,7 @@ function Chercheur() {
                                             }
 
 
-                                        }} style={{ textDecoration: 'none' }}
+                                        }} style={{textDecoration: 'none'}}
 
                                         >
                                             <p>{item.nom} {item.prenom}</p>
@@ -143,20 +137,20 @@ function Chercheur() {
 
                                         </Link>
 
-                                        <Button
-                                            variant="primary"
-                                            onClick={() => handleModifierClick(item.idche)}
-                                        >
-                                            Modifier
-                                        </Button>
+                                        <Link to={`/chercheurUpdate/${item.idche}`}>
+                                            <Button variant="primary">
+                                                Modifier
+                                            </Button>
+                                        </Link>
+
 
                                         <Button
-                                        variant="danger"
-                                        onClick={() => handleDeleteClick(item.idche)}
-                                        className="ml-2"
+                                            variant="danger"
+                                            onClick={() => handleDeleteClick(item.idche)}
+                                            className="ml-2"
                                         >
-                                        Supprimer
-                                    </Button>
+                                            Supprimer
+                                        </Button>
                                     </ListGroup.Item>
                                 </ListGroup>
                             </Col>
@@ -168,8 +162,6 @@ function Chercheur() {
         </>
     );
 }
-
-
 
 
 export default Chercheur;

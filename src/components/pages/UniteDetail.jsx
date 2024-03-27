@@ -16,7 +16,7 @@ function UniteDetail() {
         const fetchData = async () => {
             try {
                 const accessToken = await getAccessTokenSilently();
-                const response = await axios.get(`api/zunite/${idunite}`,{
+                const response = await axios.get(`/api/zunite/${idunite}`,{
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -46,7 +46,7 @@ function UniteDetail() {
             <h2>Répertoire par Unité</h2>
             {data && (
                 <div>
-                    <p>Code: {idunite}</p>
+                    <p>{idunite}</p>
                     <p>Description: {description}</p>
                     <p>Fax: {fax}</p>
                     <p>Site: {site}</p>

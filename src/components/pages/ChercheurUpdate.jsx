@@ -23,17 +23,14 @@ function ChercheurUpdate() {
         const fetchChercheur = async () => {
             try {
                 const accessToken = await getAccessTokenSilently();
-                const response = await axios.get(`api/zchercheur/liste`, {
+                const response = await axios.get(`/api/zchercheur/${idche}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
 
-                console.log("ID du chercheur:", idche);
-
                 if (response.status === 200) {
                     setChercheur(response.data);
-                    console.log("Données reçues dans ChercheurDetail:", response.data);
                 } else {
                     console.error("Erreur lors de la récupération du chercheur");
                 }
