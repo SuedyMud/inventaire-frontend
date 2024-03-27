@@ -1,10 +1,16 @@
+// Importations nécessaires
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import { ListGroup, Row, Col } from "react-bootstrap";
+import {ListGroup, Row, Col, Button} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 
+
+/*function countI(){
+    console.log('run function 1x')
+    return 'A'
+}*/
 function Chercheur() {
     const { getAccessTokenSilently } = useAuth0();
     const [data, setData] = useState([]);
@@ -24,9 +30,12 @@ function Chercheur() {
                 },
             });
 
+            /*console.log("Réponse de l'API:", response.data); // Log de la réponse de l'API*/
+
             if (response.status === 200) {
                 const sortedData = response.data.content.sort((a, b) => a.nom.localeCompare(b.nom));
                 setData(sortedData);
+                /*console.log("Données stockées dans l'état:", sortedData);*/ // Log des données stockées dans l'état
             } else {
                 console.error("Erreur lors de la récupération des données");
             }
@@ -41,6 +50,30 @@ function Chercheur() {
 
     const handlePaginationClick = (letter) => {
         setCurrentPage(letter);
+    };
+
+    const handleModifierClick = (idche) => {
+        // Redirection vers la page de modification avec l'ID du chercheur
+        window.location.href = `/chercheurUpdate/${idche}`;
+    };
+
+    const handleDeleteClick = async (idche) => {
+        const accessToken = await getAccessTokenSilently();
+
+        try {
+            const response = await axios.delete(`/api/zchercheur/${idche}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            if (response.status === 204) {
+                // Actualiser les données après la suppression
+                fetchData(currentPage);
+            }
+        } catch (error) {
+            console.error("Erreur lors de la suppression du chercheur : ", error);
+        }
     };
 
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -62,11 +95,15 @@ function Chercheur() {
     // Filtrer les données pour n'afficher que les éléments commençant par la lettre de la page actuelle
     const filteredData = data.filter(item => item.nom.charAt(0).toUpperCase() === currentPage);
 
+
+
     // Diviser les données en groupes de trois
     const groupedData = [];
     for (let i = 0; i < filteredData.length; i += 3) {
         groupedData.push(filteredData.slice(i, i + 3));
     }
+   /* console.log("Données transmises aux liens:", groupedData);*/ // Log des données transmises aux liens
+
 
     return (
         <>
@@ -83,14 +120,43 @@ function Chercheur() {
                                         as="li"
                                         className="d-flex justify-content-between align-items-center my-1"
                                     >
+                                        {/* Passer les props dans la balise Link */}
                                         <Link to={{
                                             pathname: `/chercheurDetail/${item.idche}`,
-                                            state : {nom : item.nom, prenom : item.prenom}
-                                        }}
-                                              style={{ textDecoration: 'none' }}>
+                                            state: {
+                                                // Ajoutez ici les props adaptées
+                                                nom: item.nom,
+                                                prenom: item.prenom,
+                                                telephone: item.telephone,
+                                                cpi: item.cpi,
+                                                site: item.site,
+                                                email: item.email,
+                                                campus: item.campus
+                                            }
+
+
+                                        }} style={{ textDecoration: 'none' }}
+
+                                        >
                                             <p>{item.nom} {item.prenom}</p>
+
+
                                         </Link>
 
+                                        <Button
+                                            variant="primary"
+                                            onClick={() => handleModifierClick(item.idche)}
+                                        >
+                                            Modifier
+                                        </Button>
+
+                                        <Button
+                                        variant="danger"
+                                        onClick={() => handleDeleteClick(item.idche)}
+                                        className="ml-2"
+                                        >
+                                        Supprimer
+                                    </Button>
                                     </ListGroup.Item>
                                 </ListGroup>
                             </Col>
@@ -102,5 +168,8 @@ function Chercheur() {
         </>
     );
 }
+
+
+
 
 export default Chercheur;

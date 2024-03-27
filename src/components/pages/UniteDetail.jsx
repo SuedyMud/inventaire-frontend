@@ -1,37 +1,32 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ListGroup } from "react-bootstrap";
-import {Link} from "react-router-dom";
-
+import {useParams} from "react-router-dom";
 
 
 function UniteDetail() {
     const { getAccessTokenSilently } = useAuth0();
-    const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
+    const {idunite} = useParams();
+    const [data, setData] = useState(null);
+    /*const [unite, setUnite]=useState(null);*/
+
 
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const accessToken = await getAccessTokenSilently();
-                const response = await axios.get("api/zunite/liste", {
+                const response = await axios.get(`api/zunite/${idunite}`,{
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
-                    params: {
-                        page: currentPage, // Page numéro 0 (première page)
-                        size: 10000, // Nombre d'éléments par page
-                    },
                 });
 
+                console.log("ID du chercheur:", idunite);
+
                 if (response.status === 200) {
-
-                    setData(response.data.content);
-                    setTotalPages(response.data.totalPages);
-
+                    setData(response.data);
+                    console.log(response.data);
                 } else {
                     console.error("Erreur lors de la récupération des données");
                 }
@@ -40,45 +35,27 @@ function UniteDetail() {
             }
         };
 
-        fetchData(currentPage);
-    }, [currentPage, getAccessTokenSilently]);
+        fetchData();
+    }, [idunite, getAccessTokenSilently]);
 
+
+    const {description, fax, site, corps, dDig, email, site1} = data;
 
     return (
         <>
-            <h2>Répertoires par Unités</h2>
-            <div>
-                <ListGroup as="ul">
-                    {data && data.map((item)  => (
-                        <ListGroup.Item
-                            as="li"
-                            key={item.idunite}
-                            className="d-flex justify-content-between align-items-center my-1">
-                            <div>
-                                <Link to={`/unite/${item.idunite}`} style={{ textDecoration: 'none' }}>
-                                    <p>{item.nom}</p>
-                                </Link>
-                            </div>
-
-                            <div>
-                                <p>(Code : {item.idunite})</p>
-
-                                <p>Responsables de l'unité :  </p>
-
-                                <p>Description: {item.Description}</p>
-
-                                <p>Fax: {item.fax}</p>
-                                <p>Site: {item.site}</p>
-                                <p>Campus : {item.corps}</p>
-                                <p>Adresse : {item.dDig}</p>
-                                <p>Email : {item.Email}</p>
-                                <p>Site Web : {item.site1}</p>
-                            </div>
-                        </ListGroup.Item>
-                    ))}
-                </ListGroup>
-
-            </div>
+            <h2>Répertoire par Unité</h2>
+            {data && (
+                <div>
+                    <p>Code: {idunite}</p>
+                    <p>Description: {description}</p>
+                    <p>Fax: {fax}</p>
+                    <p>Site: {site}</p>
+                    <p>Campus: {corps}</p>
+                    <p>Adresse: {dDig}</p>
+                    <p>Email: {email}</p>
+                    <p>Site Web: {site1}</p>
+                </div>
+            )}
         </>
     );
 }

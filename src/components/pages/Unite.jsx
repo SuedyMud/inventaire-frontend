@@ -82,7 +82,9 @@ function Unite() {
                             key={item.idunite}
                             className="d-flex justify-content-between align-items-center my-1">
                             <div>
-                                <Link to={`/unite/${item.idunite}`} style={{ textDecoration: 'none' }}>
+                                <Link to={{
+                                    pathname:`/uniteDetail/${item.idunite}`
+                                }} style={{ textDecoration: 'none' }}>
                                     <p>{item.nom}</p>
                                 </Link>
                             </div>

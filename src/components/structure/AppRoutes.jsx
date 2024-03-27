@@ -10,6 +10,8 @@ import FaculteDetail from "../pages/FaculteDetail.jsx";
 import UniteDetail from "../pages/UniteDetail.jsx";
 import FaculteStat from "../pages/FaculteStat.jsx";
 import ChercheurDetail from "../pages/ChercheurDetail.jsx";
+import ChercheurUpdate from "../pages/ChercheurUpdate.jsx";
+import ChercheurDelete from "../pages/ChercheurDelete.jsx";
 
 
 function AppRoutes() {
@@ -21,10 +23,12 @@ function AppRoutes() {
                 <Route path="/faculte/:facId" component={FaculteDetail} />
                 <Route path="/faculteStat" element={FaculteStat} />
                 <Route path="/unite" element={<Unite/>}/>
-                <Route path="/unite/:idunite" element={<UniteDetail/>} />
+                <Route path="/uniteDetail/:idunite" element={<UniteDetail/>} />
                 <Route path="/projet" element={<Projet/>}/>
                 <Route path="/chercheur" element={<Chercheur/>}/>
-                <Route path="/chercheurDetail/:idche" element={<ChercheurDetail />} /> {/*// Ajoutez cette ligne pour ChercheurDetail*/}
+                <Route path="/chercheurDetail/:idche" element={<ChercheurDetail />} />
+                <Route path="/chercheurUpdate/:idche" element={<ChercheurUpdate />} />
+                <Route path="/chercheurDelete/:idche" element={<ChercheurDelete />} />
                 <Route path="/frascati" element={<Frascati/>}/>
                 <Route path="/discipline" element={<Discipline/>}/>
             </Routes>
