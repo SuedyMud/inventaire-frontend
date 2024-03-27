@@ -2,16 +2,20 @@
 import axios from "axios";
 import {useAuth0} from "@auth0/auth0-react";
 import {useEffect, useState} from "react";
-import {ListGroup, Row, Col, Button} from "react-bootstrap";
+import {ListGroup, Row, Col, Button, Spinner} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 
 
 
 function Chercheur() {
-    const {getAccessTokenSilently} = useAuth0();
+    const {getAccessTokenSilently, isLoading} = useAuth0();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState('A');
+
+    if (isLoading) {
+        return <Spinner/>;
+    }
 
 
     const fetchData = async (letter) => {
@@ -52,7 +56,7 @@ function Chercheur() {
     };
 
 
-    const handleDeleteClick = async (idche) => {
+    /*const handleDeleteClick = async (idche) => {
         const accessToken = await getAccessTokenSilently();
 
         try {
@@ -69,7 +73,7 @@ function Chercheur() {
         } catch (error) {
             console.error("Erreur lors de la suppression du chercheur : ", error);
         }
-    };
+    };*/
 
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const paginationItems = alphabet.split('').map((letter, index) => {
@@ -137,7 +141,7 @@ function Chercheur() {
 
                                         </Link>
 
-                                        <Link to={`/chercheurUpdate/${item.idche}`}>
+                                        {/*<Link to={`/chercheurUpdate/${item.idche}`}>
                                             <Button variant="primary">
                                                 Modifier
                                             </Button>
@@ -150,7 +154,7 @@ function Chercheur() {
                                             className="ml-2"
                                         >
                                             Supprimer
-                                        </Button>
+                                        </Button>*/}
                                     </ListGroup.Item>
                                 </ListGroup>
                             </Col>

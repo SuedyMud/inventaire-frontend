@@ -84,7 +84,66 @@ function ChercheurUpdate() {
                         onChange={handleChange}
                     />
                 </Form.Group>
-                {/* Ajoutez d'autres champs ici avec le même modèle */}
+                <Form.Group controlId="prenom">
+                    <Form.Label>Prénom :</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="prenom"
+                        value={chercheur.prenom}
+                        onChange={handleChange}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="telephone">
+                    <Form.Label>Téléphone :</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="telephone"
+                        value={chercheur.telephone}
+                        onChange={handleChange}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="email">
+                    <Form.Label>Email :</Form.Label>
+                    <Form.Control
+                        type="email"
+                        name="email"
+                        value={chercheur.email}
+                        onChange={handleChange}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="cpi">
+                    <Form.Label>CPI :</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="cpi"
+                        value={chercheur.cpi}
+                        onChange={handleChange}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="site">
+                    <Form.Label>Site web :</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="site"
+                        value={chercheur.site}
+                        onChange={handleChange}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="campus">
+                    <Form.Label>Campus :</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="campus"
+                        value={chercheur.campus}
+                        onChange={handleChange}
+                    />
+                </Form.Group>
+
 
                 <Button variant="primary" type="submit">
                     Modifier
