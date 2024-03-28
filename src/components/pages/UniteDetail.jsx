@@ -31,18 +31,23 @@ function UniteDetail() {
         fetchData();
     }, [idunite, getAccessTokenSilently]);
 
+    if (!unite) {
+        return null; // Ou vous pouvez retourner un composant de chargement ou un message d'attente
+    }
+
+    // Déstructuration des propriétés de l'objet unite
+    const { corps, localisation, rue, numero, codePostal, localite, email, site } = unite;
+
     return (
         <>
             <h2>Répertoire par Unité</h2>
-            {unite && ( // Vérifie si unite est défini
-                <div>
-                    <p>Campus : {unite.corps}</p>
-                    <p>Localisation : {unite.localisation}</p>
-                    <p>Adresse : {unite.rue} {unite.numero}, {unite.codePostal} {unite.localite}</p>
-                    <p>Email : {unite.email}</p>
-                    <p>Site Web : {unite.site}</p>
-                </div>
-            )}
+            <div>
+                <p>Campus : {corps}</p>
+                <p>Localisation : {localisation}</p>
+                <p>Adresse : {rue} {numero}, {codePostal} {localite}</p>
+                <p>Email : {email}</p>
+                <p>Site Web : {site}</p>
+            </div>
         </>
     );
 }
