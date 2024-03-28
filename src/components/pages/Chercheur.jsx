@@ -1,52 +1,46 @@
-
 import axios from "axios";
 import {useAuth0} from "@auth0/auth0-react";
-import {useEffect, useState} from "react";
+import React,  {useEffect, useState} from "react";
 import {ListGroup, Row, Col, Button, Spinner} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 
 
-
 function Chercheur() {
-    const {getAccessTokenSilently, isLoading} = useAuth0();
+    const {getAccessTokenSilently} = useAuth0();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState('A');
 
-    if (isLoading) {
-        return <Spinner/>;
-    }
-
-
-    const fetchData = async (letter) => {
-        try {
-            const accessToken = await getAccessTokenSilently();
-            const response = await axios.get("api/zchercheur/liste", {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                params: {
-                    lettre: letter,
-                    page: 0, // Page numéro 0 (première page)
-                    size: 10000, // Nombre d'éléments par page
-                },
-            });
-
-
-            if (response.status === 200) {
-                const sortedData = response.data.content.sort((a, b) => a.nom.localeCompare(b.nom));
-                setData(sortedData);
-                /*console.log("Données stockées dans l'état:", sortedData);*/
-
-            } else {
-                console.error("Erreur lors de la récupération des données");
-            }
-        } catch (error) {
-            console.error("Erreur lors de la récupération des données : ", error);
-        }
-    };
 
     useEffect(() => {
+        const fetchData = async (letter) => {
+            try {
+                const accessToken = await getAccessTokenSilently();
+                const response = await axios.get("/api/zchercheur/liste", {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                    params: {
+                        lettre: letter,
+                        page: 0, // Page numéro 0 (première page)
+                        size: 10000, // Nombre d'éléments par page
+                    },
+                });
+
+
+                if (response.status === 200) {
+                    const sortedData = response.data.content.sort((a, b) => a.nom.localeCompare(b.nom));
+                    setData(sortedData);
+                    /*console.log("Données stockées dans l'état:", sortedData);*/
+
+                } else {
+                    console.error("Erreur lors de la récupération des données");
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données : ", error);
+            }
+        };
+
         fetchData(currentPage);
         /* console.log('used for chercheur')*/
     }, [currentPage, getAccessTokenSilently]);

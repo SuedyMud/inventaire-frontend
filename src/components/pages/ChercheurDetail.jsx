@@ -3,7 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FaEnvelope, FaGlobe, FaPhone } from "react-icons/fa";
-import { Button } from "react-bootstrap";
+import {Button, Spinner} from "react-bootstrap";
+import ChercheurDelete from "./ChercheurDelete"; // Import du composant ChercheurDelete
 
 function ChercheurDetail() {
     const { getAccessTokenSilently } = useAuth0();
@@ -32,29 +33,12 @@ function ChercheurDetail() {
         fetchChercheur();
     }, [idche, getAccessTokenSilently]);
 
-    const handleDeleteClick = async (id) => {
-        const accessToken = await getAccessTokenSilently();
-
-        try {
-            const response = await axios.delete(`/api/zchercheur/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-
-            if (response.status === 204) {
-                // Redirection ou autre action après suppression
-            }
-        } catch (error) {
-            console.error("Erreur lors de la suppression du chercheur : ", error);
-        }
-    };
-
     if (!chercheur) {
-        return <div>Chargement...</div>;
+            return <Spinner/>;
     }
 
     const { nom, prenom, telephone, cpi, site, email, campus } = chercheur;
+
 
     return (
         <div>
@@ -71,13 +55,8 @@ function ChercheurDetail() {
                 </Button>
             </Link>
 
-            <Button
-                variant="danger"
-                onClick={() => handleDeleteClick(idche)}
-                className="ml-2"
-            >
-                Supprimer
-            </Button>
+            {/* Affichage du composant ChercheurDelete pour la suppression */}
+            <ChercheurDelete idche={idche} />
         </div>
     );
 }
