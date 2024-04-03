@@ -10,6 +10,7 @@ import Layout from "./components/structure/Layout.jsx";
 import {BrowserRouter as Router} from "react-router-dom";
 import Footer from "./components/structure/Footer.jsx";
 import Navigation from "./components/structure/Navigation.jsx";
+import {QueryClient, QueryClientProvider} from "react-query";
 
 
 function App() {
@@ -20,8 +21,11 @@ function App() {
         return <Spinner/>;
     }
 
+    const queryClient = new QueryClient()
+
     return (
 
+        <QueryClientProvider client={queryClient}>
             <Router>
                 <div >
                     <Header/>
@@ -46,6 +50,7 @@ function App() {
                 </div>
 
             </Router>
+        </QueryClientProvider>
 
 
     );
