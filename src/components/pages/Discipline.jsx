@@ -1,43 +1,18 @@
-import axios from "axios";
+import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
 import { ListGroup } from "react-bootstrap";
-
 import { Link } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getDiscipline } from "../../utils/ApiGet.js";
 
 function Discipline() {
     const { getAccessTokenSilently } = useAuth0();
-    const [data, setData] = useState([]);
 
-    const fetchData = async () => {
-        try {
-            const accessToken = await getAccessTokenSilently();
-            const response = await axios.get("api/zdiscipcref/liste", {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                params: {
+    const { data, isLoading } = useQuery(["discipline"], async () => {
+        const accessToken = await getAccessTokenSilently();
+        return getDiscipline({ accessToken });
+    });
 
-                    page: 0, // Page numéro 0 (première page)
-                    size: 10000, // Nombre d'éléments par page
-                },
-            });
-
-            if (response.status === 200) {
-                setData(response.data.content);
-            } else {
-                console.error("Erreur lors de la récupération des données");
-            }
-        } catch (error) {
-            console.error("Erreur lors de la récupération des données : ", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, [getAccessTokenSilently]);
-
-    // Fonction pour organiser les données en groupes de catégories
     // Fonction pour organiser les données en groupes de catégories
     const organizeDataByCategories = (data) => {
         const organizedData = {
@@ -49,40 +24,35 @@ function Discipline() {
             '5000': [],
         };
 
-        data.forEach((item) => {
-            const categoryId = parseInt(item.idcodecref.substring(0, 4));
-            switch (true) {
-                case categoryId == 100:
-                    organizedData['100'].push(item);
-                    break;
-                case categoryId >= 1100 && categoryId < 2000:
-
-                   /* if(categoryId >= 1100 && categoryId < 1200) {
-
-                    }else if(categoryId >= 1200 && categoryId < 1300){
-
-                    }else if()*/
-
-
-                    organizedData['1000'].push(item);
-                    break;
-                case categoryId >= 2100 && categoryId < 3000:
-                    organizedData['2000'].push(item);
-                    break;
-                case categoryId >= 3100 && categoryId < 4000:
-                    organizedData['3000'].push(item);
-                    break;
-                case categoryId >= 4100 && categoryId < 5000:
-                    organizedData['4000'].push(item);
-                    break;
-                case categoryId >= 5100 && categoryId < 6000:
-                    organizedData['5000'].push(item);
-                    break;
-                default:
-                    console.error(`Catégorie inconnue: ${categoryId}`);
-                    break;
-            }
-        });
+        // Vérifier si data est défini avant d'itérer
+        if (data) {
+            data.forEach((item) => {
+                const categoryId = parseInt(item.idcodecref.substring(0, 4));
+                switch (true) {
+                    case categoryId === 100:
+                        organizedData['100'].push(item);
+                        break;
+                    case categoryId >= 1100 && categoryId < 2000:
+                        organizedData['1000'].push(item);
+                        break;
+                    case categoryId >= 2100 && categoryId < 3000:
+                        organizedData['2000'].push(item);
+                        break;
+                    case categoryId >= 3100 && categoryId < 4000:
+                        organizedData['3000'].push(item);
+                        break;
+                    case categoryId >= 4100 && categoryId < 5000:
+                        organizedData['4000'].push(item);
+                        break;
+                    case categoryId >= 5100 && categoryId < 6000:
+                        organizedData['5000'].push(item);
+                        break;
+                    default:
+                        console.error(`Catégorie inconnue: ${categoryId}`);
+                        break;
+                }
+            });
+        }
 
         return organizedData;
     };
@@ -102,21 +72,23 @@ function Discipline() {
         return Object.keys(categories).map((categoryId) => (
             <div key={categoryId}>
                 <h3>{categories[categoryId]}</h3>
-                <ListGroup as="ul">
-                    {data[categoryId].map((item) => (
-                        <ListGroup.Item
-                            as="li"
-                            key={item.idcodecref}
-                            className="d-flex justify-content-between align-items-center my-1"
-                        >
-                            <div>
-                                <Link to={`api/discipline/${item.idcodecref}`} style={{ textDecoration: 'none' }}>
-                                    <p>{item.discipline}</p>
-                                </Link>
-                            </div>
-                        </ListGroup.Item>
-                    ))}
-                </ListGroup>
+                {!isLoading && (
+                    <ListGroup as="ul">
+                        {data[categoryId].map((item) => (
+                            <ListGroup.Item
+                                as="li"
+                                key={item.idcodecref}
+                                className="d-flex justify-content-between align-items-center my-1"
+                            >
+                                <div>
+                                    <Link to={`/api/discipline/${item.idcodecref}`} style={{ textDecoration: 'none' }}>
+                                        <p>{item.discipline}</p>
+                                    </Link>
+                                </div>
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                )}
             </div>
         ));
     };

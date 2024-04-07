@@ -1,32 +1,27 @@
 import axios from "axios";
-import Header from "../structure/Header.jsx";
-import Footer from "../structure/Footer.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import { ListGroup, Button } from "react-bootstrap";
+import {useParams} from "react-router-dom";
+
 
 function ProjetDetail() {
     const { getAccessTokenSilently } = useAuth0();
-    const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
+    const {idprojet} = useParams();
+    const [projet, setProjet] = useState(null);
 
+
+    useEffect(() => {
     const fetchData = async () => {
         try {
             const accessToken = await getAccessTokenSilently();
-            const response = await axios.get(`api/zprojet/${id}`, {
+            const response = await axios.get(`/api/zprojet/${idprojet}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
-                },
-                params: {
-                    page: currentPage,
-                    size: 10, // number of items per page
                 },
             });
 
             if (response.status === 200) {
-                setData(response.data.content);
-                setTotalPages(response.data.totalPages);
+                setProjet(response.data);
             } else {
                 console.error("Erreur lors de la récupération des données");
             }
@@ -35,63 +30,34 @@ function ProjetDetail() {
         }
     };
 
-    useEffect(() => {
         fetchData();
-    }, [currentPage, getAccessTokenSilently]);
+    }, [idprojet, getAccessTokenSilently]);
+
+
+    if(!projet){
+        return null;
+    }
+
+    const {nom, resume} = projet;
 
     return (
         <>
-            <Header />
-            <h2>Liste des Projets</h2>
-            <div>
-                <ListGroup>
-                    {data.map((item) => (
-                        <ListGroup.Item key={item.idprojet} className="d-flex justify-content-between align-items-center my-1">
-                            <div onClick={() => handleItemClick(item.idprojet)}>
-                                <h4>{item.nom}</h4>
-                            </div>
-                            {selectedItemId === item.idprojet && (
-                                <div>
-                                    <p>Date début: {item.datedebut}</p>
-                                    <p>Date fin: {item.datefin}</p>
-                                    <p>Résumé: {item.resume}</p>
-                                    <p>Site: {item.site}</p>
-                                    <p>Début de l'inscription: {item.dDebut}</p>
-                                    <p>Ordre: {item.ordre}</p>
-                                    <p>Programme: {item.nomprogramme}</p>
-                                    <p>Programme (en anglais): {item.nomprogrammeUK}</p>
-                                    <p>Résumé (en anglais): {item.resumeUK}</p>
-                                    <p>Fin de l'inscription: {item.dFin}</p>
-                                    <p>Projet provenant de CV: {item.fromCv}</p>
-                                </div>
-                            )}
-                        </ListGroup.Item>
-                    ))}
-                </ListGroup>
+            <h2>{nom}</h2>
 
-                <div className="pagination">
-                    <Button
-                        variant="outline-secondary"
-                        onClick={() => setCurrentPage(Math.max(currentPage - 1, 0))}
-                        disabled={currentPage === 0}
-                    >
-                        Page précédente
-                    </Button>
-                    <span className="mx-3">
-            Page {currentPage + 1} sur {totalPages}
-          </span>
-                    <Button
-                        variant="outline-secondary"
-                        onClick={() =>
-                            setCurrentPage(Math.min(currentPage + 1, totalPages - 1))
-                        }
-                        disabled={currentPage === totalPages - 1}
-                    >
-                        Page suivante
-                    </Button>
-                </div>
+
+            <div>
+                <p>Unité : </p>
+
+                {resume && (
+                    <div>
+                        <p>Description :</p>
+                        <p>{resume}</p>
+                    </div>
+                )}
+
+                <p>Liste des responsables : </p>
+                <p>Liste des bailleurs : </p>
             </div>
-            <Footer />
         </>
     );
 }

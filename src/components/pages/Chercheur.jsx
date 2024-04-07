@@ -1,49 +1,23 @@
-import axios from "axios";
+
 import {useAuth0} from "@auth0/auth0-react";
-import React,  {useEffect, useState} from "react";
-import {ListGroup, Row, Col, Button, Spinner} from "react-bootstrap";
+import { useState} from "react";
+import {ListGroup, Row, Col} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
+import {useQuery} from "react-query";
+import {getChercheur} from "../../utils/ApiGet.js";
+
 
 
 function Chercheur() {
     const {getAccessTokenSilently} = useAuth0();
-    const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState('A');
 
+    const { data, isLoading } = useQuery(["chercheur", currentPage], async () => {
+        const accessToken = await getAccessTokenSilently();
+        return getChercheur({ accessToken, letter: currentPage });
+    });
 
-    useEffect(() => {
-        const fetchData = async (letter) => {
-            try {
-                const accessToken = await getAccessTokenSilently();
-                const response = await axios.get("/api/zchercheur/liste", {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                    params: {
-                        lettre: letter,
-                        page: 0, // Page numéro 0 (première page)
-                        size: 10000, // Nombre d'éléments par page
-                    },
-                });
-
-
-                if (response.status === 200) {
-                    const sortedData = response.data.content.sort((a, b) => a.nom.localeCompare(b.nom));
-                    setData(sortedData);
-                    /*console.log("Données stockées dans l'état:", sortedData);*/
-
-                } else {
-                    console.error("Erreur lors de la récupération des données");
-                }
-            } catch (error) {
-                console.error("Erreur lors de la récupération des données : ", error);
-            }
-        };
-
-        fetchData(currentPage);
-        /* console.log('used for chercheur')*/
-    }, [currentPage, getAccessTokenSilently]);
 
     const handlePaginationClick = (letter) => {
         setCurrentPage(letter);
@@ -72,7 +46,7 @@ function Chercheur() {
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const paginationItems = alphabet.split('').map((letter, index) => {
         // Vérifier s'il y a des éléments commençant par cette lettre
-        const letterIsActive = data.some(item => item.nom.charAt(0).toUpperCase() === letter);
+        const letterIsActive = data && data.some(item => item.nom.charAt(0).toUpperCase() === letter);
         return (
             <Pagination.Item
                 key={index}
@@ -86,7 +60,7 @@ function Chercheur() {
     });
 
     // Filtrer les données pour n'afficher que les éléments commençant par la lettre de la page actuelle
-    const filteredData = data.filter(item => item.nom.charAt(0).toUpperCase() === currentPage);
+    const filteredData = data ? data.filter(item => item.nom.charAt(0).toUpperCase() === currentPage) : [];
 
 
     // Diviser les données en groupes de trois
@@ -102,13 +76,16 @@ function Chercheur() {
             <h2>Répertoire des Chercheurs</h2>
             <p>Classement par ordre alphabétique</p>
             <div>
+
                 <Pagination>{paginationItems}</Pagination>
-                {groupedData.map((group, index) => (
+
+                {!isLoading && groupedData.map((group, index) => (
                     <Row key={index}>
                         {group.map((item) => (
                             <Col key={item.idche} sm={4}>
                                 <ListGroup as="ul">
                                     <ListGroup.Item
+                                        key={item.idche}
                                         as="li"
                                         className="d-flex justify-content-between align-items-center my-1"
                                     >
@@ -155,7 +132,9 @@ function Chercheur() {
                         ))}
                     </Row>
                 ))}
+
                 <Pagination>{paginationItems}</Pagination>
+
             </div>
         </>
     );

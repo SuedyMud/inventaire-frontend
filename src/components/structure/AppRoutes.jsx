@@ -12,6 +12,7 @@ import FaculteStat from "../pages/FaculteStat.jsx";
 import ChercheurDetail from "../pages/ChercheurDetail.jsx";
 import ChercheurUpdate from "../pages/ChercheurUpdate.jsx";
 import ChercheurDelete from "../pages/ChercheurDelete.jsx";
+import ProjetDetail from "../pages/ProjetDetail.jsx";
 
 
 function AppRoutes() {
@@ -25,6 +26,7 @@ function AppRoutes() {
                 <Route path="/unite" element={<Unite/>}/>
                 <Route path="/uniteDetail/:idunite" element={<UniteDetail/>} />
                 <Route path="/projet" element={<Projet/>}/>
+                <Route path="/projetDetail/:idprojet" element={<ProjetDetail/>}/>
                 <Route path="/chercheur" element={<Chercheur/>}/>
                 <Route path="/chercheurDetail/:idche" element={<ChercheurDetail />} />
                 <Route path="/chercheurUpdate/:idche" element={<ChercheurUpdate />} />

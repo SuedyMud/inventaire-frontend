@@ -18,11 +18,15 @@ function Navigation() {
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/faculte">Faculte / Département</Nav.Link>
 
-                        <Nav.Link as={Link} to="/unite">Répertoire des Unités</Nav.Link>
-                        <Nav.Link as={Link} to="/projet">Répertoire des Projets</Nav.Link>
-                        <Nav.Link as={Link} to="/chercheur">Répertoire des Chercheurs</Nav.Link>
-                        <Nav.Link as={Link} to="/frascati">Classement par Frascati</Nav.Link>
-                        <Nav.Link as={Link} to="/discipline"> Discipline CREF</Nav.Link>
+                        {/*{isAuthenticated && (
+                            <>*/}
+                                <Nav.Link as={Link} to="/unite">Répertoire des Unités</Nav.Link>
+                                <Nav.Link as={Link} to="/projet">Répertoire des Projets</Nav.Link>
+                                <Nav.Link as={Link} to="/chercheur">Répertoire des Chercheurs</Nav.Link>
+                                <Nav.Link as={Link} to="/frascati">Classement par Frascati</Nav.Link>
+                                <Nav.Link as={Link} to="/discipline"> Discipline CREF</Nav.Link>
+                            {/*</>
+                    )}*/}
                     </Nav>
 
                     {isAuthenticated ?( <ul className="nav navbar-nav navbar-right">
@@ -32,7 +36,7 @@ function Navigation() {
                         ):(
 
                         <ul className="nav navbar-nav navbar-right">
-                            <li><a href="#"><span className="glyphicon glyphicon-log-user"></span> <SignInButton/></a></li>
+                           {/* <li><a href="#"><span className="glyphicon glyphicon-log-user"></span> <SignInButton/></a></li>*/}
                             <li><a href="#"><span className="glyphicon glyphicon-log-in"></span> <LoginButton/></a></li>
                         </ul>
                         )

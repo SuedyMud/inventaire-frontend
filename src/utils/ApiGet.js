@@ -1,5 +1,5 @@
 import axios from "axios";
-import {useState} from "react";
+import Discipline from "../components/pages/Discipline.jsx";
 
 export async function getFaculte({accessToken}){
     const trueAccessToken = await accessToken;
@@ -56,7 +56,6 @@ export async function getUnite({accessToken, letter}){
     } catch (error) {
         console.error("Erreur lors de la récupération des données : ", error);
     }
-
 }
 
 export async function getProjet({accessToken, letter}){
@@ -64,7 +63,7 @@ export async function getProjet({accessToken, letter}){
 
     try {
 
-        const response = await axios.get("api/zprojet/liste", {
+        const response = await axios.get("/api/zprojet/liste", {
             headers: {
                 Authorization: `Bearer ${trueAccessToken}`,
             },
@@ -82,9 +81,7 @@ export async function getProjet({accessToken, letter}){
                     !['a', 'aaa', 'aaaa', 'blabl', 'dutt'].includes(item.nom) &&
                     !item.nom.startsWith('test') &&
                     !item.nom.startsWith('Projet test')
-
             );
-
 
             return(
                 filteredData.sort((a, b) => a.nom.localeCompare(b.nom))
@@ -95,5 +92,82 @@ export async function getProjet({accessToken, letter}){
     } catch (error) {
         console.error("Erreur lors de la récupération des données : ", error);
     }
-
 }
+
+export async function getChercheur({accessToken, letter}) {
+    const trueAccessToken = await accessToken;
+
+    try {
+        const response = await axios.get("/api/zchercheur/liste", {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+            params: {
+                lettre: letter,
+                page: 0, // Page numéro 0 (première page)
+                size: 10000, // Nombre d'éléments par page
+            },
+        });
+
+        if (response.status === 200) {
+            const sortedData = response.data.content.sort((a, b) => a.nom.localeCompare(b.nom));
+            return (sortedData);
+
+        } else {
+            console.error("Erreur lors de la récupération des données");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données : ", error);
+    }
+}
+
+export async function getFrascati({accessToken}) {
+    const trueAccessToken = await accessToken;
+
+    try {
+        const response = await axios.get("/api/zfrascati/liste", {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+            params: {
+
+                page: 0, // Page numéro 0 (première page)
+                size: 10000, // Nombre d'éléments par page
+            },
+        });
+
+        if (response.status === 200) {
+            return(response.data.content);
+        } else {
+            console.error("Erreur lors de la récupération des données");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données : ", error);
+    }
+}
+
+export async function getDiscipline({accessToken}) {
+    const trueAccessToken = await accessToken;
+
+    try {
+        const response = await axios.get("/api/zdiscipcref/liste", {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+            params: {
+
+                page: 0, // Page numéro 0 (première page)
+                size: 10000, // Nombre d'éléments par page
+            },
+        });
+
+        if (response.status === 200) {
+            return(response.data.content);
+        } else {
+            console.error("Erreur lors de la récupération des données");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données : ", error);
+    }
+}
+

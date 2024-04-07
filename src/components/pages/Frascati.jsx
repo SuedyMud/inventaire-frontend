@@ -1,41 +1,15 @@
-import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
 import { ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import {useQuery} from "react-query";
+import {getFrascati} from "../../utils/ApiGet.js";
 
 function Frascati() {
     const { getAccessTokenSilently } = useAuth0();
-    const [data, setData] = useState([]);
 
-
-    const fetchData = async () => {
-        try {
-            const accessToken = await getAccessTokenSilently();
-            const response = await axios.get("api/zfrascati/liste", {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                params: {
-
-                    page: 0, // Page numéro 0 (première page)
-                    size: 10000, // Nombre d'éléments par page
-                },
-            });
-
-            if (response.status === 200) {
-                setData(response.data.content);
-            } else {
-                console.error("Erreur lors de la récupération des données");
-            }
-        } catch (error) {
-            console.error("Erreur lors de la récupération des données : ", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, [getAccessTokenSilently]);
+    const { data, isLoading } = useQuery(["frascati"], async () =>
+        getFrascati({ accessToken : await getAccessTokenSilently() })
+    );
 
     // Fonction pour organiser les données en groupes de catégories
     const organizeDataByCategories = (data) => {
@@ -48,9 +22,12 @@ function Frascati() {
             '6': [],
         };
 
-        data.forEach((item) => {
-            organizedData[item.idfrascati[0]].push(item);
-        });
+        // Vérifier si data est défini avant d'itérer
+        if (data) {
+            data.forEach((item) => {
+                organizedData[item.idfrascati[0]].push(item);
+            });
+        }
 
         return organizedData;
     };
@@ -69,21 +46,23 @@ function Frascati() {
         return Object.keys(categories).map((categoryId) => (
             <div key={categoryId}>
                 <h3>{categories[categoryId]}</h3>
-                <ListGroup as="ul">
-                    {data[categoryId].map((item) => (
-                        <ListGroup.Item
-                            as="li"
-                            key={item.idfrascati}
-                            className="d-flex justify-content-between align-items-center my-1"
-                        >
-                            <div>
-                                <Link to={`api/frascati/${item.idfrascati}`} style={{ textDecoration: 'none' }}>
-                                    <p>{item.idfrascati} {item.frascati}</p>
-                                </Link>
-                            </div>
-                        </ListGroup.Item>
-                    ))}
-                </ListGroup>
+                {!isLoading && (
+                    <ListGroup as="ul">
+                        {data[categoryId].map((item) => (
+                            <ListGroup.Item
+                                as="li"
+                                key={item.idfrascati}
+                                className="d-flex justify-content-between align-items-center my-1"
+                            >
+                                <div>
+                                    <Link to={`api/frascati/${item.idfrascati}`} style={{ textDecoration: 'none' }}>
+                                        <p>{item.idfrascati} {item.frascati}</p>
+                                    </Link>
+                                </div>
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                )}
             </div>
         ));
     };

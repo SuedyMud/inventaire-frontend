@@ -1,14 +1,15 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { ListGroup } from "react-bootstrap";
 import {useQuery} from "react-query";
-import {getFaculte} from "../../utils/api.js";
+import {getFaculte} from "../../utils/ApiGet.js";
 
 
 function Faculte() {
     const { getAccessTokenSilently } = useAuth0();
 
     const {data, isLoading} = useQuery(["faculties"], () =>
-        getFaculte({accessToken : getAccessTokenSilently()}))
+        getFaculte({accessToken : getAccessTokenSilently()
+        }))
 
     const liensFacultes = {
         "École de Santé publique": "https://esp.ulb.be/fr/la-recherche/les-centres-de-recherche",

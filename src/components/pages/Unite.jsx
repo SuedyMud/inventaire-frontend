@@ -4,15 +4,14 @@ import {ListGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 import {useQuery} from "react-query";
-import {getUnite} from "../../utils/api.js";
+import {getUnite} from "../../utils/ApiGet.js";
 
 function Unite() {
     const {getAccessTokenSilently} = useAuth0();
     const [currentPage, setCurrentPage] = useState('A');
 
     const { data, isLoading } = useQuery(["unites", currentPage], async () => {
-        const accessToken = await getAccessTokenSilently();
-        return getUnite({ accessToken, letter: currentPage });
+        return getUnite({ accessToken : await getAccessTokenSilently(), letter: currentPage });
     });
 
    /* useEffect(() => {
@@ -57,6 +56,7 @@ function Unite() {
                 <div className="pagination">
                     <Pagination>{paginationItems}</Pagination>
                 </div>
+                {!isLoading && (
                 <ListGroup as="ul">
                     {filteredData.map((item) => (
                         <ListGroup.Item
@@ -67,14 +67,19 @@ function Unite() {
                                 <Link to={{
                                     pathname: `/uniteDetail/${item.idunite}`,
                                     state : {
+                                        nom : item.nom,
+                                        description : item.description,
                                         campus: item.campus,
                                         localisation: item.localisation,
                                         rue: item.rue,
                                         numero: item.numero,
                                         codePostal: item.codePostal,
-                                        localite: item.localite, // Corrected: added missing comma after item.codePostal
+                                        localite: item.localite,
                                         email: item.email,
-                                        site: item.site
+                                        telephone: item.telephone,
+                                        fax: item.fax,
+                                        site1: item.site1,
+                                        site2: item.site2
                                     }
                                 }} style={{textDecoration: 'none'}}>
                                     <p>{item.nom}</p>
@@ -82,7 +87,9 @@ function Unite() {
                             </div>
                         </ListGroup.Item>
                     ))}
+
                 </ListGroup>
+                )}
                 <div className="pagination">
                     <Pagination>{paginationItems}</Pagination>
                 </div>
