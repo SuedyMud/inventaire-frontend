@@ -1,14 +1,14 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { ListGroup } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import {useAuth0} from "@auth0/auth0-react";
+import {ListGroup} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import {useQuery} from "react-query";
 import {getFrascati} from "../../utils/ApiGet.js";
 
 function Frascati() {
-    const { getAccessTokenSilently } = useAuth0();
+    const {getAccessTokenSilently} = useAuth0();
 
-    const { data, isLoading } = useQuery(["frascati"], async () =>
-        getFrascati({ accessToken : await getAccessTokenSilently() })
+    const {data, isLoading} = useQuery(["frascati"], async () =>
+        getFrascati({accessToken: await getAccessTokenSilently()})
     );
 
     // Fonction pour organiser les données en groupes de catégories
@@ -55,7 +55,13 @@ function Frascati() {
                                 className="d-flex justify-content-between align-items-center my-1"
                             >
                                 <div>
-                                    <Link to={`api/frascati/${item.idfrascati}`} style={{ textDecoration: 'none' }}>
+                                    <Link to={{
+                                        pathname: `/frascatiDetail/${item.idfrascati}`,
+                                        state: {
+                                            frascatiNom: item.frascati,
+                                        }
+
+                                    }} style={{textDecoration: 'none'}}>
                                         <p>{item.idfrascati} {item.frascati}</p>
                                     </Link>
                                 </div>

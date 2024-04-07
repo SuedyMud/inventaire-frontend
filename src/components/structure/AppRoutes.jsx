@@ -13,6 +13,7 @@ import ChercheurDetail from "../pages/ChercheurDetail.jsx";
 import ChercheurUpdate from "../pages/ChercheurUpdate.jsx";
 import ChercheurDelete from "../pages/ChercheurDelete.jsx";
 import ProjetDetail from "../pages/ProjetDetail.jsx";
+import FrascatiDetail from "../pages/FrascatiDetail.jsx";
 
 
 function AppRoutes() {
@@ -32,6 +33,7 @@ function AppRoutes() {
                 <Route path="/chercheurUpdate/:idche" element={<ChercheurUpdate />} />
                 <Route path="/chercheurDelete/:idche" element={<ChercheurDelete />} />
                 <Route path="/frascati" element={<Frascati/>}/>
+                <Route path="/frascatiDetail/:idfrascati" element={<FrascatiDetail/>}/>
                 <Route path="/discipline" element={<Discipline/>}/>
             </Routes>
     );

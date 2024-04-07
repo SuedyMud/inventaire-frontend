@@ -1,6 +1,5 @@
-
 import {useAuth0} from "@auth0/auth0-react";
-import { useState} from "react";
+import {useState} from "react";
 import {ListGroup, Row, Col} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
@@ -8,14 +7,13 @@ import {useQuery} from "react-query";
 import {getChercheur} from "../../utils/ApiGet.js";
 
 
-
 function Chercheur() {
     const {getAccessTokenSilently} = useAuth0();
     const [currentPage, setCurrentPage] = useState('A');
 
-    const { data, isLoading } = useQuery(["chercheur", currentPage], async () => {
+    const {data, isLoading} = useQuery(["chercheur", currentPage], async () => {
         const accessToken = await getAccessTokenSilently();
-        return getChercheur({ accessToken, letter: currentPage });
+        return getChercheur({accessToken, letter: currentPage});
     });
 
 
@@ -102,7 +100,6 @@ function Chercheur() {
                                                 email: item.email,
                                                 campus: item.campus
                                             }
-
 
                                         }} style={{textDecoration: 'none'}}
 
