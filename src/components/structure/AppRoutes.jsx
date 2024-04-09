@@ -14,6 +14,7 @@ import ChercheurUpdate from "../pages/ChercheurUpdate.jsx";
 import ChercheurDelete from "../pages/ChercheurDelete.jsx";
 import ProjetDetail from "../pages/ProjetDetail.jsx";
 import FrascatiDetail from "../pages/FrascatiDetail.jsx";
+import ProjetStat from "../pages/ProjetStat.jsx";
 
 
 function AppRoutes() {
@@ -23,11 +24,12 @@ function AppRoutes() {
                 <Route index element={<Faculte/>}/>
                 <Route path="/faculte" element={<Faculte/>}/>
                 <Route path="/faculte/:facId" component={FaculteDetail} />
-                <Route path="/faculteStat" element={FaculteStat} />
+                <Route path="/faculteStat" element={<FaculteStat />} />
                 <Route path="/unite" element={<Unite/>}/>
                 <Route path="/uniteDetail/:idunite" element={<UniteDetail/>} />
                 <Route path="/projet" element={<Projet/>}/>
                 <Route path="/projetDetail/:idprojet" element={<ProjetDetail/>}/>
+                <Route path="/projetStat" element={<ProjetStat/>}/>
                 <Route path="/chercheur" element={<Chercheur/>}/>
                 <Route path="/chercheurDetail/:idche" element={<ChercheurDetail />} />
                 <Route path="/chercheurUpdate/:idche" element={<ChercheurUpdate />} />

@@ -2,6 +2,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { ListGroup } from "react-bootstrap";
 import {useQuery} from "react-query";
 import {getFaculte} from "../../utils/ApiGet.js";
+import React from "react";
+import FaculteStat from "./FaculteStat.jsx";
+import {Link} from "react-router-dom";
 
 
 function Faculte() {
@@ -29,8 +32,20 @@ function Faculte() {
 
     return (
         <div>
-            <h2>Répertoires des Unités par Facultés, Départements</h2>
-            <p>Classement par Facultés</p>
+            <div className="row">
+                <div className="col-md-9"> {/* Colonne prenant 9/12 de la largeur */}
+                    <h2>Répertoires des Unités par Facultés, Départements</h2>
+                    <p>Classement par Facultés</p>
+                </div>
+                <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
+                    <Link to="/faculteStat" className="btn btn-info">
+                        <span className="glyphicon glyphicon"></span> Statistiques des Facultés
+                    </Link>
+                </div>
+            </div>
+
+
+
             <div>
                 {!isLoading && (
                     <ListGroup as="ul">

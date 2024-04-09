@@ -4,7 +4,6 @@ import {Link} from "react-router-dom";
 import LogoutButton from "../buttons/LogoutButton.jsx";
 import {useAuth0} from "@auth0/auth0-react";
 import LoginButton from "../buttons/LoginButton.jsx";
-import SignInButton from "../buttons/SignInButton.jsx";
 
 
 function Navigation() {

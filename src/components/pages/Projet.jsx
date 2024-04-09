@@ -1,5 +1,5 @@
 import {useAuth0} from "@auth0/auth0-react";
-import {useState} from "react";
+import React, {useState} from "react";
 import {ListGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
@@ -42,7 +42,22 @@ function Projet() {
 
     return (
         <>
-            <h2>Répertoire par Projets</h2>
+
+
+            <div className="row">
+                <div className="col-md-9"> {/* Colonne prenant 9/12 de la largeur */}
+                    <h2>Répertoire par Projets</h2>
+                    <p>Classement par ordre alphabétique</p>
+                </div>
+                <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
+                    <Link to="/projetStat" className="btn btn-info">
+                        <span className="glyphicon glyphicon"></span> Statistiques des Projets
+                    </Link>
+                </div>
+            </div>
+
+
+
             <div>
                 <div className="pagination">
                     <Pagination>{paginationItems}</Pagination>
