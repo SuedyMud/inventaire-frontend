@@ -1,5 +1,5 @@
 import {useAuth0} from "@auth0/auth0-react";
-import {useState} from "react";
+import React, {useState} from "react";
 import {ListGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
@@ -50,8 +50,20 @@ function Unite() {
 
     return (
         <>
-            <h2>Répertoires par Unités</h2>
-            <p>Classement par ordre alphabétique</p>
+
+            <div className="row">
+                <div className="col-md-9"> {/* Colonne prenant 9/12 de la largeur */}
+                    <h2>Répertoires par Unités</h2>
+                    <p>Classement par ordre alphabétique</p>
+                </div>
+                <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
+                    <Link to="/uniteStat" className="btn btn-info">
+                        <span className="glyphicon glyphicon"></span> Statistiques des Unités
+                    </Link>
+                </div>
+            </div>
+
+
             <div>
                 <div className="pagination">
                     <Pagination>{paginationItems}</Pagination>

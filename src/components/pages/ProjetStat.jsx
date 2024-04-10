@@ -36,6 +36,7 @@ function ProjetStat() {
 
                     const totalNomUk = filteredData.filter((item) => item.nomUk !== "").length;
                     setTotalNomUk(totalNomUk);
+                    console.log(totalNomUk);
 
                     const totalNomProgramme = filteredData.filter((item) => item.nomProgramme !== "").length;
                     setTotalNomProgramme(totalNomProgramme);

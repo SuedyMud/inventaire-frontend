@@ -71,8 +71,18 @@ function Chercheur() {
 
     return (
         <>
-            <h2>Répertoire des Chercheurs</h2>
-            <p>Classement par ordre alphabétique</p>
+            <div className="row">
+                <div className="col-md-9"> {/* Colonne prenant 9/12 de la largeur */}
+                    <h2>Répertoire des Chercheurs</h2>
+                    <p>Classement par ordre alphabétique</p>
+                </div>
+                <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
+                    <Link to="/ChercheurStat" className="btn btn-info">
+                        <span className="glyphicon glyphicon"></span> Statistiques des Chercheurs
+                    </Link>
+                </div>
+            </div>
+
             <div>
 
                 <Pagination>{paginationItems}</Pagination>
