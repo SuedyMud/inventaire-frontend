@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react"; // Import de useAuth0 depuis auth0-react
+import { useAuth0 } from "@auth0/auth0-react";
 
 function FaculteStat() {
-    const { getAccessTokenSilently } = useAuth0(); // Utilisation de useAuth0 pour obtenir getAccessTokenSilently
+    const { getAccessTokenSilently } = useAuth0();
 
     const [totalFacultes, setTotalFacultes] = useState(0);
     const [totalFaculteUk, setTotalFaculteUk] = useState(0);
@@ -11,34 +11,42 @@ function FaculteStat() {
     const [totalDateMajs, setTotalDateMajs] = useState(0);
     const [totalTactifs, setTotalTactifs] = useState(0);
     const [totalGroupes, setTotalGroupes] = useState(0);
+    const [pourcentage, setPourcentage] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const AccessToken = await getAccessTokenSilently(); // Utilisation de getAccessTokenSilently pour obtenir le jeton d'accès
+                const AccessToken = await getAccessTokenSilently();
                 const response = await axios.get("/api/zfac/liste", {
                     headers: {
                         Authorization: `Bearer ${AccessToken}`,
                     },
+                    params: {
+                        size: 10000, // Nombre d'éléments par page
+                    },
                 });
                 if (response.status === 200) {
-                    console.log("Données brutes :", response.data.content);
-
                     const filteredData = response.data.content.filter(
-                        (item) => item.actif === 1 && item.invent20 === 1
+                        (item) => item.actif === 1
                     );
 
-                    // Calcul des statistiques
                     const totalFacultes = filteredData.length;
                     setTotalFacultes(totalFacultes);
 
-                    const totalFaculteUk = filteredData.filter((item) => item.FaculteUk !== "").length;
+                    const totalFaculteUk = filteredData.filter((item) => {
+                        return item.faculteUK !== "";
+                    }).length;
                     setTotalFaculteUk(totalFaculteUk);
+
+                    const pourcentage = ((totalFaculteUk / totalFacultes) * 100).toFixed(0);
+                    setPourcentage(pourcentage);
 
                     const totalSigles = filteredData.filter((item) => item.sigle === "IEE").length;
                     setTotalSigles(totalSigles);
 
-                    const totalDateMajs = filteredData.filter((item) => item.dmaj === "0000-00-00").length;
+                    const totalDateMajs = filteredData.filter((item) => {
+                        return item.dmaj === null;
+                    }).length;
                     setTotalDateMajs(totalDateMajs);
 
                     const totalTactifs = filteredData.filter((item) => item.actif === 1).length;
@@ -55,13 +63,13 @@ function FaculteStat() {
         };
 
         fetchData();
-    }, [getAccessTokenSilently]); // Utilisation de getAccessTokenSilently comme dépendance
+    }, [getAccessTokenSilently]);
 
     return (
         <div className="container">
-            <h2>Les statistiques</h2>
+            <h2>Les statistiques des facultés</h2>
             <p>Il y a {totalFacultes} facultés au total</p>
-            <p>{totalFaculteUk} facultés ont un nom en anglais</p>
+            <p>{totalFaculteUk} facultés ont un nom en anglais ({pourcentage}%)</p>
             <p>{totalSigles} facultés proviennent de l'Institut d'Enseignement Interfacultaire</p>
             <p>{totalDateMajs} facultés ne possèdent pas de date de mise à jour</p>
             <p>Actuellement, il y a {totalTactifs} facultés actives</p>

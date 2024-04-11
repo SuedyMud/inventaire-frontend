@@ -28,17 +28,20 @@ function UniteStat() {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
+                    params: {
+                        size: 10000, // Nombre d'éléments par page
+                    },
                 });
 
                 if (response.status === 200) {
                     const filteredData = response.data.content.filter(
-                        (item) => item.datefin === '0000-00-00 00:00:00'
+                        (item) => item.datefin === null
                     );
 
                     const totalUnites = filteredData.length;
                     setTotalUnites(totalUnites);
 
-                    const totalNomUk = filteredData.filter((item) => item.nomUk !== "").length;
+                    const totalNomUk = filteredData.filter((item) => item.nomUK !== "").length;
                     setTotalNomUk(totalNomUk);
 
                     const totalDescription = filteredData.filter((item) => item.description !== "").length;
@@ -50,8 +53,12 @@ function UniteStat() {
                     const totalTelephone = filteredData.filter((item) => item.telephone !== "").length;
                     setTotalTelephone(totalTelephone);
 
-                    const totalFax = filteredData.filter((item) => item.fax !== "").length;
+                    const totalFax = filteredData.filter((item) => {
+                        //console.log(item.fax);
+                        return item.fax !== "" && item.fax !== "NEANT";
+                    }).length;
                     setTotalFax(totalFax);
+
 
                     const totalRue = filteredData.filter((item) => item.rue !== "").length;
                     setTotalRue(totalRue);
@@ -68,10 +75,11 @@ function UniteStat() {
                     const totalRemarque = filteredData.filter((item) => item.remarque !== "").length;
                     setTotalRemarque(totalRemarque);
 
-                    const totalUniteProjets = filteredData.reduce((acc, cur) => {
+                    //a corriger attention :
+                    /*const totalUniteProjets = filteredData.reduce((acc, cur) => {
                         return acc + (cur.refunite ? 1 : 0);
                     }, 0);
-                    setTotalUniteProjets(totalUniteProjets);
+                    setTotalUniteProjets(totalUniteProjets);*/
 
                     const moyenneProjetsParUnite = totalUniteProjets / totalUnites;
                     setMoyenneProjetsParUnite(moyenneProjetsParUnite);
@@ -100,8 +108,7 @@ function UniteStat() {
             <p>{totalSite1} unités ont un site internet</p>
             <p>{totalSite2} unités ont même un deuxième site internet</p>
             <p>{totalRemarque} unités comportent une remarque</p>
-            <p>Voici le nombre de projet par unité : {totalUniteProjets}</p>
-            <p>avec une moyenne de projet par unité {moyenneProjetsParUnite}</p>
+            <p>Voici le nombre de projet par unité : {totalUniteProjets} avec une moyenne de projet par unité {moyenneProjetsParUnite}</p>
         </div>
     );
 }
