@@ -1,5 +1,5 @@
 import {useAuth0} from "@auth0/auth0-react";
-import React, {useState} from "react";
+import {useState} from "react";
 import {ListGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
@@ -76,7 +76,7 @@ function Projet() {
                                         state: {
                                             nom: item.nom,
                                             resume: item.resume,
-                                            resumeuk: item.resumeuk,
+                                            resumeuk: item.resumeUK,
                                         }
                                     }} style={{textDecoration: 'none'}}>
                                         <p>{item.nom}</p>

@@ -24,37 +24,47 @@ function ProjetStat() {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
+                    params: {
+                        size: 10000, // Nombre d'éléments par page
+                    },
                 });
 
                 if (response.status === 200) {
                     const filteredData = response.data.content.filter(
-                        (item) => item.datefin === '0000-00-00 00:00:00'
+                        (item) => item.datefin === null
                     );
 
                     const totalProjets = filteredData.length;
                     setTotalProjets(totalProjets);
 
-                    const totalNomUk = filteredData.filter((item) => item.nomUk !== "").length;
-                    setTotalNomUk(totalNomUk);
-                    console.log(totalNomUk);
+                    const totalNomUk = filteredData.filter((item) => item.nomUK !== "").length;
+                    setTotalNomUk(totalNomUk); //ok
+                    //console.log(totalNomUk);
 
-                    const totalNomProgramme = filteredData.filter((item) => item.nomProgramme !== "").length;
-                    setTotalNomProgramme(totalNomProgramme);
+                    const totalNomProgramme = filteredData.filter((item) => {
+                        //console.log(item.nomprogramme);
+                        return item.nomprogramme !== "";
+                    }).length;
+                    setTotalNomProgramme(totalNomProgramme); //ok
 
-                    const totalNomProgrammeUk = filteredData.filter((item) => item.nomProgrammeUk !== "").length;
-                    setTotalNomProgrammeUk(totalNomProgrammeUk);
 
-                    const totalResume = filteredData.filter((item) => item.resume !== "").length;
+                    const totalNomProgrammeUk = filteredData.filter((item) => item.nomprogrammeUK !== "").length;
+                    setTotalNomProgrammeUk(totalNomProgrammeUk);//ok
+
+                    const totalResume = filteredData.filter((item) => {
+                        //console.log(item.resume);
+                        return item.resume !== "";
+                    }).length;
                     setTotalResume(totalResume);
 
-                    const totalResumeUk = filteredData.filter((item) => item.resumeUk !== "").length;
+                    const totalResumeUk = filteredData.filter((item) => item.resumeUK !== "").length;
                     setTotalResumeUk(totalResumeUk);
 
-                    const totalDateMaj = filteredData.filter((item) => item.datemaj !== "").length;
+                    const totalDateMaj = filteredData.filter((item) => item.datemaj !== "" || item.datej === null).length ;
                     setTotalDateMaj(totalDateMaj);
 
                     const totalSite = filteredData.filter((item) => item.site !== "").length;
-                    setTotalSite(totalSite);
+                    setTotalSite(totalSite);//ok
 
                     const totalUniteProjets = filteredData.reduce((acc, cur) => {
                         return acc + (cur.refunite ? 1 : 0);
@@ -78,8 +88,8 @@ function ProjetStat() {
             <p>{totalNomUk} projets ont un nom en anglais</p>
             <p>{totalNomProgramme} projets possèdent un nom de programme</p>
             <p>{totalNomProgrammeUk} projets ont un nom de programme en anglais</p>
-            <p>{totalResume} projets ont un résumé</p>
-            <p>{totalResumeUk} projets sont en anglais</p>
+            <p>{totalResume} projets possèdent un résumé</p>
+            <p>{totalResumeUk} projets possèdent un résumé en anglais</p>
             <p>{totalDateMaj} projets ont une date de mise à jour</p>
             <p>{totalSite} projets possèdent un site internet</p>
             <p>{totalUniteProjets} est le nombre de projets par unité</p>

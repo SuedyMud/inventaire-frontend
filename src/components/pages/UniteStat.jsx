@@ -96,7 +96,7 @@ function UniteStat() {
 
     return (
         <div className="container">
-            <h2>Les statistiques</h2>
+            <h2>Les statistiques des unités</h2>
             <p>Il y a {totalUnites} unités au total</p>
             <p>{totalNomUk} unités possèdent un nom en anglais</p>
             <p>{totalDescription} unités possèdent une description</p>

@@ -67,11 +67,7 @@ export async function getProjet({accessToken, letter}){
             headers: {
                 Authorization: `Bearer ${trueAccessToken}`,
             },
-            params: {
-                lettre: letter,
-                page: 0, // Page numéro 0 (première page)
-                size: 10000, // Nombre d'éléments par page
-            },
+
         });
 
         if (response.status === 200) {
@@ -105,7 +101,7 @@ export async function getChercheur({accessToken, letter}) {
             params: {
                 lettre: letter,
                 page: 0, // Page numéro 0 (première page)
-                size: 10000, // Nombre d'éléments par page
+                size: 1000000, // Nombre d'éléments par page
             },
         });
 

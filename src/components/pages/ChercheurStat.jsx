@@ -5,28 +5,47 @@ import { useAuth0 } from "@auth0/auth0-react";
 function ChercheurStat() {
     const { getAccessTokenSilently } = useAuth0();
 
-    const [stats, setStats] = useState(null);
+    const [totalChercheurs, setTotalChercheurs] = useState(0);
+    const [totalTelephone, setTotalTelephone] = useState(0);
+    const [totalEmail, setTotalEmail] = useState(0);
+    const [totalSite, setTotalSite] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const accessToken = await getAccessTokenSilently();
 
-                const response = await axios.get("/api/chercheur/statistiques", {
+                const response = await axios.get("/api/zchercheur/liste", {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
+                    },
+                    params: {
+                        size: 1000000, // Nombre d'éléments par page
                     },
                 });
 
                 if (response.status === 200) {
-                    const filteredStats = {
-                        totalChercheurs: response.data.totalChercheurs,
-                        totalTelephone: response.data.totalTelephone,
-                        totalEmail: response.data.totalEmail,
-                        totalSite: response.data.totalSite,
-                        // Appliquez d'autres filtres selon vos besoins
-                    };
-                    setStats(filteredStats);
+
+                    const filteredData = response.data.content.filter(
+
+                        (item) => {
+                            console.log(item.idche);
+                            return item.idche !== "";
+                        }
+                    );
+
+                    const totalChercheurs = filteredData.length;
+                    setTotalChercheurs(totalChercheurs);
+
+                    const totalTelephone = filteredData.filter((item) => item.telephone !== "").length;
+                    setTotalTelephone(totalTelephone);
+
+                    const totalEmail = filteredData.filter((item) => item.email !== "").length;
+                    setTotalEmail(totalEmail);
+
+                    const totalSite = filteredData.filter((item) => item.site !== "").length;
+                    setTotalSite(totalSite);
+
                 } else {
                     console.error("Erreur lors de la récupération des données");
                 }
@@ -41,16 +60,15 @@ function ChercheurStat() {
     return (
         <div className="container">
             <h2>Les statistiques des chercheurs</h2>
-            {stats ? (
-                <div>
-                    <p>Il y a {stats.totalChercheurs} chercheurs au total</p>
-                    <p>{stats.totalTelephone} chercheurs disposent d'un téléphone professionnel</p>
-                    <p>{stats.totalEmail} chercheurs disposent d'une adresse mail</p>
-                    <p>{stats.totalSite} chercheurs possèdent un site web</p>
-                </div>
-            ) : (
-                <p>Chargement en cours...</p>
-            )}
+
+            <div>
+                <p>Il y a {totalChercheurs} chercheurs au total</p>
+                <p>{totalTelephone} chercheurs disposent d'un téléphone professionnel</p>
+                <p>{totalEmail} chercheurs disposent d'une adresse mail</p>
+                <p>{totalSite} chercheurs possèdent un site web</p>
+                <p>Voici le nombre de chercheurs actuellement dans une unité de recherche ?</p>
+            </div>
+
         </div>
     );
 }
