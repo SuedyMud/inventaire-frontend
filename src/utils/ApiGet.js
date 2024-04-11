@@ -1,5 +1,5 @@
 import axios from "axios";
-import Discipline from "../components/pages/Discipline.jsx";
+
 
 export async function getFaculte({accessToken}){
     const trueAccessToken = await accessToken;
@@ -67,6 +67,11 @@ export async function getProjet({accessToken, letter}){
             headers: {
                 Authorization: `Bearer ${trueAccessToken}`,
             },
+            params: {
+                lettre: letter,
+                page: 0, // Page numéro 0 (première page)
+                size: 10000, // Nombre d'éléments par page
+            },
 
         });
 
@@ -82,6 +87,7 @@ export async function getProjet({accessToken, letter}){
             return(
                 filteredData.sort((a, b) => a.nom.localeCompare(b.nom))
             );
+
         } else {
             console.error("Erreur lors de la récupération des données");
         }
