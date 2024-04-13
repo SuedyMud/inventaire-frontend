@@ -1,4 +1,3 @@
-import React from "react";
 import {Route, Routes} from "react-router-dom";
 import Faculte from "../pages/Faculte.jsx";
 import Unite from "../pages/Unite.jsx";
@@ -17,6 +16,8 @@ import FrascatiDetail from "../pages/FrascatiDetail.jsx";
 import ProjetStat from "../pages/ProjetStat.jsx";
 import UniteStat from "../pages/UniteStat.jsx";
 import ChercheurStat from "../pages/ChercheurStat.jsx";
+import Compos from "../pages/Compos.jsx";
+import ComposDetail from "../pages/ComposDetail.jsx";
 
 
 function AppRoutes() {
@@ -30,6 +31,8 @@ function AppRoutes() {
                 <Route path="/unite" element={<Unite/>}/>
                 <Route path="/uniteDetail/:idunite" element={<UniteDetail/>} />
                 <Route path="/uniteStat" element={<UniteStat/>} />
+                <Route path="/compos" element={<Compos/>} />
+                <Route path="/composDetail/:refunite" element={<ComposDetail/>} />
                 <Route path="/projet" element={<Projet/>}/>
                 <Route path="/projetDetail/:idprojet" element={<ProjetDetail/>}/>
                 <Route path="/projetStat" element={<ProjetStat/>}/>

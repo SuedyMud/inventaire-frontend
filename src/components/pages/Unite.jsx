@@ -1,5 +1,5 @@
 import {useAuth0} from "@auth0/auth0-react";
-import React, {useState} from "react";
+import {useState} from "react";
 import {ListGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
@@ -10,17 +10,10 @@ function Unite() {
     const {getAccessTokenSilently} = useAuth0();
     const [currentPage, setCurrentPage] = useState('A');
 
-    const { data, isLoading } = useQuery(["unites", currentPage], async () => {
+    const { data, isLoading } = useQuery(["unite", currentPage], async () => {
         return getUnite({ accessToken : await getAccessTokenSilently(), letter: currentPage });
     });
 
-   /* useEffect(() => {
-        const fetchData = async (letter) => {
-
-        }
-
-        fetchData(currentPage);
-    }, [currentPage, getAccessTokenSilently]);*/
 
     const handlePaginationClick = (letter) => {
         setCurrentPage(letter);
@@ -43,14 +36,11 @@ function Unite() {
     });
 
 
-
     // Filtrer les données pour n'afficher que les éléments dont le nom commence par la lettre de la page actuelle
     const filteredData = data ? data.filter(item => item.nom.charAt(0).toUpperCase() === currentPage) : [];
 
-
     return (
         <>
-
             <div className="row">
                 <div className="col-md-9"> {/* Colonne prenant 9/12 de la largeur */}
                     <h2>Répertoires par Unités</h2>

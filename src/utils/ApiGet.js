@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 export async function getFaculte({accessToken}){
     const trueAccessToken = await accessToken;
 
@@ -58,9 +57,28 @@ export async function getUnite({accessToken, letter}){
     }
 }
 
-export async function getProjet({accessToken, letter}){
+export async function getUniteDetail({accessToken,idunite }){
     const trueAccessToken = await accessToken;
 
+    try {
+        const response = await axios.get(`/api/zunite/${idunite}`, {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return (response.data);
+        } else {
+            console.error("Erreur lors de la récupération des données");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données : ", error);
+    }
+}
+
+export async function getProjet({accessToken, letter}){
+    const trueAccessToken = await accessToken;
     try {
 
         const response = await axios.get("/api/zprojet/liste", {
@@ -72,7 +90,6 @@ export async function getProjet({accessToken, letter}){
                 page: 0, // Page numéro 0 (première page)
                 size: 10000, // Nombre d'éléments par page
             },
-
         });
 
         if (response.status === 200) {
@@ -88,6 +105,26 @@ export async function getProjet({accessToken, letter}){
                 filteredData.sort((a, b) => a.nom.localeCompare(b.nom))
             );
 
+        } else {
+            console.error("Erreur lors de la récupération des données");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données : ", error);
+    }
+}
+
+export async function getProjetDetail({accessToken, idprojet}){
+    const trueAccessToken = await accessToken;
+    try {
+
+        const response = await axios.get(`/api/zprojet/${idprojet}`, {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return(response.data);
         } else {
             console.error("Erreur lors de la récupération des données");
         }
@@ -120,6 +157,27 @@ export async function getChercheur({accessToken, letter}) {
         }
     } catch (error) {
         console.error("Erreur lors de la récupération des données : ", error);
+    }
+}
+
+export async function getChercheurDetail({accessToken, idche}) {
+    const trueAccessToken = await accessToken;
+
+    try {
+
+        const response = await axios.get(`/api/zchercheur/${idche}`, {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return(response.data);
+        } else {
+            console.error("Erreur lors de la récupération du chercheur");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération du chercheur : ", error);
     }
 }
 
@@ -170,6 +228,53 @@ export async function getDiscipline({accessToken}) {
         }
     } catch (error) {
         console.error("Erreur lors de la récupération des données : ", error);
+    }
+}
+
+
+export async function getCompos({accessToken}) {
+    const trueAccessToken = await accessToken;
+
+    try {
+        const response = await axios.get("/api/zucompos/liste", {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+            params: {
+
+                page: 0, // Page numéro 0 (première page)
+                size: 10000, // Nombre d'éléments par page
+            },
+        });
+
+        if (response.status === 200) {
+            return(response.data.content);
+        } else {
+            console.error("Erreur lors de la récupération des données");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données : ", error);
+    }
+}
+
+export async function getComposDetail({accessToken,refunite}){
+    const trueAccessToken = await accessToken;
+
+    try {
+        const response = await axios.get(`/api/zucompos/${refunite}`, {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return(response.data);
+
+        } else {
+            console.error("Erreur lors de la récupération du compos");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération du compos : ", error);
     }
 }
 

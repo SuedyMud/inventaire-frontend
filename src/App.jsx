@@ -11,6 +11,7 @@ import {BrowserRouter as Router} from "react-router-dom";
 import Footer from "./components/structure/Footer.jsx";
 import Navigation from "./components/structure/Navigation.jsx";
 import {QueryClient, QueryClientProvider} from "react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
     return (
 
         <QueryClientProvider client={queryClient}>
+
             <Router>
                 <div >
                     <Header/>
@@ -50,6 +52,7 @@ function App() {
                 </div>
 
             </Router>
+           {/* <ReactQueryDevtools initialIsOpen={false} />*/}
         </QueryClientProvider>
 
 

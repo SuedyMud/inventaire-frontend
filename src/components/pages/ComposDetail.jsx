@@ -1,63 +1,42 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useParams } from "react-router-dom";
 import {useQuery} from "react-query";
-import { getUniteDetail} from "../../utils/ApiGet.js";
-import ComposDetail from "./ComposDetail.jsx";
+import {getComposDetail} from "../../utils/ApiGet.js";
 
 function UniteDetail() {
     const { getAccessTokenSilently } = useAuth0();
-    const { idunite} = useParams();
-    //const refunite = idunite; // Attribution de la valeur de idunite à refunite
+    const { refunite} = useParams();
 
 
-    const { data : unite, isLoadingUnite  } = useQuery(["uniteDetail", idunite], async () => {
-        return getUniteDetail({ accessToken : await getAccessTokenSilently(), idunite: idunite});
+    const { data : compos, isLoadingCompos   } = useQuery(["composDetail", refunite], async () => {
+        return getComposDetail({ accessToken : await getAccessTokenSilently(), refunite: refunite});
     });
 
-   /* const { data : compos, isLoadingCompos   } = useQuery(["composDetail", refunite], async () => {
-        return getComposDetail({ accessToken : await getAccessTokenSilently(), refunite: refunite});
-    });*/
 
-
-    if (isLoadingUnite /*|| isLoadingCompos*/) {
+    if ( isLoadingCompos) {
         return <p>Loading...</p>;
     }
 
-    if (!unite) {
+    if (!compos) {
         return null; // Ou vous pouvez retourner un composant de chargement ou un message d'attente
     }
 
-    /*if (!compos) {
-        return null; // Ou vous pouvez retourner un composant de chargement ou un message d'attente
-    }*/
-
     // Déstructuration des propriétés de l'objet unite
-    const { nom, description, localisation, rue, numero, codePostal, localite, email, telephone, fax, site1, site2 } = unite;
-    /*const {responsable} = compos;*/
+
+    const {responsable} = compos;
 
 
     return (
         <>
-            <h2>{nom}</h2>
+
             <div>
-                <p>(Code : {idunite})</p>
+                <p>(Code : {refunite})</p>
 
-                <p>Responsable de l'unité : {/*{{responsable}}*/}</p>
-                <ComposDetail/>
+                <p>Responsable de l'unité : {{responsable}}</p>
 
-                <p>{description}</p>
 
-                {/*<p>Campus : {localisation}</p>*/}
-                <p>Localisation : {localisation}</p>
-                <p>Adresse : {rue} {numero}, {codePostal} {localite}</p>
-                <p>Email : <a href={`mailto:${email}`}>{email}</a></p>
-                {telephone && <p>Téléphone : {telephone}</p>}
-                {fax && <p>fax : {fax}</p>}
-                {site1 && <p>Site Web : <a href={site1}>{site1}</a></p>}
-                {site2 && <p>Autre Site : <a href={site2}>{site2}</a></p>}
 
-                <h5>Domaines Frascati : </h5>
-                <h5>Disciplines CRef : </h5>
+
 
             </div>
         </>
