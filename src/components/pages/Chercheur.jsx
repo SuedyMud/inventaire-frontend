@@ -76,11 +76,17 @@ function Chercheur() {
                     <h2>Répertoire des Chercheurs</h2>
                     <p>Classement par ordre alphabétique</p>
                 </div>
-                <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
+                <div className="col-md-1 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
+                    <Link to="/ChercheurCreate" className="btn btn-info">
+                        <span className="glyphicon glyphicon"></span> Ajouter chercheur
+                    </Link>
+                </div>
+                <div className="col-md-2 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
                     <Link to="/ChercheurStat" className="btn btn-info">
                         <span className="glyphicon glyphicon"></span> Statistiques des Chercheurs
                     </Link>
                 </div>
+
             </div>
 
             <div>

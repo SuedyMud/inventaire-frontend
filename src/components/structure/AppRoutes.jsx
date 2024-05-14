@@ -18,6 +18,7 @@ import UniteStat from "../pages/UniteStat.jsx";
 import ChercheurStat from "../pages/ChercheurStat.jsx";
 import Compos from "../pages/Compos.jsx";
 import ComposDetail from "../pages/ComposDetail.jsx";
+import ChercheurCreate from "../pages/ChercheurCreate.jsx";
 
 
 function AppRoutes() {
@@ -37,6 +38,7 @@ function AppRoutes() {
                 <Route path="/projetDetail/:idprojet" element={<ProjetDetail/>}/>
                 <Route path="/projetStat" element={<ProjetStat/>}/>
                 <Route path="/chercheur" element={<Chercheur/>}/>
+                <Route path="/chercheurCreate" element={<ChercheurCreate />} />
                 <Route path="/chercheurDetail/:idche" element={<ChercheurDetail />} />
                 <Route path="/chercheurUpdate/:idche" element={<ChercheurUpdate />} />
                 <Route path="/chercheurDelete/:idche" element={<ChercheurDelete />} />
