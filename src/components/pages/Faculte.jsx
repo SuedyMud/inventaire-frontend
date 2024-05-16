@@ -3,7 +3,6 @@ import { ListGroup } from "react-bootstrap";
 import {useQuery} from "react-query";
 import {getFaculte} from "../../utils/ApiGet.js";
 import React from "react";
-import FaculteStat from "./FaculteStat.jsx";
 import {Link} from "react-router-dom";
 
 
@@ -43,7 +42,6 @@ function Faculte() {
                     </Link>
                 </div>
             </div>
-
 
 
             <div>

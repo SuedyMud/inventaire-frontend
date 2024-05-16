@@ -1,12 +1,19 @@
 .header {
     background-color: #f1f1f1;
-    padding: 20px;
+    padding: 8px;
     text-align: center;
 }
 
+.logo img {
+    cursor: pointer;
+    width: 100%;
+    max-width: 1100px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 5px;
+}
 
-
-.header h1 {
+/*.header h1 {
     text-align: center;
     margin-bottom: 0;
     font-size: 20px;
@@ -14,16 +21,48 @@
 
 .header p {
     text-align: center;
+}*/
+
+.navbar {
+    text-align: center;
+    margin-bottom: 0;
+    font-size: 15px;
 }
 
-.logo img {
-    cursor: pointer;
-    width: 100%;
-    max-width: 1300px;
-    display: block;
-    margin: 0 auto;
-    border-radius: 5px;
+.container h2{
+    font-size: 24px;
 }
+
+.container p{
+    font-size: 14px;
+}
+
+/* Rendre les boutons réactifs */
+.btn-responsive {
+    width: 100%;
+    margin-top: 5px; /* Ajoute un espacement entre les boutons */
+}
+
+
+
+/*
+.container-fluid h2{
+    margin-bottom: 0;
+    font-size: 20px;
+}
+
+.container-fluid p{
+    margin-bottom: 0;
+    font-size: 15px;
+}*/
+
+
+.center-message {
+    margin: 0 auto;
+    text-align: center;
+}
+
+
 
 /*.footer {
     background-color: #f1f1f1;
@@ -52,6 +91,7 @@
 
 
 
+/*
 .menu {
     background-color: #000;
     text-align: center;
@@ -86,6 +126,7 @@
     width: 300px;
     margin: 5px 0;
 }
+*/
 
 .inputs .button {
     text-align: center;

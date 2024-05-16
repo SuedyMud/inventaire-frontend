@@ -32,30 +32,27 @@ function App() {
                 <div >
                     <Header/>
                     <Navigation/>
+
                     {isAuthenticated ? (
                         <div>
                             {/*<Profile/>*/}
                                 <Layout/>
-
                             {/*<Lang/>
                         <p>{t('common.translated-text')}</p>*/}
 
                         </div>
                     ) :(
-                        <div>
-                            <p>vous n'êtes pas connectez!</p>
-                           {/* <LoginButton/>*/}
+
+                        <div className="col-sm-2 center-message">
+                            <p>Veuillez-vous connectez !</p>
                         </div>
                     )}
-
                     <Footer/>
                 </div>
 
             </Router>
            {/* <ReactQueryDevtools initialIsOpen={false} />*/}
         </QueryClientProvider>
-
-
     );
 }
 
