@@ -1,6 +1,6 @@
 .header {
     background-color: #f1f1f1;
-    padding: 8px;
+    padding: 7px;
     text-align: center;
 }
 
@@ -11,7 +11,22 @@
     display: block;
     margin: 0 auto;
     border-radius: 5px;
+    /*box-shadow: 1px 4px 7px rgba(0, 0, 0, 0.5);*/
 }
+
+.logo2 img {
+    cursor: pointer;
+    width: 100%;
+    max-width: 700px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+
+
+
+
+
 
 /*.header h1 {
     text-align: center;
@@ -106,17 +121,25 @@
 .menu .menuItem a {
     color: #fff;
     text-decoration: none;
-}
+}*/
 
 .page {
-    padding: 30px;
+    /*padding: 50px;*/
 }
 
-.page h2,
+.page h1{
+    font-size: 33px;
+}
+
+.page h2{
+    font-size: 20px;
+}
+.page ul,
 .page p {
-    text-align: center;
+    font-size: 14px;
+   /* text-align: center;*/
 }
-
+/*
 .inputs .input {
     text-align: center;
 }

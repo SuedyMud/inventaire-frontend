@@ -12,6 +12,7 @@ import Footer from "./components/structure/Footer.jsx";
 import Navigation from "./components/structure/Navigation.jsx";
 import {QueryClient, QueryClientProvider} from "react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import {Home} from "./components/pages/Home.jsx";
 
 
 function App() {
@@ -43,10 +44,15 @@ function App() {
                         </div>
                     ) :(
 
-                        <div className="col-sm-2 center-message">
+
+                    <>
+                        {/*<div className="center-message">
                             <p>Veuillez-vous connectez !</p>
-                        </div>
+                        </div>*/}
+                        <Home/>
+                    </>
                     )}
+
                     <Footer/>
                 </div>
 
