@@ -19,14 +19,15 @@ function Faculte() {
         "Faculté d'Architecture (La Cambre-Horta)": "https://archi.ulb.be/version-francaise/la-recherche/les-centres-de-recherche",
         "Faculté de Droit et de Criminologie": "https://droit.ulb.be/fr/navigation/la-recherche/nos-centres-de-recherche",
         "Faculté de Lettres, Traduction et Communication": "https://ltc.ulb.be/nos-centres-de-recherche",
-        "Faculté de Médecine": "",
+        "Faculté de Médecine": "https://medecine.ulb.be/",
         "Faculté de Pharmacie": "https://pharmacie.ulb.be/version-francaise/la-recherche/les-unites-de-recherche",
         "Faculté de Philosophie et Sciences Sociales": "https://phisoc.ulb.be/fr/centres-de-recherche",
         "Faculté des Sciences": "https://sciences.ulb.be/la-recherche/unites-de-recherche",
         "Faculté des Sciences de la Motricité": "https://fsm.ulb.be/fr/recherche/les-unites-de-recherche",
         "Faculté des Sciences psychologiques et de l'éducation": "https://psycho.ulb.be/la-recherche/les-centres-et-unites-de-recherche-1",
         "Faculté Solvay Brussels School of Economics and Managements": "https://sbsem.ulb.be/centres-de-recherche",
-        "Instituts d'Enseignement Interfacultaire": "",
+        "Institut d'études européennes": "https://www.iee-ulb.eu/en/",
+        "Instituts d'Enseignement Interfacultaire": "https://www.ulb.be/fr/instituts-ressources-contacts/instituts-interfacultaires",
     };
 
     return (
