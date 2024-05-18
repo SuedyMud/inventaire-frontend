@@ -43,7 +43,10 @@ function ChercheurDetail() {
             </Link>
 
             {/* Affichage du composant ChercheurDelete pour la suppression */}
-            <ChercheurDelete idche={idche} />
+            <div className="btn">
+                <ChercheurDelete  idche={idche} />
+            </div>
+
         </div>
     );
 }
