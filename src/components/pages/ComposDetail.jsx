@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import {useQuery} from "react-query";
 import {getComposDetail} from "../../utils/ApiGet.js";
 
-function UniteDetail() {
+function ComposDetail() {
     const { getAccessTokenSilently } = useAuth0();
     const { refunite} = useParams();
 
@@ -35,15 +35,12 @@ function UniteDetail() {
                 <p>Responsable de l'unité : {{responsable}}</p>
 
 
-
-
-
             </div>
         </>
     );
 }
 
-export default UniteDetail;
+export default ComposDetail;
 
 /*const { refunite } = useParams();
     const [compos, setCompos] = useState(null);*/

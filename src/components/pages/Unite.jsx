@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 import {useQuery} from "react-query";
 import {getUnite} from "../../utils/ApiGet.js";
+import UniteAjouter from "./UniteAjouter.jsx";
 
 function Unite() {
     const {getAccessTokenSilently} = useAuth0();
@@ -49,6 +50,10 @@ function Unite() {
                 <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
                     <Link to="/uniteStat" className="btn btn-info">
                         <span className="glyphicon glyphicon"></span> Statistiques des Unités
+                    </Link>
+
+                    <Link to="/UniteAjouter" className="btn btn-info">
+                        <span className="glyphicon glyphicon"></span> Ajouter une unité
                     </Link>
                 </div>
             </div>

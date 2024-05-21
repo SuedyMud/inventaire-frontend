@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useParams } from "react-router-dom";
 import {useQuery} from "react-query";
-import { getUniteDetail} from "../../utils/ApiGet.js";
+import {getChercheurDetail, getUniteDetail} from "../../utils/ApiGet.js";
 import ComposDetail from "./ComposDetail.jsx";
 
 function UniteDetail() {
@@ -32,7 +32,7 @@ function UniteDetail() {
     }*/
 
     // Déstructuration des propriétés de l'objet unite
-    const { nom, description, localisation, rue, numero, codePostal, localite, email, telephone, fax, site1, site2 } = unite;
+    const { nom, description, localisation, rue, numero, codePostal, localite, email, telephone, fax, site1, site2, composList } = unite;
     /*const {responsable} = compos;*/
 
 
@@ -43,7 +43,16 @@ function UniteDetail() {
                 <p>(Code : {idunite})</p>
 
                 <p>Responsable de l'unité : {/*{{responsable}}*/}</p>
-                <ComposDetail/>
+                {/* Afficher les détails des chercheurs */}
+                {composList && composList.map(async (composId) => {
+                    const chercheur = await getChercheurDetail({ accessToken: await getAccessTokenSilently(), idche: composId });
+                    return (
+                        <div key={chercheur.id}>
+                            <h3>{chercheur.nom} {chercheur.prenom}</h3>
+                            <p>Autres détails du chercheur...</p>
+                        </div>
+                    );
+                })}
 
                 <p>{description}</p>
 

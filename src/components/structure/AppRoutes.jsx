@@ -18,7 +18,9 @@ import UniteStat from "../pages/UniteStat.jsx";
 import ChercheurStat from "../pages/ChercheurStat.jsx";
 import Compos from "../pages/Compos.jsx";
 import ComposDetail from "../pages/ComposDetail.jsx";
-import ChercheurCreate from "../pages/ChercheurCreate.jsx";
+import ChercheurAjouter from "../pages/ChercheurAjouter.jsx";
+import UniteAjouter from "../pages/UniteAjouter.jsx";
+import ProjetAjouter from "../pages/ProjetAjouter.jsx";
 
 
 function AppRoutes() {
@@ -30,15 +32,17 @@ function AppRoutes() {
                 <Route path="/faculte/:facId" component={FaculteDetail} />
                 <Route path="/faculteStat" element={<FaculteStat />} />
                 <Route path="/unite" element={<Unite/>}/>
+                <Route path="/unteAjouter" element={<UniteAjouter />} />
                 <Route path="/uniteDetail/:idunite" element={<UniteDetail/>} />
                 <Route path="/uniteStat" element={<UniteStat/>} />
                 <Route path="/compos" element={<Compos/>} />
                 <Route path="/composDetail/:refunite" element={<ComposDetail/>} />
                 <Route path="/projet" element={<Projet/>}/>
+                <Route path="/projetAjouter" element={<ProjetAjouter />} />
                 <Route path="/projetDetail/:idprojet" element={<ProjetDetail/>}/>
                 <Route path="/projetStat" element={<ProjetStat/>}/>
                 <Route path="/chercheur" element={<Chercheur/>}/>
-                <Route path="/chercheurCreate" element={<ChercheurCreate />} />
+                <Route path="/chercheurAjouter" element={<ChercheurAjouter />} />
                 <Route path="/chercheurDetail/:idche" element={<ChercheurDetail />} />
                 <Route path="/chercheurUpdate/:idche" element={<ChercheurUpdate />} />
                 <Route path="/chercheurDelete/:idche" element={<ChercheurDelete />} />

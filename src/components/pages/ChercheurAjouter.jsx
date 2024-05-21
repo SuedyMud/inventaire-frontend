@@ -1,23 +1,23 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import {Form, Button, Alert, Col, Row} from "react-bootstrap";
 
-function ChercheurCreate() {
+function ChercheurAjouter() {
     const { getAccessTokenSilently } = useAuth0();
     const [chercheur, setChercheur] = useState({
         nom: "",
         prenom: "",
         titre: "",
         matricule: "",
-        CPI: "",
+        cpi: "",
         telephone: "",
         email: "",
         fax: "",
         site: "",
         corps: "",
         corpsOrdre: "",
-        DDig: new Date().toISOString().substr(0, 10),
+        dDig: new Date().toISOString().substr(0, 10),
         facChe: "",
         prefPublication: ""
     });
@@ -29,6 +29,7 @@ function ChercheurCreate() {
         const { name, value } = event.target;
         setChercheur({ ...chercheur, [name]: value });
     };
+
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -58,18 +59,17 @@ function ChercheurCreate() {
     };
 
     return (
-        <div>
+        <>
             <h2>Ajouter nouveau Chercheur :</h2>
             <Form onSubmit={handleFormSubmit}>
 
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridNom">
-                        <Form.Label>Nom</Form.Label>
+                        <Form.Label>Nom *</Form.Label>
                         <Form.Control
                             type="text"
                             name="nom"
                             value={chercheur.nom}
-                            placeholder="Enter nom"
                             onChange={handleChange}
                             required
                             pattern="^[A-Za-zÀ-ÿ\s]{1,25}$"
@@ -78,11 +78,10 @@ function ChercheurCreate() {
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridPrenom">
-                        <Form.Label>Prénom</Form.Label>
+                        <Form.Label>Prénom *</Form.Label>
                         <Form.Control
                             type="text"
                             name="prenom"
-                            placeholder="Enter prénom"
                             value={chercheur.prenom}
                             onChange={handleChange}
                             required
@@ -99,9 +98,8 @@ function ChercheurCreate() {
                             type="text"
                             name="titre"
                             value={chercheur.titre}
-                            placeholder="Enter titre"
                             onChange={handleChange}
-                            required
+
                             pattern="^[A-Za-zÀ-ÿ\s]{1,25}$"
                             title = "Le titre ne peut pas contenir des chiffres (25 caractères max)"
                         />
@@ -113,34 +111,34 @@ function ChercheurCreate() {
                             type="text"
                             name="matricule"
                             value={chercheur.matricule}
-                            placeholder="Enter matricule"
                             onChange={handleChange}
-                            /*required
-                            pattern= "^[A-Za-zÀ-ÿ\\s]{1,}$"
-                            title = "25 caractères max"*/
+
+                            pattern="^[A-Za-z0-9\s]{1,25}$"
+                            title="Le matricule doit contenir des lettres et chiffres (25 caractères max)"
                         />
                     </Form.Group>
                 </Row>
 
                 <Row className="mb-3">
-                    <Form.Group as={Col} controlId="formGridCPI">
-                        <Form.Label>CPI</Form.Label>
+                    <Form.Group as={Col} controlId="formGridCpi">
+                        <Form.Label>CPI (code postal interne)</Form.Label>
                         <Form.Control
                             type="text"
-                            name="CPI"
-                            value={chercheur.CPI}
-                            placeholder="Enter CPI"
+                            name="cpi"
+                            value={chercheur.cpi}
                             onChange={handleChange}
+
+                            pattern="^[0-9\s]{1,8}$"
+                            title="Le CPI doit contenir que des chiffres (8 caractères max)"
                         />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridTelephone">
-                        <Form.Label>Téléphone</Form.Label>
+                        <Form.Label>Téléphone *</Form.Label>
                         <Form.Control
                             type="text"
                             name="telephone"
                             value={chercheur.telephone}
-                            placeholder="Enter telephone"
                             onChange={handleChange}
                             required
                             pattern="^\+\d{2} \d{9}$"
@@ -151,12 +149,11 @@ function ChercheurCreate() {
 
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridEmail">
-                        <Form.Label>Email</Form.Label>
+                        <Form.Label>Email *</Form.Label>
                         <Form.Control
-                            type="text"
+                            type="email"
                             name="email"
                             value={chercheur.email}
-                            placeholder="Enter email"
                             onChange={handleChange}
                             required
                             pattern= "^[A-Za-z0-9._-]+@[A-Za-z0-9-]+\\.[A-Za-z0-9.-]+$"
@@ -168,10 +165,12 @@ function ChercheurCreate() {
                         <Form.Label>Fax</Form.Label>
                         <Form.Control
                             type="text"
-                            name="Fax"
-                            value={chercheur.Fax}
-                            placeholder="Enter fax"
+                            name="fax"
+                            value={chercheur.fax}
                             onChange={handleChange}
+
+                            pattern="^\+\d{2} \d{9}$"
+                            title="Le numéro de téléphone doit être au format +32 4XXXXXXX"
                         />
                     </Form.Group>
                 </Row>
@@ -183,7 +182,6 @@ function ChercheurCreate() {
                             type="text"
                             name="site"
                             value={chercheur.site}
-                            placeholder="Enter site web"
                             onChange={handleChange}
                         />
                     </Form.Group>
@@ -194,65 +192,80 @@ function ChercheurCreate() {
                             name="corps"
                             value={chercheur.corps}
                             onChange={handleChange}
-                            required
                         >
-                            <option value="admin">Acad.</option>
-                            <option value="utilsateur">Patgs</option>
-                            <option value="visiteur"> </option>
+                            <option value="Acad.">Acad.</option>
+                            <option value="Patgs">Patgs</option>
+                            <option value=""></option>
                         </Form.Select>
                     </Form.Group>
 
 
                     <Form.Group as={Col} controlId="formGridCorpsOrdre">
                         <Form.Label>Corps Ordre</Form.Label>
-                        <Form.Select
-                            name="corps"
+                        <Form.Control
+                            type="number"
+                            name="corpsOrdre"
                             value={chercheur.corpsOrdre}
                             onChange={handleChange}
-                            required
+
+                            /*pattern="^\+\d{2} \d{9}$"
+                            title="Le numéro de téléphone doit être au format +32 4XXXXXXX"*/
+                        />
+
+                        {/*<Form.Select
+                            name="corpsOrdre"
+                            value={chercheur.corpsOrdre}
+                            onChange={handleChange}
                         >
-                            <option value="admin">A</option>
-                            <option value="admin">B</option>
-                            <option value="utilsateur">U</option>
-                            <option value="visiteur">V</option>
-                        </Form.Select>
+                            <option value="admin">0</option>
+                            <option value="utilsateur">1</option>
+
+                        </Form.Select>*/}
                     </Form.Group>
 
                 </Row>
 
                 <Row className="mb-3">
-                    <Form.Group as={Col} controlId="formGridDdig">
+                    <Form.Group as={Col} controlId="formGridDDig">
                         <Form.Label>Date d'inscription</Form.Label>
                         <Form.Control
                             type="date"
-                            name="DDig"
-                            value={chercheur.DDig}
+                            name="dDig"
+                            value={chercheur.dDig}
                             onChange={handleChange}
                         />
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridFacChe">
                         <Form.Label>Faculté Chercheur</Form.Label>
-                        <Form.Control
-                            type="text"
+                        <Form.Select
                             name="facChe"
                             value={chercheur.facChe}
-                            placeholder="Enter faculté chercheur"
                             onChange={handleChange}
-                        />
+                        >
+                            <option value=""></option>
+
+
+                        </Form.Select>
+
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridPrefPublication">
                         <Form.Label>Préférence de Publication</Form.Label>
-                        <Form.Control
-                            type="text"
+                        <Form.Select
                             name="prefPublication"
                             value={chercheur.prefPublication}
-                            placeholder="Enter préférence de publication"
                             onChange={handleChange}
-                        />
+                        >
+                            <option value="integree">integree</option>
+
+
+                        </Form.Select>
                     </Form.Group>
                 </Row>
 
-
+                <div>
+                    <hr />
+                    <p>* Information requis</p>
+                </div>
 
                 <div className="btn">
                     <Button variant="primary" type="submit">
@@ -261,9 +274,10 @@ function ChercheurCreate() {
                 </div>
 
             </Form>
+
             {showNotif && (
                 <Alert variant="success" onClose={() => setShowNotif(false)} dismissible>
-                    Le chercheur a été créé avec succès.
+                    Le chercheur a été ajouter avec succès.
                 </Alert>
             )}
             {error && (
@@ -271,8 +285,8 @@ function ChercheurCreate() {
                     {error}
                 </Alert>
             )}
-        </div>
+        </>
     );
 }
 
-export default ChercheurCreate;
+export default ChercheurAjouter;

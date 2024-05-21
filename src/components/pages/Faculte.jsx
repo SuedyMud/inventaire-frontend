@@ -2,7 +2,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { ListGroup } from "react-bootstrap";
 import {useQuery} from "react-query";
 import {getFaculte} from "../../utils/ApiGet.js";
-import React from "react";
 import {Link} from "react-router-dom";
 
 

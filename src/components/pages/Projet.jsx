@@ -53,6 +53,9 @@ function Projet() {
                     <Link to="/projetStat" className="btn btn-info">
                         <span className="glyphicon glyphicon"></span> Statistiques des Projets
                     </Link>
+                    <Link to="/projetAjouter" className="btn btn-info">
+                        <span className="glyphicon glyphicon"></span> Ajouter un Projet
+                    </Link>
                 </div>
             </div>
 

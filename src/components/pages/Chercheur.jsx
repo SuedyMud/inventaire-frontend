@@ -82,7 +82,7 @@ function Chercheur() {
                     <Link to="/ChercheurStat" className="btn btn-info btn-responsive">
                         <span className="glyphicon glyphicon"></span> Statistiques des Chercheurs
                     </Link>
-                    <Link to="/ChercheurCreate" className="btn btn-info btn-responsive">
+                    <Link to="/chercheurAjouter" className="btn btn-info btn-responsive">
                         <span className="glyphicon glyphicon"></span> Ajouter un chercheur
                     </Link>
                 </div>

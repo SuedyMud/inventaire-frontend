@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Form, Button, Alert } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 
 function ChercheurDelete({ idche }) { // Prends idche en tant que props
     const { getAccessTokenSilently } = useAuth0();
@@ -62,7 +61,6 @@ function ChercheurDelete({ idche }) { // Prends idche en tant que props
 
     return (
         <div>
-
 
                 <Button variant="danger" onClick={handleDeleteClick}>
                     Supprimer
