@@ -81,7 +81,8 @@ function Unite() {
                                         telephone: item.telephone,
                                         fax: item.fax,
                                         site1: item.site1,
-                                        site2: item.site2
+                                        site2: item.site2,
+                                        composList: item.composList
                                     }
                                 }} style={{textDecoration: 'none'}}>
                                     <p>{item.nom}</p>
