@@ -55,7 +55,9 @@ export const Home = () => {
                         </ul>
                         <hr />
                         <h2>Nous contacter :</h2>
-                        <p>Pour toute question ou information supplémentaire sur notre recherche à l'ULB, n'hésitez pas à nous contacter. Nous sommes là pour vous aider et pour vous fournir les informations dont vous avez besoin. <a href>suedymu</a> </p>
+                        <p>Pour toute question ou information supplémentaire sur notre recherche à l'ULB, n'hésitez pas à nous contacter. Nous sommes là pour vous aider et pour vous fournir les informations dont vous avez besoin. <br/>
+                            <a href="mailto:suedymud@hotmail.com">suedymud@hotmail.com</a>
+                        </p>
 
 
                     </div>
