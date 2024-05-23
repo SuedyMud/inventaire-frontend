@@ -9,7 +9,7 @@ import FaculteDetail from "../pages/FaculteDetail.jsx";
 import UniteDetail from "../pages/UniteDetail.jsx";
 import FaculteStat from "../pages/FaculteStat.jsx";
 import ChercheurDetail from "../pages/ChercheurDetail.jsx";
-import ChercheurUpdate from "../pages/ChercheurUpdate.jsx";
+import ChercheurModifier from "../pages/ChercheurModifier.jsx";
 import ChercheurDelete from "../pages/ChercheurDelete.jsx";
 import ProjetDetail from "../pages/ProjetDetail.jsx";
 import FrascatiDetail from "../pages/FrascatiDetail.jsx";
@@ -44,7 +44,7 @@ function AppRoutes() {
                 <Route path="/chercheur" element={<Chercheur/>}/>
                 <Route path="/chercheurAjouter" element={<ChercheurAjouter />} />
                 <Route path="/chercheurDetail/:idche" element={<ChercheurDetail />} />
-                <Route path="/chercheurUpdate/:idche" element={<ChercheurUpdate />} />
+                <Route path="/chercheurModifier/:idche" element={<ChercheurModifier />} />
                 <Route path="/chercheurDelete/:idche" element={<ChercheurDelete />} />
                 <Route path="/chercheurStat" element={<ChercheurStat />} />
                 <Route path="/frascati" element={<Frascati/>}/>

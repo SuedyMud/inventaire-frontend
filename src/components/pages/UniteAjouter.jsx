@@ -6,6 +6,7 @@ import axios from "axios";
 function UniteAjouter() {
     const { getAccessTokenSilently } = useAuth0();
     const [unite, setUnite] = useState({
+        idunite: "ULB",
         istrans: "",
         preflang: "",
         nom: "",
@@ -39,8 +40,8 @@ function UniteAjouter() {
         statAnciensmembres: 0,
         statDelegue: 0,
         statAdzion: 0,
-        niveau: "",
-        composList: [],
+        niveau: ""/*,
+        composList: [],*/
     });
 
     const [showNotif, setShowNotif] = useState(false);
@@ -81,7 +82,43 @@ function UniteAjouter() {
     return (
         <>
             <h2>Ajouter une nouvelle unité :</h2>
+
             <Form onSubmit={handleFormSubmit}>
+                <Form.Group as={Col} controlId="formGridIdunite">
+                    <Form.Label>Id unite *</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="idunite"
+                        value={unite.idunite}
+                        onChange={handleChange}
+                        required
+                    />
+                </Form.Group>
+
+                <Row className="mb-3">
+                    <Form.Group as={Col} controlId="formGridIstrans">
+                        <Form.Label>Istrans</Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="istrans"
+                            value={unite.istrans}
+                            onChange={handleChange}
+                            required
+
+                        />
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="formGridNomUK">
+                        <Form.Label>Préférence de langues</Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="preflang"
+                            value={unite.preflang}
+                            onChange={handleChange}
+
+                        />
+                    </Form.Group>
+                </Row>
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridNom">
                         <Form.Label>Nom *</Form.Label>

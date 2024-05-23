@@ -14,12 +14,12 @@ function ProjetAjouter() {
         resume: "",
         resumeUK: "",
         datedebut: new Date().toISOString().substr(0, 10),
-        datefin: new Date().toISOString().substr(0, 10),
-        datemaj: new Date().toISOString().substr(0, 10),
+        datefin: new Date().toISOString(),
+        datemaj: new Date().toISOString(),
         ordre: "",
         site: "",
         dDebut: "",
-        dFin: "",
+        dFin: "0",
         fromCv: "0",
     });
 
@@ -212,9 +212,7 @@ function ProjetAjouter() {
                             name="site"
                             value={projet.site}
                             onChange={handleChange}
-                            required
-                            pattern="^[A-Za-zÀ-ÿ\s]{1,255}$"
-                            title="Le site ne peut pas contenir des chiffres (255 caractères max)"
+
                         />
                     </Form.Group>
                 </Row>
@@ -227,35 +225,29 @@ function ProjetAjouter() {
                             name="dDebut"
                             value={projet.dDebut}
                             onChange={handleChange}
-                            required
-                            pattern="^[A-Za-zÀ-ÿ\s]{1,100}$"
-                            title="Le D Début ne peut pas contenir des chiffres (100 caractères max)"
+
                         />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridDFin">
-                        <Form.Label>D Fin *</Form.Label>
+                        <Form.Label>D Fin</Form.Label>
                         <Form.Control
                             type="text"
                             name="dFin"
                             value={projet.dFin}
                             onChange={handleChange}
-                            required
-                            pattern="^[A-Za-zÀ-ÿ\s]{1,100}$"
-                            title="Le D Fin ne peut pas contenir des chiffres (100 caractères max)"
+
                         />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridFromCv">
-                        <Form.Label>From CV *</Form.Label>
+                        <Form.Label>From CV</Form.Label>
                         <Form.Control
                             type="text"
                             name="fromCv"
                             value={projet.fromCv}
                             onChange={handleChange}
-                            required
-                            pattern="^[A-Za-z0-9\s]{1,25}$"
-                            title="Le From CV doit contenir des lettres et chiffres (25 caractères max)"
+
                         />
                     </Form.Group>
                 </Row>

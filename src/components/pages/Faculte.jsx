@@ -1,12 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { ListGroup } from "react-bootstrap";
+import {Button, ListGroup} from "react-bootstrap";
 import {useQuery} from "react-query";
 import {getFaculte} from "../../utils/ApiGet.js";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 
 function Faculte() {
     const { getAccessTokenSilently } = useAuth0();
+    const navigate = useNavigate();
 
     const {data, isLoading} = useQuery(["faculties"], () =>
         getFaculte({accessToken : getAccessTokenSilently()
@@ -29,6 +30,10 @@ function Faculte() {
         "Instituts d'Enseignement Interfacultaire": "https://www.ulb.be/fr/instituts-ressources-contacts/instituts-interfacultaires",
     };
 
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
+
     return (
         <div>
             <div className="row">
@@ -37,9 +42,11 @@ function Faculte() {
                     <p>Classement par Facultés</p>
                 </div>
                 <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
-                    <Link to="/faculteStat" className="btn btn-info">
-                        <span className="glyphicon glyphicon"></span> Statistiques des Facultés
-                    </Link>
+
+
+                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/faculteStat")}>
+                        Statistiques
+                    </Button>
                 </div>
             </div>
 

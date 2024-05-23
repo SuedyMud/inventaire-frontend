@@ -1,7 +1,7 @@
 import {useAuth0} from "@auth0/auth0-react";
 import {useState} from "react";
-import {ListGroup, Row, Col} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {ListGroup, Row, Col, Button} from "react-bootstrap";
+import {Link, useNavigate} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 import {useQuery} from "react-query";
 import {getChercheur} from "../../utils/ApiGet.js";
@@ -10,6 +10,7 @@ import {getChercheur} from "../../utils/ApiGet.js";
 function Chercheur() {
     const {getAccessTokenSilently} = useAuth0();
     const [currentPage, setCurrentPage] = useState('A');
+    const navigate = useNavigate(); // Utilisateur de useNavigate pour la navigation
 
     const {data, isLoading} = useQuery(["chercheur", currentPage], async () => {
         const accessToken = await getAccessTokenSilently();
@@ -20,6 +21,7 @@ function Chercheur() {
     const handlePaginationClick = (letter) => {
         setCurrentPage(letter);
     };
+
 
 
     /*const handleDeleteClick = async (idche) => {
@@ -68,24 +70,28 @@ function Chercheur() {
     }
     /* console.log("Données transmises aux liens:", groupedData);*/ // Log des données transmises aux liens
 
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
+
 
     return (
         <>
             <div className="row">
-                <div className="col-md-9"> {/* Colonne prenant 9/12 de la largeur */}
+                <div className="col-md-9">
                     <h2>Répertoire des Chercheurs</h2>
                     <p>Classement par ordre alphabétique</p>
                 </div>
 
                 <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
-
-                    <Link to="/ChercheurStat" className="btn btn-info btn-responsive">
-                        <span className="glyphicon glyphicon"></span> Statistiques des Chercheurs
-                    </Link>
-                    <Link to="/chercheurAjouter" className="btn btn-info btn-responsive">
-                        <span className="glyphicon glyphicon"></span> Ajouter un chercheur
-                    </Link>
+                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/chercheurStat")}>
+                        Statistiques
+                    </Button>
+                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/chercheurAjouter")}>
+                        Ajouter
+                    </Button>
                 </div>
+
 
             </div>
 

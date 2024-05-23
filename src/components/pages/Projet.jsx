@@ -1,7 +1,7 @@
 import {useAuth0} from "@auth0/auth0-react";
 import {useState} from "react";
-import {ListGroup} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Button, ListGroup} from "react-bootstrap";
+import {Link, useNavigate} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 import {useQuery} from "react-query";
 import {getProjet} from "../../utils/ApiGet.js";
@@ -10,6 +10,7 @@ import {getProjet} from "../../utils/ApiGet.js";
 function Projet() {
     const {getAccessTokenSilently} = useAuth0();
     const [currentPage, setCurrentPage] = useState('A');
+    const navigate = useNavigate();
 
     const {data, isLoading} = useQuery(["projet", currentPage], async () => {
         const accessToken = await getAccessTokenSilently();
@@ -39,6 +40,9 @@ function Projet() {
 
     // Filtrer les données pour n'afficher que les éléments dont le nom commence par la lettre de la page actuelle
     const filteredData = data ? data.filter(item => item.nom.charAt(0).toUpperCase() === currentPage) : [];
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
 
     return (
         <>
@@ -49,14 +53,16 @@ function Projet() {
                     <h2>Répertoire par Projets</h2>
                     <p>Classement par ordre alphabétique</p>
                 </div>
-                <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
-                    <Link to="/projetStat" className="btn btn-info">
-                        <span className="glyphicon glyphicon"></span> Statistiques des Projets
-                    </Link>
-                    <Link to="/projetAjouter" className="btn btn-info">
-                        <span className="glyphicon glyphicon"></span> Ajouter un Projet
-                    </Link>
+
+                <div className="col-md-3 text-right">
+                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/projetStat")}>
+                        Statistiques {/*Statistiques des Projets*/}
+                    </Button>
+                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/projetAjouter")}>
+                        Ajouter {/*Ajouter un Projet*/}
+                    </Button>
                 </div>
+
             </div>
 
 

@@ -56,7 +56,23 @@
 .btn-responsive {
     width: 100%;
     margin-top: 5px; /* Ajoute un espacement entre les boutons */
+    /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
+    /*margin-right: 1px;*/
+   /* display: flex;*/
+    padding: 1px;
 }
+
+/* Ajoute un peu de marge à droite du premier bouton pour un espace entre les deux */
+.btn-custom {
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: 0; /* Pour s'assurer que les boutons restent sur la même ligne */
+}
+
+.btn-custom:last-child {
+    margin-right: 0; /* Enlève la marge à droite pour le dernier bouton */
+}
+
 
 
 
