@@ -10,7 +10,7 @@ import UniteDetail from "../pages/UniteDetail.jsx";
 import FaculteStat from "../pages/FaculteStat.jsx";
 import ChercheurDetail from "../pages/ChercheurDetail.jsx";
 import ChercheurModifier from "../pages/ChercheurModifier.jsx";
-import ChercheurDelete from "../pages/ChercheurDelete.jsx";
+import ChercheurSupprimer from "../pages/ChercheurSupprimer.jsx";
 import ProjetDetail from "../pages/ProjetDetail.jsx";
 import FrascatiDetail from "../pages/FrascatiDetail.jsx";
 import ProjetStat from "../pages/ProjetStat.jsx";
@@ -21,6 +21,8 @@ import ComposDetail from "../pages/ComposDetail.jsx";
 import ChercheurAjouter from "../pages/ChercheurAjouter.jsx";
 import UniteAjouter from "../pages/UniteAjouter.jsx";
 import ProjetAjouter from "../pages/ProjetAjouter.jsx";
+import UniteModifier from "../pages/UniteModifier.jsx";
+import UniteSupprimer from "../pages/UniteSupprimer.jsx";
 
 
 function AppRoutes() {
@@ -31,22 +33,29 @@ function AppRoutes() {
                 <Route path="/faculte" element={<Faculte/>}/>
                 <Route path="/faculte/:facId" component={FaculteDetail} />
                 <Route path="/faculteStat" element={<FaculteStat />} />
+
                 <Route path="/unite" element={<Unite/>}/>
-                <Route path="/unteAjouter" element={<UniteAjouter />} />
+                <Route path="/uniteAjouter" element={<UniteAjouter />} />
                 <Route path="/uniteDetail/:idunite" element={<UniteDetail/>} />
+                <Route path="/uniteModifier/:idunite" element={<UniteModifier/>} />
+                <Route path="/uniteSupprimer/:idunite" element={<UniteSupprimer/>} />
+
                 <Route path="/uniteStat" element={<UniteStat/>} />
                 <Route path="/compos" element={<Compos/>} />
                 <Route path="/composDetail/:refunite" element={<ComposDetail/>} />
+
                 <Route path="/projet" element={<Projet/>}/>
                 <Route path="/projetAjouter" element={<ProjetAjouter />} />
                 <Route path="/projetDetail/:idprojet" element={<ProjetDetail/>}/>
                 <Route path="/projetStat" element={<ProjetStat/>}/>
+
                 <Route path="/chercheur" element={<Chercheur/>}/>
                 <Route path="/chercheurAjouter" element={<ChercheurAjouter />} />
                 <Route path="/chercheurDetail/:idche" element={<ChercheurDetail />} />
                 <Route path="/chercheurModifier/:idche" element={<ChercheurModifier />} />
-                <Route path="/chercheurDelete/:idche" element={<ChercheurDelete />} />
+                <Route path="/chercheurSupprimer/:idche" element={<ChercheurSupprimer />} />
                 <Route path="/chercheurStat" element={<ChercheurStat />} />
+
                 <Route path="/frascati" element={<Frascati/>}/>
                 <Route path="/frascatiDetail/:idfrascati" element={<FrascatiDetail/>}/>
                 <Route path="/discipline" element={<Discipline/>}/>

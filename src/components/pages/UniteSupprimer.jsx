@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button, Alert, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-function ChercheurDelete({ idche }) {
+function UniteSupprimer({ idunite }) {
     const { getAccessTokenSilently } = useAuth0();
     const [showNotif, setShowNotif] = useState(false);
-    const [showModal, setShowModal] = useState(false); // État pour contrôler l'affichage de la modal
-    const navigate = useNavigate(); // Utilisation de useNavigate pour la redirection
+    const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
     const handleDeleteClick = async () => {
         const accessToken = await getAccessTokenSilently();
 
         try {
-            const response = await axios.delete(`/api/zchercheur/${idche}`, {
+            const response = await axios.delete(`/api/zunite/${idunite}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -22,15 +22,15 @@ function ChercheurDelete({ idche }) {
 
             if (response.status === 204) {
                 setShowNotif(true);
-                console.log("Chercheur supprimé avec succès");
+                console.log("Unité supprimée avec succès");
 
-                // Redirection après un court délai pour afficher la notification
+
                 setTimeout(() => {
-                    navigate("/chercheur");
-                }, 2000); // 2 secondes de délai avant la redirection
+                    navigate("/unite");
+                }, 1000);
             }
         } catch (error) {
-            console.error("Erreur lors de la suppression du chercheur : ", error);
+            console.error("Erreur lors de la suppression de l'unité : ", error);
         }
     };
 
@@ -47,7 +47,7 @@ function ChercheurDelete({ idche }) {
 
             {showNotif && (
                 <Alert variant="danger" onClose={() => setShowNotif(false)} dismissible>
-                    Le chercheur a été supprimé avec succès.
+                    L'unité a été supprimée avec succès.
                 </Alert>
             )}
 
@@ -56,7 +56,7 @@ function ChercheurDelete({ idche }) {
                     <Modal.Title>Confirmer la suppression</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Êtes-vous sûr de vouloir supprimer ce chercheur ? Cette action est irréversible.
+                    Êtes-vous sûr de vouloir supprimer cette unité ? Cette action est irréversible.
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowModal(false)}>
@@ -71,4 +71,4 @@ function ChercheurDelete({ idche }) {
     );
 }
 
-export default ChercheurDelete;
+export default UniteSupprimer;

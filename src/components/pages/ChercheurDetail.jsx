@@ -1,11 +1,10 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FaEnvelope, FaGlobe, FaPhone } from "react-icons/fa";
 import {Button, Spinner} from "react-bootstrap";
-import ChercheurDelete from "./ChercheurDelete";
+import ChercheurSupprimer from "./ChercheurSupprimer.jsx";
 import {useQuery} from "react-query";
 import {getChercheurDetail} from "../../utils/ApiGet.js";
-import React from "react";
 
 function ChercheurDetail() {
     const { getAccessTokenSilently } = useAuth0();
@@ -50,8 +49,8 @@ function ChercheurDetail() {
                 </Button>*/}
 
                 <div className="btn-custom">
-                    {/* Affichage du composant ChercheurDelete pour la suppression */}
-                    <ChercheurDelete idche={idche} />
+                    {/* Affichage du composant ChercheurSupprimer pour la suppression */}
+                    <ChercheurSupprimer idche={idche} />
                 </div>
             </div>
 

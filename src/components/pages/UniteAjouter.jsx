@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 function UniteAjouter() {
     const { getAccessTokenSilently } = useAuth0();
     const [unite, setUnite] = useState({
         idunite: "ULB",
-        istrans: "",
+        istrans: 0,
         preflang: "",
         nom: "",
         nomUK: "",
@@ -46,6 +47,7 @@ function UniteAjouter() {
 
     const [showNotif, setShowNotif] = useState(false);
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -65,13 +67,19 @@ function UniteAjouter() {
                 },
             });
 
-            if (response.status === 200) {
+            if (response.status === 201) {
                 console.log("Unite créé avec succès");
                 setShowNotif(true);
                 setTimeout(() => setShowNotif(false), 3000);
+
+                setTimeout(() => {
+                    navigate("/unite");
+                }, 1000);
             } else {
                 console.error("Erreur lors de la création de l'unité");
                 setError("Une erreur s'est produite lors de la création de l'unité.");
+
+
             }
         } catch (error) {
             console.error("Erreur lors de la création de l'unité: ", error);
@@ -84,18 +92,20 @@ function UniteAjouter() {
             <h2>Ajouter une nouvelle unité :</h2>
 
             <Form onSubmit={handleFormSubmit}>
-                <Form.Group as={Col} controlId="formGridIdunite">
-                    <Form.Label>Id unite *</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="idunite"
-                        value={unite.idunite}
-                        onChange={handleChange}
-                        required
-                    />
-                </Form.Group>
+
 
                 <Row className="mb-3">
+                    <Form.Group as={Col} controlId="formGridIdunite">
+                        <Form.Label>Id unite *</Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="idunite"
+                            value={unite.idunite}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
+
                     <Form.Group as={Col} controlId="formGridIstrans">
                         <Form.Label>Istrans</Form.Label>
                         <Form.Control
@@ -103,20 +113,20 @@ function UniteAjouter() {
                             name="istrans"
                             value={unite.istrans}
                             onChange={handleChange}
-                            required
 
                         />
                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="formGridNomUK">
-                        <Form.Label>Préférence de langues</Form.Label>
-                        <Form.Control
-                            type="text"
+                    <Form.Group as={Col} controlId="formGridPreflang">
+                        <Form.Label>Préférence de langues *</Form.Label>
+                        <Form.Select
                             name="preflang"
                             value={unite.preflang}
                             onChange={handleChange}
-
-                        />
+                        >
+                            <option value="FR">FR</option>
+                            <option value="UK">UK</option>
+                        </Form.Select>
                     </Form.Group>
                 </Row>
                 <Row className="mb-3">
@@ -154,21 +164,10 @@ function UniteAjouter() {
                             name="sigle"
                             value={unite.sigle}
                             onChange={handleChange}
-                            pattern="^[A-Za-zÀ-ÿ\s]{1,20}$"
-                            title="Le sigle ne peut pas contenir des chiffres (20 caractères max)"
+
                         />
                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="formGridIstrans">
-                        <Form.Label>Is Trans</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="istrans"
-                            value={unite.istrans}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
                 </Row>
 
                 <Row className="mb-3">
@@ -264,6 +263,16 @@ function UniteAjouter() {
                 </Row>
 
                 <Row className="mb-3">
+                    <Form.Group as={Col} controlId="formGridLocalisation">
+                        <Form.Label>Localisation</Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="localisation"
+                            value={unite.localisation}
+                            onChange={handleChange}
+                        />
+                    </Form.Group>
+
                     <Form.Group as={Col} controlId="formGridTelephone">
                         <Form.Label>Téléphone *</Form.Label>
                         <Form.Control
@@ -292,13 +301,13 @@ function UniteAjouter() {
 
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridEmail">
-                        <Form.Label>Email *</Form.Label>
+                        <Form.Label>Email</Form.Label>
                         <Form.Control
                             type="email"
                             name="email"
                             value={unite.email}
                             onChange={handleChange}
-                            required
+
                             pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
                             title="L'adresse e-mail n'est pas au format valide"
                         />
@@ -363,6 +372,7 @@ function UniteAjouter() {
                             name="datedeb"
                             value={unite.datedeb}
                             onChange={handleChange}
+                            required
                         />
                     </Form.Group>
 
@@ -373,6 +383,7 @@ function UniteAjouter() {
                             name="datefin"
                             value={unite.datefin}
                             onChange={handleChange}
+                            required
                         />
                     </Form.Group>
 
@@ -383,6 +394,7 @@ function UniteAjouter() {
                             name="datemaj"
                             value={unite.datemaj}
                             onChange={handleChange}
+                            required
                         />
                     </Form.Group>
                 </Row>
@@ -438,7 +450,6 @@ function UniteAjouter() {
                     <Form.Group as={Col} controlId="formGridStatExport">
                         <Form.Label>Statut Export</Form.Label>
                         <Form.Control
-                            type="number"
                             name="statExport"
                             value={unite.statExport}
                             onChange={handleChange}
@@ -448,7 +459,6 @@ function UniteAjouter() {
                     <Form.Group as={Col} controlId="formGridStatProjetcv">
                         <Form.Label>Statut Projet CV</Form.Label>
                         <Form.Control
-                            type="number"
                             name="statProjetcv"
                             value={unite.statProjetcv}
                             onChange={handleChange}
@@ -458,7 +468,6 @@ function UniteAjouter() {
                     <Form.Group as={Col} controlId="formGridStatAnciensmembres">
                         <Form.Label>Statut Anciens Membres</Form.Label>
                         <Form.Control
-                            type="number"
                             name="statAnciensmembres"
                             value={unite.statAnciensmembres}
                             onChange={handleChange}
@@ -468,7 +477,6 @@ function UniteAjouter() {
                     <Form.Group as={Col} controlId="formGridStatDelegue">
                         <Form.Label>Statut Délégué</Form.Label>
                         <Form.Control
-                            type="number"
                             name="statDelegue"
                             value={unite.statDelegue}
                             onChange={handleChange}
@@ -478,7 +486,6 @@ function UniteAjouter() {
                     <Form.Group as={Col} controlId="formGridStatAdzion">
                         <Form.Label>Statut Adzion</Form.Label>
                         <Form.Control
-                            type="number"
                             name="statAdzion"
                             value={unite.statAdzion}
                             onChange={handleChange}
