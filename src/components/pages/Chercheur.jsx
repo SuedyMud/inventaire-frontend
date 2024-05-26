@@ -5,12 +5,14 @@ import {Link, useNavigate} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 import {useQuery} from "react-query";
 import {getChercheur} from "../../utils/ApiGet.js";
+import { getChercheursByUnite } from '../../utils/ApiGet.js';
 
 
 function Chercheur() {
     const {getAccessTokenSilently} = useAuth0();
     const [currentPage, setCurrentPage] = useState('A');
     const navigate = useNavigate(); // Utilisateur de useNavigate pour la navigation
+    const [chercheurs, setChercheurs] = useState([]);
 
     const {data, isLoading} = useQuery(["chercheur", currentPage], async () => {
         const accessToken = await getAccessTokenSilently();
@@ -73,6 +75,19 @@ function Chercheur() {
     const handleNavigation = (path) => {
         navigate(path);
     };
+
+   /* useEffect(() => {
+        const fetchChercheurs = async () => {
+            try {
+                const data = await getChercheursByUnite({ accessToken, uniteId });
+                setChercheurs(data);
+            } catch (error) {
+                console.error('Error fetching chercheurs:', error);
+            }
+        };
+
+        fetchChercheurs();
+    }, [accessToken, uniteId]);*/
 
 
     return (
@@ -151,6 +166,17 @@ function Chercheur() {
                         ))}
                     </Row>
                 ))}
+
+                <div>
+                    <h2>Liste des Chercheurs</h2>
+                    <ul>
+                        {chercheurs.map(chercheur => (
+                            <li key={chercheur.idche}>
+                                {chercheur.nom} {chercheur.prenom}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
 
                 <Pagination>{paginationItems}</Pagination>
 

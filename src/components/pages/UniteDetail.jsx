@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { getUniteDetail } from "../../utils/ApiGet.js";
 import { Button } from "react-bootstrap";
 import UniteSupprimer from "./UniteSupprimer.jsx";
+import Chercheur from "./Chercheur.jsx";
 
 function UniteDetail() {
     const { getAccessTokenSilently } = useAuth0();
@@ -34,6 +35,9 @@ function UniteDetail() {
             <h2>{nom}</h2>
             <div>
                 <p>(Code : {idunite})</p>
+
+                <p>Responsable de l'unité : {/*{{responsable}}*/}</p>
+               {/* <Chercheur accessToken={getAccessTokenSilently()} uniteId={idunite} />*/}
 
                 <p>Responsable de l'unité : {/*{{responsable}}*/}</p>
                 {/* Afficher les détails des chercheurs */}

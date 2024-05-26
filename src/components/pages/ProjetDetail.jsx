@@ -1,18 +1,20 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "react-query";
 import {getProjetDetail} from "../../utils/ApiGet.js";
+import {Button} from "react-bootstrap";
+import UniteSupprimer from "./UniteSupprimer.jsx";
 
 
 function ProjetDetail() {
     const { getAccessTokenSilently } = useAuth0();
     const {idprojet} = useParams();
+    const navigate = useNavigate();
 
 
     const { data : projet, isLoading } = useQuery(["projetDetail", idprojet], async () => {
         return getProjetDetail({ accessToken : await getAccessTokenSilently(), idprojet: idprojet});
     });
-
 
 
 
@@ -25,6 +27,10 @@ function ProjetDetail() {
     }
 
     const {nom, resume} = projet;
+
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
 
     return (
         <>
@@ -44,6 +50,16 @@ function ProjetDetail() {
 
                 <p>Liste des responsables : </p>
                 <p>Liste des bailleurs : </p>
+
+                <div>
+                    <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/projetModifier/${idprojet}`)}>
+                        Modifier
+                    </Button>
+
+                   <div className="btn-custom">
+                        <UniteSupprimer idunite={idprojet} />
+                    </div>
+                </div>
             </div>
         </>
     );

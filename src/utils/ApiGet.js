@@ -278,3 +278,23 @@ export async function getComposDetail({accessToken,refunite}){
     }
 }
 
+
+export async function getChercheursByUnite({ accessToken, uniteId }) {
+    const trueAccessToken = await accessToken;
+
+    try {
+        const response = await axios.get(`/api/zchercheurs/zunite/${uniteId}`, {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            console.error("Erreur lors de la récupération des données");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données : ", error);
+    }
+}
