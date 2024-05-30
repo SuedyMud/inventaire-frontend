@@ -1,30 +1,54 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Form, Button, Alert, Col, Row } from "react-bootstrap";
+import { Alert, Button, Col, Form, Row } from "react-bootstrap";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
-function ProjetAjouter() {
+function ProjetModifier() {
     const { getAccessTokenSilently } = useAuth0();
+    const { idprojet } = useParams();
+    const navigate = useNavigate();
     const [projet, setProjet] = useState({
-        idprojet: "",
         nom: "",
         nomUK: "",
         nomprogramme: "",
         nomprogrammeUK: "",
         resume: "",
         resumeUK: "",
-        datedebut: new Date().toISOString().substr(0, 10),
-        datefin: new Date().toISOString(),
-        datemaj: new Date().toISOString(),
+        datedebut: "",
+        datefin: "",
+        datemaj: "",
         ordre: "",
         site: "",
         dDebut: "",
-        dFin: "0",
-        fromCv: "0",
+        dFin: "",
+        fromCv: "",
     });
 
     const [showNotif, setShowNotif] = useState(false);
     const [error, setError] = useState("");
+
+    useEffect(() => {
+        const fetchProjet = async () => {
+            try {
+                const accessToken = await getAccessTokenSilently();
+                const response = await axios.get(`/api/zprojet/${idprojet}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (response.status === 200) {
+                    setProjet(response.data);
+                } else {
+                    console.error("Erreur lors de la récupération du projet");
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération du projet : ", error);
+            }
+        };
+        fetchProjet();
+    }, [idprojet, getAccessTokenSilently]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -36,45 +60,37 @@ function ProjetAjouter() {
         setShowNotif(false);
         setError("");
 
-        const accessToken = await getAccessTokenSilently();
-
         try {
-            const response = await axios.post(`/api/zprojet/ajouter`, projet, {
+            const accessToken = await getAccessTokenSilently();
+            const response = await axios.put(`/api/zprojet/${idprojet}`, projet, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
 
             if (response.status === 200) {
-                console.log("Projet créé avec succès");
+                console.log("Projet modifié avec succès");
                 setShowNotif(true);
                 setTimeout(() => setShowNotif(false), 3000);
+
+                setTimeout(() => {
+                    navigate("/projet");
+                }, 1000);
             } else {
-                console.error("Erreur lors de la création du projet");
+                console.error("Erreur lors de la modification du projet");
+                setError("Une erreur s'est produite lors de la modification du projet.");
             }
         } catch (error) {
-            console.error("Erreur lors de la création du projet : ", error);
-            setError("Une erreur s'est produite lors de la création du projet.");
+            console.error("Erreur lors de la modification du projet: ", error);
+            setError("Une erreur s'est produite lors de la modification du projet.");
         }
     };
 
     return (
         <>
-            <h2>Ajouter nouveau Projet :</h2>
+            <h2>Modifier un Projet :</h2>
             <Form onSubmit={handleFormSubmit}>
-
                 <Row className="mb-3">
-                    <Form.Group as={Col} controlId="formGridIdProjet">
-                        <Form.Label>ID Projet *</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="idprojet"
-                            value={projet.idprojet}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
-
                     <Form.Group as={Col} controlId="formGridNom">
                         <Form.Label>Nom *</Form.Label>
                         <Form.Control
@@ -83,8 +99,8 @@ function ProjetAjouter() {
                             value={projet.nom}
                             onChange={handleChange}
                             required
-                            pattern="^[A-Za-zÀ-ÿ\s]{1,255}$"
-                            title="Le nom ne peut pas contenir des chiffres (255 caractères max)"
+                           /* pattern="^[A-Za-zÀ-ÿ\s]{1,255}$"
+                            title="Le nom ne peut pas contenir des chiffres (255 caractères max)"*/
                         />
                     </Form.Group>
 
@@ -95,9 +111,8 @@ function ProjetAjouter() {
                             name="nomUK"
                             value={projet.nomUK}
                             onChange={handleChange}
-
-                            pattern="^[A-Za-zÀ-ÿ\s]{1,255}$"
-                            title="Le nom UK ne peut pas contenir des chiffres (255 caractères max)"
+                            /*pattern="^[A-Za-zÀ-ÿ\s]{1,255}$"
+                            title="Le nom UK ne peut pas contenir des chiffres (255 caractères max)"*/
                         />
                     </Form.Group>
                 </Row>
@@ -111,8 +126,8 @@ function ProjetAjouter() {
                             value={projet.nomprogramme}
                             onChange={handleChange}
                             required
-                            pattern="^[A-Za-zÀ-ÿ\s]{1,100}$"
-                            title="Le nom du programme ne peut pas contenir des chiffres (100 caractères max)"
+                            /*pattern="^[A-Za-zÀ-ÿ\s]{1,100}$"
+                            title="Le nom du programme ne peut pas contenir des chiffres (100 caractères max)" */
                         />
                     </Form.Group>
 
@@ -124,8 +139,8 @@ function ProjetAjouter() {
                             value={projet.nomprogrammeUK}
                             onChange={handleChange}
                             required
-                            pattern="^[A-Za-zÀ-ÿ\s]{1,100}$"
-                            title="Le nom du programme UK ne peut pas contenir des chiffres (100 caractères max)"
+                           /* pattern="^[A-Za-zÀ-ÿ\s]{1,100}$"
+                            title="Le nom du programme UK ne peut pas contenir des chiffres (100 caractères max)" */
                         />
                     </Form.Group>
                 </Row>
@@ -139,8 +154,8 @@ function ProjetAjouter() {
                             value={projet.resume}
                             onChange={handleChange}
                             required
-                            maxLength="2500"
-                            title="Le résumé ne peut pas contenir plus de 2500 caractères"
+                           /* maxLength="2500"
+                            title="Le résumé ne peut pas contenir plus de 2500 caractères"*/
                         />
                     </Form.Group>
 
@@ -152,8 +167,8 @@ function ProjetAjouter() {
                             value={projet.resumeUK}
                             onChange={handleChange}
                             required
-                            maxLength="2500"
-                            title="Le résumé UK ne peut pas contenir plus de 2500 caractères"
+                           /* maxLength="2500"
+                            title="Le résumé UK ne peut pas contenir plus de 2500 caractères"*/
                         />
                     </Form.Group>
                 </Row>
@@ -212,7 +227,6 @@ function ProjetAjouter() {
                             name="site"
                             value={projet.site}
                             onChange={handleChange}
-
                         />
                     </Form.Group>
                 </Row>
@@ -225,7 +239,6 @@ function ProjetAjouter() {
                             name="dDebut"
                             value={projet.dDebut}
                             onChange={handleChange}
-
                         />
                     </Form.Group>
 
@@ -236,7 +249,6 @@ function ProjetAjouter() {
                             name="dFin"
                             value={projet.dFin}
                             onChange={handleChange}
-
                         />
                     </Form.Group>
 
@@ -247,36 +259,19 @@ function ProjetAjouter() {
                             name="fromCv"
                             value={projet.fromCv}
                             onChange={handleChange}
-
                         />
                     </Form.Group>
                 </Row>
 
-                <div>
-                    <hr />
-                    <p>* Information requise</p>
-                </div>
+                {error && <Alert variant="danger">{error}</Alert>}
+                {showNotif && <Alert variant="success">Projet modifié avec succès!</Alert>}
 
-                <div className="btn">
-                    <Button variant="primary" type="submit">
-                        Envoyer
-                    </Button>
-                </div>
-
+                <Button variant="primary" type="submit">
+                    Modifier
+                </Button>
             </Form>
-
-            {showNotif && (
-                <Alert variant="success" onClose={() => setShowNotif(false)} dismissible>
-                    Le projet a été ajouté avec succès.
-                </Alert>
-            )}
-            {error && (
-                <Alert variant="danger" onClose={() => setError("")} dismissible>
-                    {error}
-                </Alert>
-            )}
         </>
     );
 }
 
-export default ProjetAjouter;
+export default ProjetModifier;

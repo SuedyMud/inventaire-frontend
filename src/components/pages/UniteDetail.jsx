@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getUniteDetail } from "../../utils/ApiGet.js";
+import { getUniteDetail, getResponsableUnite } from "../../utils/ApiGet.js";
 import { Button } from "react-bootstrap";
 import UniteSupprimer from "./UniteSupprimer.jsx";
 
@@ -15,9 +15,14 @@ function UniteDetail() {
         return getUniteDetail({ accessToken: await getAccessTokenSilently(), idunite: idunite });
     });
 
-    if (isLoadingUnite) {
+    const { data: responsable, isLoading: isLoadingResponsable } = useQuery(["responsableUnite", idunite], async () => {
+        return getResponsableUnite({ accessToken: await getAccessTokenSilently(), idunite: idunite });
+    });
+
+    if (isLoadingUnite || isLoadingResponsable) {
         return <p>Loading...</p>;
     }
+
 
     if (!unite) {
         return null; // Ou vous pouvez retourner un composant de chargement ou un message d'attente
@@ -36,9 +41,8 @@ function UniteDetail() {
             <div>
                 <p>(Code : {idunite})</p>
 
-                <p>Responsable de l'unité : </p>
 
-
+                <p>Responsable de l'unité : {responsable ? `${responsable.nom} ${responsable.prenom}` : "Non défini"}</p>
 
                 <p>{description}</p>
 

@@ -23,7 +23,8 @@ function UniteModifier() {
         fax: "",
         email: "",
         site1: "",
-        site2: ""
+        site2: "",
+        zucompos:[]
     });
 
     const [showNotif, setShowNotif] = useState(false);

@@ -87,8 +87,8 @@ function ChercheurModifier() {
                             value={chercheur.nom}
                             onChange={handleChange}
                             required
-                            pattern="^[A-Za-zÀ-ÿ\s]{1,25}$"
-                            title = "Le nom ne peut pas contenir des chiffres (25 caractères)"
+                            /*pattern="^[A-Za-zÀ-ÿ\s]{1,25}$"
+                            title = "Le nom ne peut pas contenir des chiffres (25 caractères)"*/
                         />
                     </Form.Group>
 
@@ -100,8 +100,8 @@ function ChercheurModifier() {
                             value={chercheur.prenom}
                             onChange={handleChange}
                             required
-                            pattern="^[A-Za-zÀ-ÿ\s]{1,25}$"
-                            title = "Le prénom ne peut pas contenir des chiffres (25 caractères)"
+                           /* pattern="^[A-Za-zÀ-ÿ\s]{1,25}$"
+                            title = "Le prénom ne peut pas contenir des chiffres (25 caractères)"*/
                         />
                     </Form.Group>
                 </Row>
@@ -115,8 +115,8 @@ function ChercheurModifier() {
                             value={chercheur.telephone}
                             onChange={handleChange}
                             required
-                            pattern="^\+\d{2} \d{9}$"
-                            title="Le numéro de téléphone doit être au format +32 4XXXXXXX"
+                           /* pattern="^\+\d{2} \d{9}$"
+                            title="Le numéro de téléphone doit être au format +32 4XXXXXXX"*/
                         />
                     </Form.Group>
 
@@ -128,8 +128,8 @@ function ChercheurModifier() {
                             value={chercheur.email}
                             onChange={handleChange}
                             required
-                            pattern= "^[A-Za-z0-9._-]+@[A-Za-z0-9-]+\\.[A-Za-z0-9.-]+$"
-                            title = "L'adresse e-mail n'est pas au format valide"
+                           /* pattern= "^[A-Za-z0-9._-]+@[A-Za-z0-9-]+\\.[A-Za-z0-9.-]+$"
+                            title = "L'adresse e-mail n'est pas au format valide"*/
                         />
                     </Form.Group>
                 </Row>
@@ -143,8 +143,8 @@ function ChercheurModifier() {
                             value={chercheur.cpi}
                             onChange={handleChange}
 
-                            pattern="^[0-9\s]{1,8}$"
-                            title="Le CPI doit contenir que des chiffres (8 caractères max)"
+                           /* pattern="^[0-9\s]{1,8}$"
+                            title="Le CPI doit contenir que des chiffres (8 caractères max)"*/
                         />
                     </Form.Group>
 
