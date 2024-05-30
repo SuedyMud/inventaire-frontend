@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { getUniteDetail } from "../../utils/ApiGet.js";
 import { Button } from "react-bootstrap";
 import UniteSupprimer from "./UniteSupprimer.jsx";
-import Chercheur from "./Chercheur.jsx";
+
 
 function UniteDetail() {
     const { getAccessTokenSilently } = useAuth0();
@@ -24,7 +24,7 @@ function UniteDetail() {
     }
 
     // Déstructuration des propriétés de l'objet unite
-    const { nom, description, localisation, rue, numero, codePostal, localite, email, telephone, fax, site1, site2, composList } = unite;
+    const { nom, description, localisation, rue, numero, codePostal, localite, email, telephone, fax, site1, site2 } = unite;
 
     const handleNavigation = (path) => {
         navigate(path);
@@ -36,20 +36,9 @@ function UniteDetail() {
             <div>
                 <p>(Code : {idunite})</p>
 
-                <p>Responsable de l'unité : {/*{{responsable}}*/}</p>
-               {/* <Chercheur accessToken={getAccessTokenSilently()} uniteId={idunite} />*/}
+                <p>Responsable de l'unité : </p>
 
-                <p>Responsable de l'unité : {/*{{responsable}}*/}</p>
-                {/* Afficher les détails des chercheurs */}
-                {/*{composList && composList.map(async (composId) => {
-                    const chercheur = await getChercheurDetail({ accessToken: await getAccessTokenSilently(), idche: composId });
-                    return (
-                        <div key={chercheur.id}>
-                            <h3>{chercheur.nom} {chercheur.prenom}</h3>
-                            <p>Autres détails du chercheur...</p>
-                        </div>
-                    );
-                })}*/}
+
 
                 <p>{description}</p>
 

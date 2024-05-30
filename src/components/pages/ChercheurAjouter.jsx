@@ -20,7 +20,7 @@ function ChercheurAjouter() {
         corpsOrdre: 0,
         dDig: new Date().toISOString().substr(0, 10),
         facChe: "",
-        prefPublication: ""
+        prefPublication: "integree"
     });
 
     const [showNotif, setShowNotif] = useState(false);
@@ -46,6 +46,11 @@ function ChercheurAjouter() {
 
             if (response.status === 201) {
                 setShowNotif(true);
+                setTimeout(() => setShowNotif(false), 2000);
+
+                setTimeout(() => {
+                    navigate("/chercheur");
+                }, 1000);
 
             } else {
                 setError("Erreur lors de la création du chercheur.");
@@ -69,7 +74,7 @@ function ChercheurAjouter() {
                             value={chercheur.nom}
                             onChange={handleChange}
                             required
-                            pattern="^[A-Za-zÀ-ÿ\s]{1,25}$"
+                            pattern="^[A-Za-zÀ-ÿ\s'’.,\-]{1,25}$"
                             title="Le nom ne peut pas contenir des chiffres (25 caractères max)"
                         />
                     </Form.Group>
@@ -82,7 +87,7 @@ function ChercheurAjouter() {
                             value={chercheur.prenom}
                             onChange={handleChange}
                             required
-                            pattern="^[A-Za-zÀ-ÿ\s]{1,25}$"
+                            pattern="^[A-Za-zÀ-ÿ\s'’.,\-]{1,25}$"
                             title="Le prénom ne peut pas contenir des chiffres (25 caractères max)"
                         />
                     </Form.Group>
@@ -96,7 +101,7 @@ function ChercheurAjouter() {
                             name="titre"
                             value={chercheur.titre}
                             onChange={handleChange}
-                            pattern="^[A-Za-zÀ-ÿ\s]{1,25}$"
+                            pattern="^[A-Za-zÀ-ÿ\s'’.,\-]{1,25}"
                             title="Le titre ne peut pas contenir des chiffres (25 caractères max)"
                         />
                     </Form.Group>
@@ -151,7 +156,7 @@ function ChercheurAjouter() {
                             onChange={handleChange}
                             required
                             pattern="^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
-                            title="L'adresse e-mail n'est pas au format valide"
+                            title="E-mail invalide"
                         />
                     </Form.Group>
 
@@ -176,6 +181,8 @@ function ChercheurAjouter() {
                             name="site"
                             value={chercheur.site}
                             onChange={handleChange}
+                            pattern="^(https?://)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+(/.*)?$"
+                            title="L'URL doit être au format http://, https://, ou www."
                         />
                     </Form.Group>
 
@@ -195,10 +202,12 @@ function ChercheurAjouter() {
                     <Form.Group as={Col} controlId="formGridCorpsOrdre">
                         <Form.Label>Corps Ordre</Form.Label>
                         <Form.Control
-                            type="number"
+                            type="text"
                             name="corpsOrdre"
                             value={chercheur.corpsOrdre}
                             onChange={handleChange}
+                            pattern="^[0-9]{1,11}$"
+                            title="statAnciensmembres : chiffre seulement, 11 caractères max."
                         />
                     </Form.Group>
                 </Row>
@@ -212,26 +221,32 @@ function ChercheurAjouter() {
                             value={chercheur.dDig}
                             onChange={handleChange}
                         />
+
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridFacChe">
                         <Form.Label>Faculté Chercheur</Form.Label>
-                        <Form.Select
+                        <Form.Control
+                            type="text"
                             name="facChe"
                             value={chercheur.facChe}
                             onChange={handleChange}
+                            pattern="^[A-Za-zÀ-ÿ\s'’\-.,]{1,50}$"
+                            title="facChe : lettres seulement, 50 caractères max."
                         >
-                            <option value=""></option>
-                        </Form.Select>
+                        </Form.Control>
+
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridPrefPublication">
                         <Form.Label>Préférence de Publication</Form.Label>
-                        <Form.Select
+                        <Form.Control
+                            type="text"
                             name="prefPublication"
                             value={chercheur.prefPublication}
                             onChange={handleChange}
+                            pattern="^[A-Za-zÀ-ÿ\s'’\-.,]{1,5000}$"
+                            title="prefPublication : lettres seulement, 5000 caractères max."
                         >
-                            <option value="integree">integree</option>
-                        </Form.Select>
+                        </Form.Control>
                     </Form.Group>
                 </Row>
 

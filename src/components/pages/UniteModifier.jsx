@@ -101,6 +101,7 @@ function UniteModifier() {
                             value={unite.nom}
                             onChange={handleChange}
                             required
+
                         />
                     </Form.Group>
 
@@ -252,20 +253,24 @@ function UniteModifier() {
                     <Form.Group as={Col} controlId="formGridSite1">
                         <Form.Label>Site Web 1</Form.Label>
                         <Form.Control
-                            type="url"
+                            type="text"
                             name="site1"
                             value={unite.site1}
                             onChange={handleChange}
+                            pattern="^(https?://)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+(/.*)?$"
+                            title="L'URL doit être au format http://, https://, ou www."
                         />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridSite2">
                         <Form.Label>Site Web 2</Form.Label>
                         <Form.Control
-                            type="url"
+                            type="text"
                             name="site2"
                             value={unite.site2}
                             onChange={handleChange}
+                            pattern="^(https?://)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+(/.*)?$"
+                            title="L'URL doit être au format http://, https://, ou www."
                         />
                     </Form.Group>
                 </Row>

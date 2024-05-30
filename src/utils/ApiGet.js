@@ -42,9 +42,10 @@ export async function getUnite({accessToken, letter}){
         });
 
         if (response.status === 200) {
-            const filteredData = response.data.content.filter(
+            const filteredData = response.data.content
+           /* const filteredData = response.data.content.filter(
                 (item) => item.datefin === '0000-00-00 00:00:00' || !item.datefin
-            );
+            );*/
 
             return(
                 filteredData.sort((a, b) => a.nom.localeCompare(b.nom))
