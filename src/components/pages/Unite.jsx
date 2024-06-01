@@ -64,37 +64,44 @@ function Unite() {
                 </div>
                 {!isLoading && (
                     <ListGroup as="ul">
-                        {filteredData.map((item) => (
-                            <ListGroup.Item
-                                as="li"
-                                key={item.idunite}
-                                className="d-flex justify-content-between align-items-center my-1"
-                            >
-                                <div>
-                                    <Link to={{
-                                        pathname: `/uniteDetail/${item.idunite}`,
-                                        state: {
-                                            nom: item.nom,
-                                            description: item.description,
-                                            campus: item.campus,
-                                            localisation: item.localisation,
-                                            rue: item.rue,
-                                            numero: item.numero,
-                                            codePostal: item.codePostal,
-                                            localite: item.localite,
-                                            email: item.email,
-                                            telephone: item.telephone,
-                                            fax: item.fax,
-                                            site1: item.site1,
-                                            site2: item.site2,
-                                            zucompos:[]
-                                        }
-                                    }} style={{ textDecoration: 'none' }}>
-                                        <p>{item.nom}</p>
-                                    </Link>
-                                </div>
-                            </ListGroup.Item>
-                        ))}
+                        {filteredData.map((item) => {
+                            const chercheur = item.zucompos && item.zucompos.length > 0 ? item.zucompos[0].zchercheur : null;
+                            return (
+                                <ListGroup.Item
+                                    as="li"
+                                    key={item.idunite}
+                                    className="d-flex justify-content-between align-items-center my-1"
+                                >
+                                    <div>
+                                        <Link to={{
+                                            pathname: `/uniteDetail/${item.idunite}`,
+                                            state: {
+                                                nom: item.nom,
+                                                description: item.description,
+                                                campus: item.campus,
+                                                localisation: item.localisation,
+                                                rue: item.rue,
+                                                numero: item.numero,
+                                                codePostal: item.codePostal,
+                                                localite: item.localite,
+                                                email: item.email,
+                                                telephone: item.telephone,
+                                                fax: item.fax,
+                                                site1: item.site1,
+                                                site2: item.site2
+                                               /* zucompos : item.zucompos.nom,
+                                                zucompos : ttem.zucompos.prenom*/
+                                            }
+                                        }} style={{ textDecoration: 'none' }}>
+                                            <p>{item.nom}</p>
+                                           {/* {chercheur && (
+                                                <p>{chercheur.prenom} {chercheur.nom}</p>
+                                            )}*/}
+                                        </Link>
+                                    </div>
+                                </ListGroup.Item>
+                            );
+                        })}
                     </ListGroup>
                 )}
                 <div className="pagination">

@@ -1,10 +1,11 @@
 import {useNavigate, useParams} from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { FaEnvelope, FaGlobe, FaPhone } from "react-icons/fa";
+import {FaEnvelope, FaGlobe, FaMapMarkerAlt, FaPhone} from "react-icons/fa";
 import {Button, Spinner} from "react-bootstrap";
 import ChercheurSupprimer from "./ChercheurSupprimer.jsx";
 import {useQuery} from "react-query";
 import {getChercheurDetail} from "../../utils/ApiGet.js";
+import React from "react";
 
 function ChercheurDetail() {
     const { getAccessTokenSilently } = useAuth0();
@@ -34,11 +35,11 @@ function ChercheurDetail() {
         <div>
             <h3>{prenom} {nom}</h3>
             <hr />
-            <p><FaPhone /> Téléphone : {telephone}</p>
-            <p><FaEnvelope /> Email : <a href={`mailto:${email}`}>{email}</a></p>
-            <p><FaGlobe /> Site : <a href={site}>{site}</a></p>
-            <p>CPI : {cpi}</p>
-            <p>Campus : {campus}</p>
+            {telephone && <p><FaPhone /> Téléphone : {telephone}</p>}
+            {email && <p><FaEnvelope /> Email : <a href={`mailto:${email}`} target="_blank" rel="noopener noreferrer">{email}</a></p>}
+            {site && <p><FaGlobe /> Site Web : <a href={site} target="_blank" rel="noopener noreferrer">{site}</a></p>}
+            {cpi && <p><FaMapMarkerAlt /> Code postal interne : {cpi}</p>}
+            {/*<p>Campus : {campus}</p>*/}
 
             <div className=""> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
                 <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/chercheurModifier/${idche}`)}>
