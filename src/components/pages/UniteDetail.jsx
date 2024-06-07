@@ -2,10 +2,11 @@ import React from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getUniteDetail, getResponsableUnite } from "../../utils/ApiGet.js";
+import { getUniteDetail} from "../../utils/ApiGet.js";
 import { Button } from "react-bootstrap";
 import UniteSupprimer from "./UniteSupprimer.jsx";
 import { FaEnvelope, FaFax, FaGlobe, FaHome, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+
 
 function UniteDetail() {
     const { getAccessTokenSilently } = useAuth0();
@@ -16,11 +17,11 @@ function UniteDetail() {
         return getUniteDetail({ accessToken: await getAccessTokenSilently(), idunite: idunite });
     });
 
-    const { data: responsable, isLoading: isLoadingResponsable } = useQuery(["responsableUnite", idunite], async () => {
+   /* const { data: responsable, isLoading: isLoadingResponsable } = useQuery(["responsableUnite", idunite], async () => {
         return getResponsableUnite({ accessToken: await getAccessTokenSilently(), idunite: idunite });
-    });
+    });*/
 
-    if (isLoadingUnite || isLoadingResponsable) {
+    if (isLoadingUnite /*|| isLoadingResponsable*/) {
         return <p>Loading...</p>;
     }
 
@@ -44,10 +45,10 @@ function UniteDetail() {
             <h2>{nom}</h2>
             <div>
                 <p>(Code : {idunite})</p>
-                <p>Responsable de l'unité : {responsable ? `${responsable.nom} ${responsable.prenom}` : "Non défini"}</p>
+               {/* <p>Responsable de l'unité : {responsable ? `${responsable.nom} ${responsable.prenom}` : "Non défini"}</p>*/}
 
 
-                {/*<p> chercheur nom et prénom </p>*/}
+                <p> chercheur nom et prénom </p>*
 
                 {description && (
                     <div>
@@ -67,8 +68,15 @@ function UniteDetail() {
                 {site1 && <p><FaGlobe /> Site Web : <a href={site1} target="_blank" rel="noopener noreferrer">{site1}</a></p>}
                 {site2 && <p><FaGlobe /> Autre Site : <a href={site2} target="_blank" rel="noopener noreferrer">{site2}</a></p>}
 
+                <p> chercheur nom et prénom </p>
+
+                {/*<ChercheurDetail/>*/}
+
                 <h5>Domaines Frascati :</h5>
                 <h5>Disciplines CRef :</h5>
+
+
+
 
                 <div>
                     <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/uniteModifier/${idunite}`)}>

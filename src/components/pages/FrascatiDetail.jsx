@@ -1,54 +1,40 @@
-import axios from "axios";
 import {useAuth0} from "@auth0/auth0-react";
-import {useEffect, useState} from "react";
+import React from "react";
 import {useParams} from "react-router-dom";
+import {useQuery} from "react-query";
+import {getFrascatiDetail, getUniteDetail} from "../../utils/ApiGet.js";
 
 
 function FrascatiDetail() {
     const {getAccessTokenSilently} = useAuth0();
     const {idfrascati} = useParams();
-    const [frascati, setFrascati] = useState(null);
 
+    const { data: zfrascati, isLoading: isLoadingUnite } = useQuery(["frascatiDetail", idfrascati], async () => {
+        return getFrascatiDetail({ accessToken: await getAccessTokenSilently(), idfrascati: idfrascati });
+    });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const accessToken = await getAccessTokenSilently();
-                const response = await axios.get(`/api/zfrascati/${idfrascati}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
+    if (isLoadingUnite /*|| isLoadingResponsable*/) {
+        return <p>Loading...</p>;
+    }
 
-                if (response.status === 200) {
-                    setFrascati(response.data);
-                    /* console.log(setFrascati());*/
-                } else {
-                    console.error("Erreur lors de la récupération des données");
-                }
-            } catch (error) {
-                console.error("Erreur lors de la récupération des données : ", error);
-            }
-        };
-
-        fetchData();
-    }, [idfrascati, getAccessTokenSilently]);
-
-
-    if (!frascati) {
+    if (!zfrascati) {
         return null;
     }
 
-    const {frascatiNom} = frascati;
+    const {frascati, description} = zfrascati;
 
     return (
         <>
-            <h2>{frascatiNom}</h2>
+            <h2>{frascati}</h2>
 
             <div>
-                <p>Unité : </p>
+                <p>(Code : {idfrascati})</p>
+               {/* <p>Unité : </p>*/}
+
+                <p>{description}</p>
 
                 <p> Ci-dessous, la liste des Unités de Recherche ayant déclaré ce domaine</p>
+
             </div>
         </>
     );

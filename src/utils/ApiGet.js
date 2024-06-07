@@ -37,7 +37,7 @@ export async function getUnite({accessToken, letter}){
             params: {
                 lettre: letter,
                 page: 0, // Page numéro 0 (première page)
-                size: 10000, // Nombre d'éléments par page
+                size: 100, // Nombre d'éléments par page
             },
         });
 
@@ -58,6 +58,7 @@ export async function getUnite({accessToken, letter}){
     }
 }
 
+/*
 export async function getResponsableUnite({ accessToken, idunite }) {
     const trueAccessToken = await accessToken;
 
@@ -77,6 +78,7 @@ export async function getResponsableUnite({ accessToken, idunite }) {
         console.error("Erreur lors de la récupération du responsable : ", error);
     }
 }
+*/
 
 export async function getUniteDetail({accessToken,idunite }){
     const trueAccessToken = await accessToken;
@@ -227,6 +229,26 @@ export async function getFrascati({accessToken}) {
     }
 }
 
+export async function getFrascatiDetail({accessToken,idfrascati}){
+    const trueAccessToken = await accessToken;
+
+    try {
+        const response = await axios.get(`/api/zfrascati/${idfrascati}`, {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return (response.data);
+        } else {
+            console.error("Erreur lors de la récupération des données");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données : ", error);
+    }
+}
+
 export async function getDiscipline({accessToken}) {
     const trueAccessToken = await accessToken;
 
@@ -244,6 +266,25 @@ export async function getDiscipline({accessToken}) {
 
         if (response.status === 200) {
             return(response.data.content);
+        } else {
+            console.error("Erreur lors de la récupération des données");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données : ", error);
+    }
+}
+export async function getDiscplineDetail({accessToken,idcodecref }){
+    const trueAccessToken = await accessToken;
+
+    try {
+        const response = await axios.get(`/api/zdiscipcref/${idcodecref}`, {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return (response.data);
         } else {
             console.error("Erreur lors de la récupération des données");
         }

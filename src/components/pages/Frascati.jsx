@@ -58,7 +58,7 @@ function Frascati() {
                                     <Link to={{
                                         pathname: `/frascatiDetail/${item.idfrascati}`,
                                         state: {
-                                            frascatiNom: item.frascati,
+                                            description: item.description
                                         }
 
                                     }} style={{textDecoration: 'none'}}>

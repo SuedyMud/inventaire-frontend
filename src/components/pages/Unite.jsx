@@ -6,6 +6,7 @@ import Pagination from 'react-bootstrap/Pagination';
 import { useQuery } from "react-query";
 import { getUnite } from "../../utils/ApiGet.js";
 
+
 function Unite() {
     const { getAccessTokenSilently } = useAuth0();
     const [currentPage, setCurrentPage] = useState('A');
@@ -65,7 +66,7 @@ function Unite() {
                 {!isLoading && (
                     <ListGroup as="ul">
                         {filteredData.map((item) => {
-                            const chercheur = item.zucompos && item.zucompos.length > 0 ? item.zucompos[0].zchercheur : null;
+
                             return (
                                 <ListGroup.Item
                                     as="li"
@@ -88,13 +89,16 @@ function Unite() {
                                                 telephone: item.telephone,
                                                 fax: item.fax,
                                                 site1: item.site1,
-                                                site2: item.site2
-                                               /* zucompos : item.zucompos.nom,
-                                                zucompos : ttem.zucompos.prenom*/
+                                                site2: item.site2,
+                                              /* zucompos : item.zucompos[
+                                                   zchercheur.nom,
+                                                       zchercheur.prenom
+                                                   reponsable = "oui"
+                                                   ]*/
                                             }
                                         }} style={{ textDecoration: 'none' }}>
                                             <p>{item.nom}</p>
-                                           {/* {chercheur && (
+                                          {/* {chercheur && (
                                                 <p>{chercheur.prenom} {chercheur.nom}</p>
                                             )}*/}
                                         </Link>

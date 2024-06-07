@@ -81,7 +81,14 @@ function Discipline() {
                                 className="d-flex justify-content-between align-items-center my-1"
                             >
                                 <div>
-                                    <Link to={`/api/discipline/${item.idcodecref}`} style={{ textDecoration: 'none' }}>
+                                    <Link to={{
+                                        pathname : `/disciplineDetail/${item.idcodecref}`,
+                                        state: {
+                                            discipline: item.discipline,
+                                            disciplineUK: item.disciplineUK
+                                        }
+                                    }}
+                                          style={{ textDecoration: 'none' }}>
                                         <p>{item.discipline}</p>
                                     </Link>
                                 </div>

@@ -25,6 +25,7 @@ import UniteModifier from "../pages/UniteModifier.jsx";
 import UniteSupprimer from "../pages/UniteSupprimer.jsx";
 import ProjetModifier from "../pages/ProjetModifier.jsx";
 import ProjetSupprimer from "../pages/ProjetSupprimer.jsx";
+import DisciplineDetail from "../pages/DisciplineDetail.jsx";
 
 
 function AppRoutes() {
@@ -66,6 +67,7 @@ function AppRoutes() {
                 <Route path="/frascati" element={<Frascati/>}/>
                 <Route path="/frascatiDetail/:idfrascati" element={<FrascatiDetail/>}/>
                 <Route path="/discipline" element={<Discipline/>}/>
+                <Route path="/disciplineDetail/:idcodecref" element={<DisciplineDetail />} />
             </Routes>
     );
 }
