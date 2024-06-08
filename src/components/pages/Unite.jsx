@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 import { useQuery } from "react-query";
 import { getUnite } from "../../utils/ApiGet.js";
+import PermissionGuard from "../../utils/PermissionGuard.jsx";
 
 
 function Unite() {
@@ -49,14 +50,18 @@ function Unite() {
                     <h2>Répertoires par Unités</h2>
                     <p>Classement par ordre alphabétique</p>
                 </div>
-                <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
-                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/uniteStat")}>
-                        Statistiques{/*Analyse Unités */}
-                    </Button>
-                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/uniteAjouter")}>
-                        Ajouter
-                    </Button>
-                </div>
+
+                <PermissionGuard permission={'read:information'}>
+                    <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
+                        <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/uniteStat")}>
+                            Statistiques{/*Analyse Unités */}
+                        </Button>
+                        <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/uniteAjouter")}>
+                            Ajouter
+                        </Button>
+                    </div>
+                </PermissionGuard>
+
             </div>
 
             <div>
@@ -90,17 +95,11 @@ function Unite() {
                                                 fax: item.fax,
                                                 site1: item.site1,
                                                 site2: item.site2,
-                                              /* zucompos : item.zucompos[
-                                                   zchercheur.nom,
-                                                       zchercheur.prenom
-                                                   reponsable = "oui"
-                                                   ]*/
+
                                             }
                                         }} style={{ textDecoration: 'none' }}>
                                             <p>{item.nom}</p>
-                                          {/* {chercheur && (
-                                                <p>{chercheur.prenom} {chercheur.nom}</p>
-                                            )}*/}
+
                                         </Link>
                                     </div>
                                 </ListGroup.Item>

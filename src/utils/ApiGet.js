@@ -47,6 +47,7 @@ export async function getUnite({accessToken, letter}){
                 (item) => item.datefin === '0000-00-00 00:00:00' || !item.datefin
             );*/
 
+
             return(
                 filteredData.sort((a, b) => a.nom.localeCompare(b.nom))
             );
@@ -229,7 +230,7 @@ export async function getFrascati({accessToken}) {
     }
 }
 
-export async function getFrascatiDetail({accessToken,idfrascati}){
+export async function getFrascatiDetail({accessToken,idfrascati }){
     const trueAccessToken = await accessToken;
 
     try {

@@ -6,6 +6,7 @@ import { getUniteDetail} from "../../utils/ApiGet.js";
 import { Button } from "react-bootstrap";
 import UniteSupprimer from "./UniteSupprimer.jsx";
 import { FaEnvelope, FaFax, FaGlobe, FaHome, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+import chercheur from "./Chercheur.jsx";
 
 
 function UniteDetail() {
@@ -48,7 +49,7 @@ function UniteDetail() {
                {/* <p>Responsable de l'unité : {responsable ? `${responsable.nom} ${responsable.prenom}` : "Non défini"}</p>*/}
 
 
-                <p> chercheur nom et prénom </p>*
+
 
                 {description && (
                     <div>
@@ -68,7 +69,9 @@ function UniteDetail() {
                 {site1 && <p><FaGlobe /> Site Web : <a href={site1} target="_blank" rel="noopener noreferrer">{site1}</a></p>}
                 {site2 && <p><FaGlobe /> Autre Site : <a href={site2} target="_blank" rel="noopener noreferrer">{site2}</a></p>}
 
-                <p> chercheur nom et prénom </p>
+                {/*<p> chercheur nom et prénom </p>*/}
+{/*
+                {<p>{chercheur.prenom} {chercheur.nom}</p>}*/}
 
                 {/*<ChercheurDetail/>*/}
 
