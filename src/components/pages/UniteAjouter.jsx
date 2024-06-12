@@ -53,6 +53,10 @@ function UniteAjouter() {
         setUnite({ ...unite, [name]: value });
     };
 
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
+
     const validateDates = () => {
         const today = new Date().toISOString().split('T')[0];
         const { datedeb, datefin, datemaj } = unite;
@@ -544,16 +548,19 @@ function UniteAjouter() {
                     </Form.Group>
                 </Row>
 
-                <div>
+                <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
                     <hr />
                     <p>* Information requise</p>
-                </div>
-
-                <div className="btn">
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" className="btn-custom"type="submit">
                         Envoyer
                     </Button>
+                    <Button variant="secondary" className="btn-custom" onClick={() => handleNavigation("/unite")}>
+                        Annuler
+                    </Button>
                 </div>
+
+
+
             </Form>
 
             {showNotif && (

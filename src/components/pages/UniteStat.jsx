@@ -1,23 +1,28 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import { saveAs } from "file-saver";
+import * as XLSX from "xlsx";
+import { Button } from "react-bootstrap";
 
 function UniteStat() {
     const { getAccessTokenSilently } = useAuth0();
 
-    const [totalUnites, setTotalUnites] = useState(0);
-    const [totalNomUk, setTotalNomUk] = useState(0);
-    const [totalDescription, setTotalDescription] = useState(0);
-    const [totalLocalite, setTotalLocalite] = useState(0);
-    const [totalTelephone, setTotalTelephone] = useState(0);
-    const [totalFax, setTotalFax] = useState(0);
-    const [totalRue, setTotalRue] = useState(0);
-    const [totalEmail, setTotalEmail] = useState(0);
-    const [totalSite1, setTotalSite1] = useState(0);
-    const [totalSite2, setTotalSite2] = useState(0);
-    const [totalRemarque, setTotalRemarque] = useState(0);
-    const [totalUniteProjets, setTotalUniteProjets] = useState(0);
-    const [moyenneProjetsParUnite, setMoyenneProjetsParUnite] = useState(0);
+    const [statistics, setStatistics] = useState({
+        totalUnites: 0,
+        totalNomUk: 0,
+        totalDescription: 0,
+        totalLocalite: 0,
+        totalTelephone: 0,
+        totalFax: 0,
+        totalRue: 0,
+        totalEmail: 0,
+        totalSite1: 0,
+        totalSite2: 0,
+        totalRemarque: 0,
+        totalUniteProjets: 0,
+        moyenneProjetsParUnite: 0
+    });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,50 +44,24 @@ function UniteStat() {
                     );
 
                     const totalUnites = filteredData.length;
-                    setTotalUnites(totalUnites);
 
-                    const totalNomUk = filteredData.filter((item) => item.nomUK !== "").length;
-                    setTotalNomUk(totalNomUk);
+                    const statistics = {
+                        totalUnites: totalUnites,
+                        totalNomUk: filteredData.filter((item) => item.nomUK === "").length,
+                        totalDescription: filteredData.filter((item) => item.description === "").length,
+                        totalLocalite: filteredData.filter((item) => item.localite === "").length,
+                        totalTelephone: filteredData.filter((item) => item.telephone === "").length,
+                        totalFax: filteredData.filter((item) => item.fax === "" || item.fax === "NEANT").length,
+                        totalRue: filteredData.filter((item) => item.rue === "").length,
+                        totalEmail: filteredData.filter((item) => item.email === "").length,
+                        totalSite1: filteredData.filter((item) => item.site1 === "").length,
+                        totalSite2: filteredData.filter((item) => item.site2 === "").length,
+                        totalRemarque: filteredData.filter((item) => item.remarque === "").length,
+                        totalUniteProjets: filteredData.length,
+                        moyenneProjetsParUnite: totalUnites > 0 ? filteredData.length / totalUnites : 0,
+                    };
 
-                    const totalDescription = filteredData.filter((item) => item.description !== "").length;
-                    setTotalDescription(totalDescription);
-
-                    const totalLocalite = filteredData.filter((item) => item.localite !== "").length;
-                    setTotalLocalite(totalLocalite);
-
-                    const totalTelephone = filteredData.filter((item) => item.telephone !== "").length;
-                    setTotalTelephone(totalTelephone);
-
-                    const totalFax = filteredData.filter((item) => {
-                        //console.log(item.fax);
-                        return item.fax !== "" && item.fax !== "NEANT";
-                    }).length;
-                    setTotalFax(totalFax);
-
-
-                    const totalRue = filteredData.filter((item) => item.rue !== "").length;
-                    setTotalRue(totalRue);
-
-                    const totalEmail = filteredData.filter((item) => item.email !== "").length;
-                    setTotalEmail(totalEmail);
-
-                    const totalSite1 = filteredData.filter((item) => item.site1 !== "").length;
-                    setTotalSite1(totalSite1);
-
-                    const totalSite2 = filteredData.filter((item) => item.site2 !== "").length;
-                    setTotalSite2(totalSite2);
-
-                    const totalRemarque = filteredData.filter((item) => item.remarque !== "").length;
-                    setTotalRemarque(totalRemarque);
-
-                    //a corriger attention :
-                    /*const totalUniteProjets = filteredData.reduce((acc, cur) => {
-                        return acc + (cur.refunite ? 1 : 0);
-                    }, 0);
-                    setTotalUniteProjets(totalUniteProjets);*/
-
-                    const moyenneProjetsParUnite = totalUniteProjets / totalUnites;
-                    setMoyenneProjetsParUnite(moyenneProjetsParUnite);
+                    setStatistics(statistics);
                 } else {
                     console.error("Erreur lors de la récupération des données");
                 }
@@ -94,21 +73,70 @@ function UniteStat() {
         fetchData();
     }, [getAccessTokenSilently]);
 
+    const generateText = (count, singularText, pluralText) => {
+        return count === 1 ? `${count} ${singularText}` : `${count} ${pluralText}`;
+    };
+
+    const downloadTxtFile = () => {
+        const data = `
+Il y a ${statistics.totalUnites} unités au total
+${generateText(statistics.totalNomUk, "unité ne possède pas de nom en anglais", "unités ne possèdent pas de nom en anglais")}
+${generateText(statistics.totalDescription, "unité ne possède pas de description", "unités ne possèdent pas de description")}
+${generateText(statistics.totalLocalite, "unité ne possède pas de localité spécifiée", "unités ne possèdent pas de localité spécifiée")}
+${generateText(statistics.totalTelephone, "unité ne possède pas de numéro de téléphone", "unités ne possèdent pas de numéro de téléphone")}
+${generateText(statistics.totalFax, "unité ne possède pas de fax", "unités ne possèdent pas de fax")}
+${generateText(statistics.totalRue, "unité ne possède pas d'adresse physique", "unités ne possèdent pas d'adresse physique")}
+${generateText(statistics.totalEmail, "unité ne possède pas d'adresse e-mail", "unités ne possèdent pas d'adresse e-mail")}
+${generateText(statistics.totalSite1, "unité ne possède pas de site internet", "unités ne possèdent pas de site internet")}
+${generateText(statistics.totalSite2, "unité ne possède pas de deuxième site internet", "unités ne possèdent pas de deuxième site internet")}
+${generateText(statistics.totalRemarque, "unité ne comporte pas de remarque", "unités ne comportent pas de remarque")}
+Voici le nombre de projets par unité : ${statistics.totalUniteProjets} avec une moyenne de projets par unité de ${statistics.moyenneProjetsParUnite}
+        `;
+        const blob = new Blob([data], { type: "text/plain" });
+        saveAs(blob, "unite_statistiques.txt");
+    };
+
+    const downloadExcelFile = () => {
+        const data = [
+            ["Statistiques", "Valeurs"],
+            ["Total Unités", statistics.totalUnites],
+            ["Unités sans Nom UK", statistics.totalNomUk],
+            ["Unités sans Description", statistics.totalDescription],
+            ["Unités sans Localité", statistics.totalLocalite],
+            ["Unités sans Téléphone", statistics.totalTelephone],
+            ["Unités sans Fax", statistics.totalFax],
+            ["Unités sans Rue", statistics.totalRue],
+            ["Unités sans Email", statistics.totalEmail],
+            ["Unités sans Site1", statistics.totalSite1],
+            ["Unités sans Site2", statistics.totalSite2],
+            ["Unités sans Remarque", statistics.totalRemarque],
+            ["Total Unité Projets", statistics.totalUniteProjets],
+            ["Moyenne Projets par Unité", statistics.moyenneProjetsParUnite],
+        ];
+        const worksheet = XLSX.utils.aoa_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Statistiques");
+        XLSX.writeFile(workbook, "unite_statistiques.xlsx");
+    };
+
     return (
         <div className="container">
             <h2>Les statistiques des unités</h2>
-            <p>Il y a {totalUnites} unités au total</p>
-            <p>{totalNomUk} unités possèdent un nom en anglais</p>
-            <p>{totalDescription} unités possèdent une description</p>
-            <p>{totalLocalite} unités ont une localité spécifiée</p>
-            <p>{totalTelephone} unités ont un numéro de téléphone</p>
-            <p>{totalFax} unités ont un fax</p>
-            <p>{totalRue} unités possèdent une adresse physique</p>
-            <p>{totalEmail} unités disposent d'une adresse e-mail</p>
-            <p>{totalSite1} unités ont un site internet</p>
-            <p>{totalSite2} unités ont même un deuxième site internet</p>
-            <p>{totalRemarque} unités comportent une remarque</p>
-            <p>Voici le nombre de projet par unité : {totalUniteProjets} avec une moyenne de projet par unité {moyenneProjetsParUnite}</p>
+            <p>Il y a {statistics.totalUnites} unités au total.</p>
+            <p>{generateText(statistics.totalNomUk, "unité ne possède pas de nom en anglais", "unités ne possèdent pas de nom en anglais")}.</p>
+            <p>{generateText(statistics.totalDescription, "unité ne possède pas de description", "unités ne possèdent pas de description")}.</p>
+            <p>{generateText(statistics.totalLocalite, "unité ne possède pas de localité spécifiée", "unités ne possèdent pas de localité spécifiée")}.</p>
+            <p>{generateText(statistics.totalTelephone, "unité ne possède pas de numéro de téléphone", "unités ne possèdent pas de numéro de téléphone")}.</p>
+            <p>{generateText(statistics.totalFax, "unité ne possède pas de fax", "unités ne possèdent pas de fax")}.</p>
+            <p>{generateText(statistics.totalRue, "unité ne possède pas d'adresse physique", "unités ne possèdent pas d'adresse physique")}.</p>
+            <p>{generateText(statistics.totalEmail, "unité ne possède pas d'adresse e-mail", "unités ne possèdent pas d'adresse e-mail")}.</p>
+            <p>{generateText(statistics.totalSite1, "unité ne possède pas de site internet", "unités ne possèdent pas de site internet")}.</p>
+            <p>{generateText(statistics.totalSite2, "unité ne possède pas de deuxième site internet", "unités ne possèdent pas de deuxième site internet")}.</p>
+            <p>{generateText(statistics.totalRemarque, "unité ne comporte pas de remarque", "unités ne comportent pas de remarque")}.</p>
+            <p>Voici le nombre de projets par unité : {statistics.totalUniteProjets} avec une moyenne de projets par unité de {statistics.moyenneProjetsParUnite}.</p>
+
+            <Button variant="primary" className="btn-custom" onClick={downloadTxtFile}>Télécharger en format texte</Button>
+            <Button variant="primary" className="btn-custom" onClick={downloadExcelFile}>Télécharger en format Excel</Button>
         </div>
     );
 }

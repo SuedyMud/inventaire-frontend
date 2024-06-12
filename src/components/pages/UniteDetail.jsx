@@ -7,6 +7,7 @@ import { Button } from "react-bootstrap";
 import UniteSupprimer from "./UniteSupprimer.jsx";
 import { FaEnvelope, FaFax, FaGlobe, FaHome, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
 import chercheur from "./Chercheur.jsx";
+import PermissionGuard from "../../utils/PermissionGuard.jsx";
 
 
 function UniteDetail() {
@@ -82,13 +83,16 @@ function UniteDetail() {
 
 
                 <div>
-                    <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/uniteModifier/${idunite}`)}>
-                        Modifier
-                    </Button>
+                    {/*<PermissionGuard permission={'write:information'}>*/}
+                        <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/uniteModifier/${idunite}`)}>
+                            Modifier
+                        </Button>
 
-                    <div className="btn-custom">
-                        <UniteSupprimer idunite={idunite} />
-                    </div>
+                        <div className="btn-custom">
+                            <UniteSupprimer idunite={idunite} />
+                        </div>
+                   {/* </PermissionGuard>*/}
+
                 </div>
             </div>
         </>

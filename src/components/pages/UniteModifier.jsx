@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import axios from "axios";
@@ -56,6 +56,10 @@ function UniteModifier() {
     const handleChange = (event) => {
         const { name, value } = event.target;
         setUnite({ ...unite, [name]: value });
+    };
+
+    const handleNavigation = (path) => {
+        navigate(path);
     };
 
     const handleFormSubmit = async (event) => {
@@ -279,9 +283,19 @@ function UniteModifier() {
                 {error && <Alert variant="danger">{error}</Alert>}
                 {showNotif && <Alert variant="success">Unité modifiée avec succès!</Alert>}
 
-                <Button variant="primary" type="submit">
-                    Modifier
-                </Button>
+
+
+                <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
+                    <hr />
+                    <p>* Information requise</p>
+                    <Button variant="primary" className="btn-custom"type="submit">
+                        Modifier
+                    </Button>
+                    <Button variant="secondary" className="btn-custom" onClick={() => handleNavigation(`/uniteDetail/${idunite}`)}>
+                        Annuler
+                    </Button>
+                </div>
+
             </Form>
         </>
     );

@@ -51,7 +51,7 @@ function Unite() {
                     <p>Classement par ordre alphabétique</p>
                 </div>
 
-                <PermissionGuard permission={'read:information'}>
+                {/*<PermissionGuard permission={'read:information'}> - corrige problème*/}
                     <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
                         <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/uniteStat")}>
                             Statistiques{/*Analyse Unités */}
@@ -60,7 +60,7 @@ function Unite() {
                             Ajouter
                         </Button>
                     </div>
-                </PermissionGuard>
+              {/*  </PermissionGuard>*/}
 
             </div>
 

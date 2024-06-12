@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function getFaculte({accessToken}){
+export async function getFaculte({ accessToken }) {
     const trueAccessToken = await accessToken;
 
     try {
@@ -9,12 +9,12 @@ export async function getFaculte({accessToken}){
                 Authorization: `Bearer ${trueAccessToken}`,
             },
         });
-        if (response.status === 200) {
+        if (response.status === 200 && response.data ) {
             const filteredData = response.data.content.filter(
                 (item) => item.actif === 1 && item.invent20 === 1
             );
 
-            return(
+            return (
                 filteredData.sort((a, b) => a.faculte.localeCompare(b.faculte))
             );
         } else {
@@ -46,7 +46,6 @@ export async function getUnite({accessToken, letter}){
            /* const filteredData = response.data.content.filter(
                 (item) => item.datefin === '0000-00-00 00:00:00' || !item.datefin
             );*/
-
 
             return(
                 filteredData.sort((a, b) => a.nom.localeCompare(b.nom))

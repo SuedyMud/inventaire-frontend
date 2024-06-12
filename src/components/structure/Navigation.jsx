@@ -21,7 +21,7 @@ function Navigation() {
                             <>
                                 <Nav.Link as={Link} to="/faculte">Faculte / Département</Nav.Link>
 
-                                {/*<PermissionGuard permission={'read:all-information'}>*/}
+                                {/*<PermissionGuard permission={'read:information'}>*/}
                                     <Nav.Link as={Link} to="/unite">Répertoire des Unités</Nav.Link>
                                     <Nav.Link as={Link} to="/projet">Répertoire des Projets</Nav.Link>
                                     <Nav.Link as={Link} to="/chercheur">Répertoire des Chercheurs</Nav.Link>
