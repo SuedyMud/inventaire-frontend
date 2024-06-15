@@ -1,14 +1,16 @@
-import {useAuth0} from "@auth0/auth0-react";
-import {ListGroup} from "react-bootstrap";
-import {Link} from "react-router-dom";
-import {useQuery} from "react-query";
-import {getFrascati} from "../../utils/ApiGet.js";
+import React from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
+import { Button, ListGroup } from "react-bootstrap";
+import {Link, useNavigate} from "react-router-dom";
+import { useQuery } from "react-query";
+import { getFrascati } from "../../utils/ApiGet.js";
 
 function Frascati() {
-    const {getAccessTokenSilently} = useAuth0();
-
-    const {data, isLoading} = useQuery(["frascati"], async () =>
-        getFrascati({accessToken: await getAccessTokenSilently()})
+    const { getAccessTokenSilently } = useAuth0();
+    const navigate = useNavigate();
+    
+    const { data, isLoading } = useQuery("frascati", async () =>
+        getFrascati({ accessToken: await getAccessTokenSilently() })
     );
 
     // Fonction pour organiser les données en groupes de catégories
@@ -25,7 +27,10 @@ function Frascati() {
         // Vérifier si data est défini avant d'itérer
         if (data) {
             data.forEach((item) => {
-                organizedData[item.idfrascati[0]].push(item);
+                const category = item.idfrascati[0];
+                if (organizedData[category]) {
+                    organizedData[category].push(item);
+                }
             });
         }
 
@@ -58,10 +63,11 @@ function Frascati() {
                                     <Link to={{
                                         pathname: `/frascatiDetail/${item.idfrascati}`,
                                         state: {
-                                            description: item.description
+                                            description: item.description,
+                                            nom: item.nom,
+                                            zufrascati: item.zufrascati // Pass the zufrascati data here
                                         }
-
-                                    }} style={{textDecoration: 'none'}}>
+                                    }} style={{ textDecoration: 'none' }}>
                                         <p>{item.idfrascati} {item.frascati}</p>
                                     </Link>
                                 </div>
@@ -73,11 +79,32 @@ function Frascati() {
         ));
     };
 
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
+
+    const organizedData = organizeDataByCategories(data);
+
     return (
         <>
-            <h2>Répertoire des Unités par Frascati</h2>
+            <div className="row">
+                <div className="col-md-9">
+                    <h2>Répertoire des Unités par Frascati</h2>
+                </div>
+
+            {/* <PermissionGuard permission={'read:information'}> */}
+            <div className="col-md-3 text-right">
+                <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/frascatiStat")}>
+                    Statistiques
+                </Button>
+                <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/fascatiAjouter")}>
+                    Ajouter
+                </Button>
+            </div>
+            {/* </PermissionGuard> */}
             <div>
-                {renderCategories(organizeDataByCategories(data))}
+                {renderCategories(organizedData)}
+            </div>
             </div>
         </>
     );

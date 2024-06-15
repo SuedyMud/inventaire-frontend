@@ -2,7 +2,7 @@ import {useAuth0} from "@auth0/auth0-react";
 import React from "react";
 import {useParams} from "react-router-dom";
 import {useQuery} from "react-query";
-import {getFrascatiDetail, getUniteDetail} from "../../utils/ApiGet.js";
+import {getFrascatiDetail} from "../../utils/ApiGet.js";
 
 
 function FrascatiDetail() {
@@ -21,7 +21,7 @@ function FrascatiDetail() {
         return null;
     }
 
-    const {frascati, description} = zfrascati;
+    const {frascati, description, nom, zufrascati} = zfrascati;
 
     return (
         <>
@@ -32,6 +32,8 @@ function FrascatiDetail() {
                {/* <p>Unité : </p>*/}
 
                 <p>{description}</p>
+
+                <p>unité : {zufrascati}</p>
 
                 <p> Ci-dessous, la liste des Unités de Recherche ayant déclaré ce domaine</p>
 
