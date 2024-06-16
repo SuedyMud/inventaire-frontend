@@ -60,6 +60,10 @@ function ChercheurAjouter() {
         }
     };
 
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
+
     return (
         <>
             <h2>Ajouter nouveau Chercheur :</h2>
@@ -250,16 +254,20 @@ function ChercheurAjouter() {
                     </Form.Group>
                 </Row>
 
-                <div>
+
+
+                <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
                     <hr />
                     <p>* Information requise</p>
-                </div>
-
-                <div className="btn">
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" className="btn-custom" type="submit">
                         Envoyer
                     </Button>
+                    <Button variant="secondary" className="btn-custom" onClick={() => handleNavigation("/chercheur")}>
+                        Annuler
+                    </Button>
                 </div>
+
+
             </Form>
 
             {showNotif && (
