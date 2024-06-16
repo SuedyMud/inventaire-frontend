@@ -58,9 +58,7 @@ function UniteModifier() {
         setUnite({ ...unite, [name]: value });
     };
 
-    const handleNavigation = (path) => {
-        navigate(path);
-    };
+
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -91,6 +89,10 @@ function UniteModifier() {
             console.error("Erreur lors de la modification de l'unité: ", error);
             setError("Une erreur s'est produite lors de la modification de l'unité.");
         }
+    };
+
+    const handleNavigation = (path) => {
+        navigate(path);
     };
 
     return (

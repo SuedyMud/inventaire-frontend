@@ -7,11 +7,10 @@ import { useQuery } from "react-query";
 import { getUnite } from "../../utils/ApiGet.js";
 import PermissionGuard from "../../utils/PermissionGuard.jsx";
 
-
 function Unite() {
     const { getAccessTokenSilently } = useAuth0();
     const [currentPage, setCurrentPage] = useState('A');
-    const navigate = useNavigate(); // Utilisation de useNavigate pour la navigation
+    const navigate = useNavigate();
 
     const { data, isLoading } = useQuery(["unite", currentPage], async () => {
         return getUnite({ accessToken: await getAccessTokenSilently(), letter: currentPage });
@@ -38,7 +37,6 @@ function Unite() {
 
     const filteredData = data ? data.filter(item => item.nom.charAt(0).toUpperCase() === currentPage) : [];
 
-    // Gestion des clics sur les boutons pour la navigation
     const handleNavigation = (path) => {
         navigate(path);
     };
@@ -50,18 +48,16 @@ function Unite() {
                     <h2>Répertoires par Unités</h2>
                     <p>Classement par ordre alphabétique</p>
                 </div>
-
-                {/*<PermissionGuard permission={'read:information'}> - corrige problème*/}
-                    <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
+               {/* <PermissionGuard permission={'read:information'}>*/}
+                    <div className="col-md-3 text-right">
                         <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/uniteStat")}>
-                            Statistiques{/*Analyse Unités */}
+                            Statistiques
                         </Button>
                         <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/uniteAjouter")}>
                             Ajouter
                         </Button>
                     </div>
-              {/*  </PermissionGuard>*/}
-
+               {/* </PermissionGuard>*/}
             </div>
 
             <div>
@@ -70,41 +66,46 @@ function Unite() {
                 </div>
                 {!isLoading && (
                     <ListGroup as="ul">
-                        {filteredData.map((item) => {
-
-                            return (
-                                <ListGroup.Item
-                                    as="li"
-                                    key={item.idunite}
-                                    className="d-flex justify-content-between align-items-center my-1"
-                                >
-                                    <div>
-                                        <Link to={{
-                                            pathname: `/uniteDetail/${item.idunite}`,
-                                            state: {
-                                                nom: item.nom,
-                                                description: item.description,
-                                                campus: item.campus,
-                                                localisation: item.localisation,
-                                                rue: item.rue,
-                                                numero: item.numero,
-                                                codePostal: item.codePostal,
-                                                localite: item.localite,
-                                                email: item.email,
-                                                telephone: item.telephone,
-                                                fax: item.fax,
-                                                site1: item.site1,
-                                                site2: item.site2,
-
-                                            }
-                                        }} style={{ textDecoration: 'none' }}>
-                                            <p>{item.nom}</p>
-
-                                        </Link>
-                                    </div>
-                                </ListGroup.Item>
-                            );
-                        })}
+                        {filteredData.map((item) => (
+                            <ListGroup.Item
+                                as="li"
+                                key={item.idunite}
+                                className="d-flex justify-content-between align-items-center my-1"
+                            >
+                                <div>
+                                    <Link to={{
+                                        pathname: `/uniteDetail/${item.idunite}`,
+                                        state: {
+                                            nom: item.nom,
+                                            description: item.description,
+                                            campus: item.campus,
+                                            localisation: item.localisation,
+                                            rue: item.rue,
+                                            numero: item.numero,
+                                            codePostal: item.codePostal,
+                                            localite: item.localite,
+                                            email: item.email,
+                                            telephone: item.telephone,
+                                            fax: item.fax,
+                                            site1: item.site1,
+                                            site2: item.site2,
+                                        }
+                                    }} style={{ textDecoration: 'none' }}>
+                                        <p>{item.nom}</p>
+                                        {/*{item.zucompos && item.zucompos.map((zuc) => (
+                                            <p key={zuc.zunite.idunite}>
+                                                {zuc.zunite.idunite} {zuc.zunite.nom}
+                                            </p>
+                                        ))}
+                                        {item.zucompos && item.zucompos.filter(zuc => zuc.responsable === 'Oui').map(responsable => (
+                                            <p key={responsable.zchercheur.idche}>
+                                                Responsable: {responsable.zchercheur.nom} {responsable.zchercheur.prenom}
+                                            </p>
+                                        ))}*/}
+                                    </Link>
+                                </div>
+                            </ListGroup.Item>
+                        ))}
                     </ListGroup>
                 )}
                 <div className="pagination">

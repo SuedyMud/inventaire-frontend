@@ -1,13 +1,17 @@
 import {useAuth0} from "@auth0/auth0-react";
 import React from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "react-query";
 import {getFrascatiDetail} from "../../utils/ApiGet.js";
+import {Button} from "react-bootstrap";
+import UniteSupprimer from "./UniteSupprimer.jsx";
+import FrascatiSupprimer from "./FrascatiSupprimer.jsx";
 
 
 function FrascatiDetail() {
     const {getAccessTokenSilently} = useAuth0();
     const {idfrascati} = useParams();
+    const navigate = useNavigate();
 
     const { data: zfrascati, isLoading: isLoadingUnite } = useQuery(["frascatiDetail", idfrascati], async () => {
         return getFrascatiDetail({ accessToken: await getAccessTokenSilently(), idfrascati: idfrascati });
@@ -21,7 +25,10 @@ function FrascatiDetail() {
         return null;
     }
 
-    const {frascati, description, nom, zufrascati} = zfrascati;
+    const {frascati, description} = zfrascati;
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
 
     return (
         <>
@@ -33,9 +40,23 @@ function FrascatiDetail() {
 
                 <p>{description}</p>
 
-                <p>unité : {zufrascati}</p>
+               {/* <p>unité : {zufrascati}</p>*/}
 
                 <p> Ci-dessous, la liste des Unités de Recherche ayant déclaré ce domaine</p>
+
+
+                <div>
+                    {/*<PermissionGuard permission={'write:information'}>*/}
+                    <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/frascatiModifier/${idfrascati}`)}>
+                        Modifier
+                    </Button>
+
+                    <div className="btn-custom">
+                        <FrascatiSupprimer idunite={idfrascati} />
+                    </div>
+                    {/* </PermissionGuard>*/}
+
+                </div>
 
             </div>
         </>

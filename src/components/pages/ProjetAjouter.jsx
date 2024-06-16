@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Form, Button, Alert, Col, Row } from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
 
 function ProjetAjouter() {
     const { getAccessTokenSilently } = useAuth0();
@@ -25,11 +26,15 @@ function ProjetAjouter() {
 
     const [showNotif, setShowNotif] = useState(false);
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const handleChange = (event) => {
         const { name, value } = event.target;
         setProjet({ ...projet, [name]: value });
     };
+
+
+
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -57,6 +62,11 @@ function ProjetAjouter() {
             setError("Une erreur s'est produite lors de la création du projet.");
         }
     };
+
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
+
 
     return (
         <>
@@ -252,16 +262,17 @@ function ProjetAjouter() {
                     </Form.Group>
                 </Row>
 
-                <div>
+                <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
                     <hr />
                     <p>* Information requise</p>
-                </div>
-
-                <div className="btn">
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" className="btn-custom" type="submit">
                         Envoyer
                     </Button>
+                    <Button variant="secondary" className="btn-custom" onClick={() => handleNavigation("/projet")}>
+                        Annuler
+                    </Button>
                 </div>
+
 
             </Form>
 

@@ -10,6 +10,7 @@ function UniteStat() {
 
     const [statistics, setStatistics] = useState({
         totalUnites: 0,
+        totalNom: 0,
         totalNomUk: 0,
         totalDescription: 0,
         totalLocalite: 0,
@@ -47,6 +48,7 @@ function UniteStat() {
 
                     const statistics = {
                         totalUnites: totalUnites,
+                        totalNom: filteredData.filter((item) => item.nom === "").length,
                         totalNomUk: filteredData.filter((item) => item.nomUK === "").length,
                         totalDescription: filteredData.filter((item) => item.description === "").length,
                         totalLocalite: filteredData.filter((item) => item.localite === "").length,
@@ -80,6 +82,7 @@ function UniteStat() {
     const downloadTxtFile = () => {
         const data = `
 Il y a ${statistics.totalUnites} unités au total
+${generateText(statistics.totalNom, "unité ne possède pas de nom", "unités ne possèdent pas de nom")}
 ${generateText(statistics.totalNomUk, "unité ne possède pas de nom en anglais", "unités ne possèdent pas de nom en anglais")}
 ${generateText(statistics.totalDescription, "unité ne possède pas de description", "unités ne possèdent pas de description")}
 ${generateText(statistics.totalLocalite, "unité ne possède pas de localité spécifiée", "unités ne possèdent pas de localité spécifiée")}
@@ -100,6 +103,7 @@ Voici le nombre de projets par unité : ${statistics.totalUniteProjets} avec une
         const data = [
             ["Statistiques", "Valeurs"],
             ["Total Unités", statistics.totalUnites],
+            ["Unités sans Nom", statistics.totalNom],
             ["Unités sans Nom UK", statistics.totalNomUk],
             ["Unités sans Description", statistics.totalDescription],
             ["Unités sans Localité", statistics.totalLocalite],
@@ -123,6 +127,7 @@ Voici le nombre de projets par unité : ${statistics.totalUniteProjets} avec une
         <div className="container">
             <h2>Les statistiques des unités</h2>
             <p>Il y a {statistics.totalUnites} unités au total.</p>
+            <p>{generateText(statistics.totalNom, "unité ne possède pas de nom", "unités ne possèdent pas de nom")}.</p>
             <p>{generateText(statistics.totalNomUk, "unité ne possède pas de nom en anglais", "unités ne possèdent pas de nom en anglais")}.</p>
             <p>{generateText(statistics.totalDescription, "unité ne possède pas de description", "unités ne possèdent pas de description")}.</p>
             <p>{generateText(statistics.totalLocalite, "unité ne possède pas de localité spécifiée", "unités ne possèdent pas de localité spécifiée")}.</p>

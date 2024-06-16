@@ -97,7 +97,7 @@ function Frascati() {
                 <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/frascatiStat")}>
                     Statistiques
                 </Button>
-                <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/fascatiAjouter")}>
+                <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/frascatiAjouter")}>
                     Ajouter
                 </Button>
             </div>

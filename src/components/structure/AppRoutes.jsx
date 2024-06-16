@@ -27,6 +27,9 @@ import ProjetModifier from "../pages/ProjetModifier.jsx";
 import ProjetSupprimer from "../pages/ProjetSupprimer.jsx";
 import DisciplineDetail from "../pages/DisciplineDetail.jsx";
 import FrascatiStat from "../pages/FrascatiStat.jsx";
+import FrascatiAjouter from "../pages/FrascatiAjouter.jsx";
+import FrascatiSupprimer from "../pages/FrascatiSupprimer.jsx";
+import FrascatiModifier from "../pages/FrascatiModifier.jsx";
 
 
 function AppRoutes() {
@@ -68,6 +71,9 @@ function AppRoutes() {
                 <Route path="/frascati" element={<Frascati/>}/>
                 <Route path="/frascatiDetail/:idfrascati" element={<FrascatiDetail/>}/>
                 <Route path="/frascatiStat" element={<FrascatiStat />}/>
+                <Route path="/frascatiAjouter" element={<FrascatiAjouter />}/>
+                <Route path="/frascatiSupprimer" element={<FrascatiSupprimer />}/>
+                <Route path="/frascatiModifier/:idfrascati" element={<FrascatiModifier />}/>
 
 
 

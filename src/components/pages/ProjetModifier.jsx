@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import axios from "axios";
@@ -7,7 +7,6 @@ import { useNavigate, useParams } from "react-router-dom";
 function ProjetModifier() {
     const { getAccessTokenSilently } = useAuth0();
     const { idprojet } = useParams();
-    const navigate = useNavigate();
     const [projet, setProjet] = useState({
         nom: "",
         nomUK: "",
@@ -27,6 +26,8 @@ function ProjetModifier() {
 
     const [showNotif, setShowNotif] = useState(false);
     const [error, setError] = useState("");
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchProjet = async () => {
@@ -84,6 +85,10 @@ function ProjetModifier() {
             console.error("Erreur lors de la modification du projet: ", error);
             setError("Une erreur s'est produite lors de la modification du projet.");
         }
+    };
+
+    const handleNavigation = (path) => {
+        navigate(path);
     };
 
     return (
@@ -266,9 +271,18 @@ function ProjetModifier() {
                 {error && <Alert variant="danger">{error}</Alert>}
                 {showNotif && <Alert variant="success">Projet modifié avec succès!</Alert>}
 
-                <Button variant="primary" type="submit">
+
+                <div className="col-md-3 text-right">
+                    <hr />
+                    <p>* Information requise</p>
+                    <Button variant="primary" className="btn-custom" type="submit">
                     Modifier
-                </Button>
+                    </Button>
+                    <Button variant="secondary" className="btn-custom" onClick={() => handleNavigation(`/projetDetail/${idprojet}`)}>
+                        Annuler
+                    </Button>
+                </div>
+
             </Form>
         </>
     );

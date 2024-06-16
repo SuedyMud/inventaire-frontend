@@ -37,7 +37,7 @@ export async function getUnite({accessToken, letter}){
             params: {
                 lettre: letter,
                 page: 0, // Page numéro 0 (première page)
-                size: 100, // Nombre d'éléments par page
+                size: 10000, // Nombre d'éléments par page
             },
         });
 

@@ -53,9 +53,7 @@ function UniteAjouter() {
         setUnite({ ...unite, [name]: value });
     };
 
-    const handleNavigation = (path) => {
-        navigate(path);
-    };
+
 
     const validateDates = () => {
         const today = new Date().toISOString().split('T')[0];
@@ -112,6 +110,10 @@ function UniteAjouter() {
             console.error("Erreur lors de la création de l'unité: ", error);
             setError("Une erreur s'est produite lors de la création de l'unité.");
         }
+    };
+
+    const handleNavigation = (path) => {
+        navigate(path);
     };
 
     return (
@@ -558,7 +560,6 @@ function UniteAjouter() {
                         Annuler
                     </Button>
                 </div>
-
 
 
             </Form>

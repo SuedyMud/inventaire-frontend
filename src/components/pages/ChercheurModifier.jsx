@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -72,6 +72,10 @@ function ChercheurModifier() {
         } catch (error) {
             console.error("Erreur lors de la modification du chercheur : ", error);
         }
+    };
+
+    const handleNavigation = (path) => {
+        navigate(path);
     };
 
     return (
@@ -171,15 +175,18 @@ function ChercheurModifier() {
                     />
                 </Form.Group>
 
-                <div>
+
+
+                <div className="col-md-3 text-right">
                     <hr />
-                    <p>* Information requis</p>
+                    <p>* Information requise</p>
+                    <Button variant="primary" className="btn-custom"type="submit">
+                        Modifier
+                    </Button>
+                    <Button variant="secondary" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${idche}`)}>
+                        Annuler
+                    </Button>
                 </div>
-
-
-                <Button variant="primary" className="btn-custom" type="submit">
-                    Modifier
-                </Button>
 
 
 
