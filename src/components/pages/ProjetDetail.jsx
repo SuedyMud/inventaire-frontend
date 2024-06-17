@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "react-query";
 import {getProjetDetail} from "../../utils/ApiGet.js";
 import {Button} from "react-bootstrap";
-import UniteSupprimer from "./UniteSupprimer.jsx";
+import ProjetSupprimer from "./ProjetSupprimer.jsx";
 
 
 function ProjetDetail() {
@@ -57,7 +57,7 @@ function ProjetDetail() {
                     </Button>
 
                    <div className="btn-custom">
-                        <UniteSupprimer idunite={idprojet} />
+                        <ProjetSupprimer idprojet={idprojet} />
                     </div>
                 </div>
             </div>
