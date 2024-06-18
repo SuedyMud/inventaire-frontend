@@ -1,12 +1,13 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { ListGroup } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import {Button, ListGroup} from "react-bootstrap";
+import {Link, useNavigate} from "react-router-dom";
 import { useQuery } from "react-query";
 import { getDiscipline } from "../../utils/ApiGet.js";
 
 function Discipline() {
     const { getAccessTokenSilently } = useAuth0();
+    const navigate = useNavigate();
 
     const { data, isLoading } = useQuery(["discipline"], async () => {
         const accessToken = await getAccessTokenSilently();
@@ -100,9 +101,33 @@ function Discipline() {
         ));
     };
 
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
+
     return (
         <>
-            <h2>Répertoire des Unités par Disciplines CREF</h2>
+
+            <div className="row">
+                <div className="col-md-9"> {/* Colonne prenant 9/12 de la largeur */}
+                    <h2>Répertoire des Unités par Disciplines CREF</h2>
+                </div>
+
+                {/* <PermissionGuard permission={'read:information'}> */}
+                <div className="col-md-3 text-right">
+                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/disciplineStat")}>
+                        Statistiques
+                    </Button>
+                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/disciplineAjouter")}>
+                        Ajouter
+                    </Button>
+                </div>
+                {/* </PermissionGuard> */}
+            </div>
+
+
+
+
             <div>
                 {renderCategories(organizeDataByCategories(data))}
             </div>

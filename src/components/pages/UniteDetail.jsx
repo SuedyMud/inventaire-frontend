@@ -81,7 +81,6 @@ function UniteDetail() {
 
 
 
-
                 <div>
                     {/*<PermissionGuard permission={'write:information'}>*/}
                         <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/uniteModifier/${idunite}`)}>

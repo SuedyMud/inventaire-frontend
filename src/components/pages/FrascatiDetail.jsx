@@ -4,7 +4,6 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "react-query";
 import {getFrascatiDetail} from "../../utils/ApiGet.js";
 import {Button} from "react-bootstrap";
-import UniteSupprimer from "./UniteSupprimer.jsx";
 import FrascatiSupprimer from "./FrascatiSupprimer.jsx";
 
 
@@ -52,7 +51,7 @@ function FrascatiDetail() {
                     </Button>
 
                     <div className="btn-custom">
-                        <FrascatiSupprimer idunite={idfrascati} />
+                        <FrascatiSupprimer idfrascati={idfrascati} />
                     </div>
                     {/* </PermissionGuard>*/}
 

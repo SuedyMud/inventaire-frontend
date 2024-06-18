@@ -41,13 +41,15 @@ function DisciplineDetail(){
 
 
                 <div>
-                   {/* <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/uniteModifier/${idunite}`)}>
+                    {/*<PermissionGuard permission={'write:information'}>
+                    <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/uniteModifier/${idunite}`)}>
                         Modifier
-                    </Button>*/}
+                    </Button>
 
-                    {/*<div className="btn-custom">
+                    <div className="btn-custom">
                         <UniteSupprimer idunite={idunite} />
-                    </div>*/}
+                    </div>
+                     </PermissionGuard>*/}
                 </div>
             </div>
         </>
