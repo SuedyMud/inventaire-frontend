@@ -60,7 +60,7 @@ function FaculteAjouter() {
 
     return (
         <>
-            <h2>Ajouter nouveau Projet :</h2>
+            <h2>Ajouter nouvelle faculté:</h2>
             <Form onSubmit={handleFormSubmit}>
 
                 <Row className="mb-3">

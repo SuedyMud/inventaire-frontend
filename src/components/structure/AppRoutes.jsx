@@ -32,6 +32,7 @@ import FrascatiSupprimer from "../pages/FrascatiSupprimer.jsx";
 import FrascatiModifier from "../pages/FrascatiModifier.jsx";
 import DisciplineAjouter from "../pages/DisciplineAjouter.jsx";
 import DisciplineStat from "../pages/DisciplineStat.jsx";
+import FaculteAjouter from "../pages/FaculteAjouter.jsx";
 
 
 function AppRoutes() {
@@ -41,6 +42,7 @@ function AppRoutes() {
                 <Route index element={<Faculte/>}/>
                 <Route path="/faculte" element={<Faculte/>}/>
                 <Route path="/faculteStat" element={<FaculteStat />} />
+                <Route path="/faculteAjouter" element={<FaculteAjouter />} />
                 <Route path="/faculte/:facId" component={FaculteDetail} />
 
 
@@ -76,8 +78,6 @@ function AppRoutes() {
                 <Route path="/frascatiAjouter" element={<FrascatiAjouter />}/>
                 <Route path="/frascatiSupprimer" element={<FrascatiSupprimer />}/>
                 <Route path="/frascatiModifier/:idfrascati" element={<FrascatiModifier />}/>
-
-
 
 
                 <Route path="/discipline" element={<Discipline/>}/>

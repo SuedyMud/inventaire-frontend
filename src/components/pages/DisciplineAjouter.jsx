@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import axios from "axios";
@@ -15,20 +15,6 @@ function DisciplineAjouter() {
     const [showNotif, setShowNotif] = useState(false);
     const [error, setError] = useState("");
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchNextId = async () => {
-            try {
-                const response = await axios.get('/api/zdiscipcref/next-id');
-                setDisciplines({ ...disciplines, idcodecref: response.data.nextId });
-            } catch (error) {
-                console.error('Erreur lors de la récupération du prochain ID de discipline:', error);
-                setError("Une erreur s'est produite lors de la récupération du prochain ID de discipline.");
-            }
-        };
-
-        fetchNextId();
-    }, []);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -66,6 +52,10 @@ function DisciplineAjouter() {
         }
     };
 
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
+
     return (
         <>
             <h2>Ajouter une nouvelle discipline :</h2>
@@ -76,11 +66,10 @@ function DisciplineAjouter() {
                         <Form.Label>Id Discipline *</Form.Label>
                         <Form.Control
                             type="text"
-                            name="iddiscipline"
+                            name="idcodecref"
                             value={disciplines.idcodecref}
                             onChange={handleChange}
                             required
-                            readOnly
                         />
                     </Form.Group>
 
@@ -116,7 +105,7 @@ function DisciplineAjouter() {
                     <Button variant="primary" className="btn-custom" type="submit">
                         Envoyer
                     </Button>
-                    <Button variant="secondary" className="btn-custom" onClick={() => navigate("/disciplines")}>
+                    <Button variant="secondary" className="btn-custom" onClick={() => handleNavigation("/discipline")}>
                         Annuler
                     </Button>
                 </div>

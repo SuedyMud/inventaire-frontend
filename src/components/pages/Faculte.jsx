@@ -47,6 +47,9 @@ function Faculte() {
                     <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/faculteStat")}>
                         Statistiques
                     </Button>
+                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/faculteAjouter")}>
+                        Ajouter
+                    </Button>
                 </div>
             </div>
 
