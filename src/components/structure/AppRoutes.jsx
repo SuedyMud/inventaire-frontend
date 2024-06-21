@@ -35,6 +35,7 @@ import DisciplineStat from "../pages/DisciplineStat.jsx";
 import FaculteAjouter from "../pages/FaculteAjouter.jsx";
 import Recherche from "../pages/Recherche.jsx";
 import UniteRecherche from "../pages/UniteRecherche.jsx";
+import ProjetRecherche from "../pages/ProjetRecherche.jsx";
 
 
 function AppRoutes() {
@@ -66,6 +67,7 @@ function AppRoutes() {
                 <Route path="/projetDetail/:idprojet" element={<ProjetDetail/>}/>
                 <Route path="/projetModifier/:idprojet" element={<ProjetModifier/>} />
                 <Route path="/projetSupprimer/:idprojet" element={<ProjetSupprimer/>} />
+                <Route path="/projetRecherche" element={<ProjetRecherche/>} />
 
                 <Route path="/chercheur" element={<Chercheur/>}/>
                 <Route path="/chercheurStat" element={<ChercheurStat />} />

@@ -49,12 +49,15 @@ function Projet() {
 
 
             <div className="row">
-                <div className="col-md-9"> {/* Colonne prenant 9/12 de la largeur */}
+                <div className="col-md-8"> {/* Colonne prenant 9/12 de la largeur */}
                     <h2>Répertoire par Projets</h2>
                     <p>Classement par ordre alphabétique</p>
                 </div>
 
-                <div className="col-md-3 text-right">
+                <div className="col-md-4 text-right">
+                    <Button variant="outline-primary" className="btn-custom" onClick={() => handleNavigation("/projetRecherche")}>
+                        Recherche
+                    </Button>
                     <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/projetStat")}>
                         Statistiques {/*Statistiques des Projets*/}
                     </Button>
