@@ -49,7 +49,7 @@ function Projet() {
 
 
             <div className="row">
-                <div className="col-md-8"> {/* Colonne prenant 9/12 de la largeur */}
+                <div className="col-md-8">
                     <h2>Répertoire par Projets</h2>
                     <p>Classement par ordre alphabétique</p>
                 </div>

@@ -36,6 +36,7 @@ import FaculteAjouter from "../pages/FaculteAjouter.jsx";
 import Recherche from "../pages/Recherche.jsx";
 import UniteRecherche from "../pages/UniteRecherche.jsx";
 import ProjetRecherche from "../pages/ProjetRecherche.jsx";
+import ChercheurRecherche from "../pages/ChercheurRecherche.jsx";
 
 
 function AppRoutes() {
@@ -75,6 +76,7 @@ function AppRoutes() {
                 <Route path="/chercheurDetail/:idche" element={<ChercheurDetail />} />
                 <Route path="/chercheurModifier/:idche" element={<ChercheurModifier />} />
                 <Route path="/chercheurSupprimer/:idche" element={<ChercheurSupprimer />} />
+                <Route path="/chercheurRecherche" element={<ChercheurRecherche/>} />
 
 
                 <Route path="/frascati" element={<Frascati/>}/>

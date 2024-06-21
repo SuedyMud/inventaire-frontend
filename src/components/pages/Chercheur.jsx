@@ -90,12 +90,15 @@ function Chercheur() {
     return (
         <>
             <div className="row">
-                <div className="col-md-9">
+                <div className="col-md-8">
                     <h2>Répertoire des Chercheurs</h2>
                     <p>Classement par ordre alphabétique</p>
                 </div>
 
-                <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
+                <div className="col-md-4 text-right">
+                    <Button variant="outline-primary" className="btn-custom" onClick={() => handleNavigation("/chercheurRecherche")}>
+                        Recherche
+                    </Button>
                     <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/chercheurStat")}>
                         Statistiques
                     </Button>
