@@ -99,7 +99,7 @@ function Chercheur() {
                     <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/chercheurStat")}>
                         Statistiques
                     </Button>
-                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/chercheurAjouter")}>
+                    <Button variant="success" className="btn-custom" onClick={() => handleNavigation("/chercheurAjouter")}>
                         Ajouter
                     </Button>
                 </div>

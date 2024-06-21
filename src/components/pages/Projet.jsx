@@ -58,7 +58,7 @@ function Projet() {
                     <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/projetStat")}>
                         Statistiques {/*Statistiques des Projets*/}
                     </Button>
-                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/projetAjouter")}>
+                    <Button variant="success" className="btn-custom" onClick={() => handleNavigation("/projetAjouter")}>
                         Ajouter {/*Ajouter un Projet*/}
                     </Button>
                 </div>

@@ -118,7 +118,7 @@ function Discipline() {
                     <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/disciplineStat")}>
                         Statistiques
                     </Button>
-                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/disciplineAjouter")}>
+                    <Button variant="success" className="btn-custom" onClick={() => handleNavigation("/disciplineAjouter")}>
                         Ajouter
                     </Button>
                 </div>

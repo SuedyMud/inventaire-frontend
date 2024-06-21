@@ -215,7 +215,7 @@ export async function getFrascati({accessToken}) {
             params: {
 
                 page: 0, // Page numéro 0 (première page)
-                size: 10000, // Nombre d'éléments par page
+                size: 100, // Nombre d'éléments par page
             },
         });
 
