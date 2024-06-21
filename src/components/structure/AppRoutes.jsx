@@ -37,6 +37,8 @@ import Recherche from "../pages/Recherche.jsx";
 import UniteRecherche from "../pages/UniteRecherche.jsx";
 import ProjetRecherche from "../pages/ProjetRecherche.jsx";
 import ChercheurRecherche from "../pages/ChercheurRecherche.jsx";
+import FrascatiRecherche from "../pages/Frascati.jsx";
+import DisciplineRecherche from "../pages/DisciplineRecherche.jsx";
 
 
 function AppRoutes() {
@@ -85,6 +87,8 @@ function AppRoutes() {
                 <Route path="/frascatiAjouter" element={<FrascatiAjouter />}/>
                 <Route path="/frascatiSupprimer" element={<FrascatiSupprimer />}/>
                 <Route path="/frascatiModifier/:idfrascati" element={<FrascatiModifier />}/>
+                <Route path="/frascatiRecherche" element={<FrascatiRecherche/>} />
+
 
 
                 <Route path="/discipline" element={<Discipline/>}/>
@@ -92,6 +96,8 @@ function AppRoutes() {
                 <Route path="/disciplineAjouter" element={<DisciplineAjouter />} />
                 <Route path="/disciplineStat" element={<DisciplineStat />} />
                 <Route path="/disciplineDetail/:idcodecref" element={<DisciplineDetail />} />
+                <Route path="/disciplineRecherche" element={<DisciplineRecherche/>} />
+
 
                 <Route path="/recherche" element={<Recherche/>} />
 

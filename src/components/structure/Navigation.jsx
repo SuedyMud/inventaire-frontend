@@ -29,7 +29,7 @@ function Navigation() {
                                 <Nav.Link as={Link} to="/chercheur">Répertoire des Chercheurs</Nav.Link>
                                 <Nav.Link as={Link} to="/frascati">Classement par Frascati</Nav.Link>
                                 <Nav.Link as={Link} to="/discipline">Discipline CREF</Nav.Link>
-                                <Nav.Link as={Link} to="/recherche">Rechercher</Nav.Link>
+                                {/*<Nav.Link as={Link} to="/recherche">Rechercher</Nav.Link>*/}
                                 {/*<Button variant="success" className="btn-custom" onClick={() => handleNavigation("/uniteAjouter")}>
                                     Ajouter
                                 </Button>*/}

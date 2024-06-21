@@ -87,24 +87,27 @@ function Frascati() {
 
     return (
         <>
+
             <div className="row">
-                <div className="col-md-9">
+                <div className="col-md-8">
                     <h2>Répertoire des Unités par Frascati</h2>
                 </div>
 
-            {/* <PermissionGuard permission={'read:information'}> */}
-            <div className="col-md-3 text-right">
-                <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/frascatiStat")}>
-                    Statistiques
-                </Button>
-                <Button variant="success" className="btn-custom" onClick={() => handleNavigation("/frascatiAjouter")}>
-                    Ajouter
-                </Button>
+                <div className="col-md-4 text-right">
+                    <Button variant="outline-primary" className="btn-custom" onClick={() => handleNavigation("/frascatiRecherche")}>
+                        Recherche
+                    </Button>
+                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/frascatiStat")}>
+                        Statistiques
+                    </Button>
+                    <Button variant="success" className="btn-custom" onClick={() => handleNavigation("/frascatiAjouter")}>
+                        Ajouter
+                    </Button>
+                </div>
             </div>
-            {/* </PermissionGuard> */}
+
             <div>
                 {renderCategories(organizedData)}
-            </div>
             </div>
         </>
     );
