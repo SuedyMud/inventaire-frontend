@@ -26,7 +26,7 @@ function FrascatiRecherche() {
     };
 
     const filteredData = data ? data.filter(item =>
-        item.nom.toLowerCase().includes(searchKeyword.toLowerCase())
+        item.frascati.toLowerCase().includes(searchKeyword.toLowerCase())
     ) : [];
 
     const handleNavigation = (path) => {
@@ -76,9 +76,9 @@ function FrascatiRecherche() {
                                     <Link to={{
                                         pathname: `/frascatiDetail/${item.idfrascati}`,
                                         state: {
-                                            description: item.description,
-                                            nom: item.nom,
-                                            zufrascati: item.zufrascati
+
+                                            frascati: item.frascati,
+                                            frascatiUK: item.frascatiUK
                                         }
                                     }} style={{ textDecoration: 'none' }}>
                                         <p>{item.idfrascati} {item.frascati}</p>

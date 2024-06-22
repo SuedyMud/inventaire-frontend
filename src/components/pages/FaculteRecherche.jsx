@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
-import { useQuery } from "react-query";
-import { FormControl, Button, ListGroup } from "react-bootstrap";
+import { Button, ListGroup, FormControl } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { getChercheur } from "../../utils/ApiGet.js";
+import { useQuery } from "react-query";
+import { getFaculte } from "../../utils/ApiGet.js";
 
-function ChercheurRecherche() {
+function FaculteRecherche() {
     const { getAccessTokenSilently } = useAuth0();
     const [searchKeyword, setSearchKeyword] = useState('');
     const navigate = useNavigate();
 
-    const { data, isLoading, refetch } = useQuery("chercheur", async () => {
+    const { data, isLoading, refetch } = useQuery("faculte", async () => {
         const accessToken = await getAccessTokenSilently();
-        return getChercheur({ accessToken });
+        return getFaculte({ accessToken });
     }, {
         enabled: false // Disable automatic refetch on mount
     });
@@ -26,8 +26,7 @@ function ChercheurRecherche() {
     };
 
     const filteredData = data ? data.filter(item =>
-        item.nom.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-        item.prenom.toLowerCase().includes(searchKeyword.toLowerCase())
+        item.faculte.toLowerCase().includes(searchKeyword.toLowerCase())
     ) : [];
 
     const handleNavigation = (path) => {
@@ -38,14 +37,15 @@ function ChercheurRecherche() {
         <>
             <div className="row">
                 <div className="col-md-9">
-                    <h2>Répertoire par Chercheurs</h2>
-                    <p>Rechercher par nom ou prénom</p>
+                    <h2>Répertoire des Unités par Faculté</h2>
+                    <p>Classement par Facultés</p>
                 </div>
+
                 <div className="col-md-3 text-right">
-                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/chercheurStat")}>
+                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/faculteStat")}>
                         Statistiques
                     </Button>
-                    <Button variant="success" className="btn-custom" onClick={() => handleNavigation("/chercheurAjouter")}>
+                    <Button variant="success" className="btn-custom" onClick={() => handleNavigation("/faculteAjouter")}>
                         Ajouter
                     </Button>
                 </div>
@@ -55,7 +55,7 @@ function ChercheurRecherche() {
                 <div className="col-md-12">
                     <FormControl
                         type="text"
-                        placeholder="Rechercher par nom ou prénom"
+                        placeholder="Rechercher par mot-clé"
                         className="mb-3"
                         value={searchKeyword}
                         onChange={handleSearchChange}
@@ -69,23 +69,19 @@ function ChercheurRecherche() {
                         {filteredData.map((item) => (
                             <ListGroup.Item
                                 as="li"
-                                key={item.idche}
+                                key={item.idfaculte}
                                 className="d-flex justify-content-between align-items-center my-1"
                             >
                                 <div>
                                     <Link to={{
-                                        pathname: `/chercheurDetail/${item.idche}`,
+                                        pathname: `/faculteDetail/${item.idfaculte}`,
                                         state: {
-                                            nom: item.nom,
-                                            prenom: item.prenom,
-                                            telephone: item.telephone,
-                                            cpi: item.cpi,
-                                            site: item.site,
-                                            email: item.email,
-                                            campus: item.campus
+                                            faculte: item.faculte,
+                                            FaculteUk: item.FaculteUk,
+
                                         }
                                     }} style={{ textDecoration: 'none' }}>
-                                        <p>{item.nom} {item.prenom}</p>
+                                        <p>{item.faculte}</p>
                                     </Link>
                                 </div>
                             </ListGroup.Item>
@@ -97,4 +93,4 @@ function ChercheurRecherche() {
     );
 }
 
-export default ChercheurRecherche;
+export default FaculteRecherche;

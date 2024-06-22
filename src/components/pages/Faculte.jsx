@@ -42,7 +42,9 @@ function Faculte() {
                     <p>Classement par Facultés</p>
                 </div>
                 <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
-
+                    <Button variant="outline-primary" className="btn-custom" onClick={() => handleNavigation("/faculteRecherche")}>
+                        Recherche
+                    </Button>
 
                     <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/faculteStat")}>
                         Statistiques

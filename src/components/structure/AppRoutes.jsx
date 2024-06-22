@@ -39,6 +39,7 @@ import ProjetRecherche from "../pages/ProjetRecherche.jsx";
 import ChercheurRecherche from "../pages/ChercheurRecherche.jsx";
 import FrascatiRecherche from "../pages/Frascati.jsx";
 import DisciplineRecherche from "../pages/DisciplineRecherche.jsx";
+import FaculteRecherche from "../pages/FaculteRecherche.jsx";
 
 
 function AppRoutes() {
@@ -50,6 +51,7 @@ function AppRoutes() {
                 <Route path="/faculteStat" element={<FaculteStat />} />
                 <Route path="/faculteAjouter" element={<FaculteAjouter />} />
                 <Route path="/faculte/:facId" component={FaculteDetail} />
+                <Route path="/faculteRecherche" element={<FaculteRecherche/>} />
 
 
                 <Route path="/unite" element={<Unite/>}/>
