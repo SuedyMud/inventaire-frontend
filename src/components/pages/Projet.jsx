@@ -5,6 +5,7 @@ import {Link, useNavigate} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 import {useQuery} from "react-query";
 import {getProjet} from "../../utils/ApiGet.js";
+import PermissionGuard from "../../utils/PermissionGuard.jsx";
 
 
 function Projet() {
@@ -58,12 +59,15 @@ function Projet() {
                     <Button variant="outline-primary" className="btn-custom" onClick={() => handleNavigation("/projetRecherche")}>
                         Recherche
                     </Button>
+
+                    <PermissionGuard permission={'write:all-information'}>
                     <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/projetStat")}>
                         Statistiques {/*Statistiques des Projets*/}
                     </Button>
                     <Button variant="success" className="btn-custom" onClick={() => handleNavigation("/projetAjouter")}>
                         Ajouter {/*Ajouter un Projet*/}
                     </Button>
+                    </PermissionGuard>
                 </div>
 
             </div>

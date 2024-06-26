@@ -9,13 +9,13 @@ import Footer from "./components/structure/Footer.jsx";
 import Navigation from "./components/structure/Navigation.jsx";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Home } from "./components/pages/Home.jsx";
+import PermissionGuard from "./utils/PermissionGuard.jsx";
 
 function App() {
     const { user, isAuthenticated, isLoading } = useAuth0();
-/*
     console.log('isLoading:', isLoading);
     console.log('isAuthenticated:', isAuthenticated);
-    console.log('user:', user);*/
+    console.log('user:', user);
 
     if (isLoading) {
         return <Spinner />;
@@ -32,8 +32,12 @@ function App() {
 
                     {isAuthenticated ? (
                         <div>
+                              <PermissionGuard permission={'read:information'}>
+
                             {/*<p>Bonjour {user.name}</p>*/}
                             <Layout />
+                              </PermissionGuard>
+
                         </div>
                     ) : (
                         <>

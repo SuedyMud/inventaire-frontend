@@ -3,6 +3,7 @@ import {Button, ListGroup} from "react-bootstrap";
 import {useQuery} from "react-query";
 import {getFaculte} from "../../utils/ApiGet.js";
 import {Link, useNavigate} from "react-router-dom";
+import PermissionGuard from "../../utils/PermissionGuard.jsx";
 
 
 function Faculte() {
@@ -36,6 +37,7 @@ function Faculte() {
 
     return (
         <div>
+
             <div className="row">
                 <div className="col-md-9"> {/* Colonne prenant 9/12 de la largeur */}
                     <h2>Répertoires des Unités par Facultés, Départements</h2>
@@ -49,9 +51,11 @@ function Faculte() {
                     <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/faculteStat")}>
                         Statistiques
                     </Button>
+                    <PermissionGuard permission={'read:all-information'}>
                     <Button variant="success" className="btn-custom" onClick={() => handleNavigation("/faculteAjouter")}>
                         Ajouter
                     </Button>
+                    </PermissionGuard>
                 </div>
             </div>
 
@@ -80,6 +84,7 @@ function Faculte() {
                     </ListGroup>
                 )}
             </div>
+                  {/*</PermissionGuard>*/}
         </div>
     );
 }

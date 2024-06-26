@@ -48,19 +48,21 @@ function Unite() {
                     <h2>Répertoires par Unités</h2>
                     <p>Classement par ordre alphabétique</p>
                 </div>
-               {/* <PermissionGuard permission={'read:information'}>*/}
+
                     <div className="col-md-4 text-right">
                         <Button variant="outline-primary" className="btn-custom" onClick={() => handleNavigation("/uniteRecherche")}>
                             Recherche
                         </Button>
+                        <PermissionGuard permission={'write:all-information'}>
                         <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/uniteStat")}>
                             Statistiques
                         </Button>
                         <Button variant="success" className="btn-custom" onClick={() => handleNavigation("/uniteAjouter")}>
                             Ajouter
                         </Button>
+                        </PermissionGuard>
                     </div>
-               {/* </PermissionGuard>*/}
+
             </div>
 
             <div>
