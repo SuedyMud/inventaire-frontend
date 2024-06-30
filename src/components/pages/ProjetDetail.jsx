@@ -4,6 +4,7 @@ import {useQuery} from "react-query";
 import {getProjetDetail} from "../../utils/ApiGet.js";
 import {Button} from "react-bootstrap";
 import ProjetSupprimer from "./ProjetSupprimer.jsx";
+import PermissionGuard from "../../utils/PermissionGuard.jsx";
 
 
 function ProjetDetail() {
@@ -52,13 +53,15 @@ function ProjetDetail() {
                 <p>Liste des bailleurs : </p>
 
                 <div>
-                    <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/projetModifier/${idprojet}`)}>
-                        Modifier
-                    </Button>
+                    <PermissionGuard permission={'write:all-information'}>
+                        <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/projetModifier/${idprojet}`)}>
+                            Modifier
+                        </Button>
 
-                   <div className="btn-custom">
-                        <ProjetSupprimer idprojet={idprojet} />
-                    </div>
+                       <div className="btn-custom">
+                            <ProjetSupprimer idprojet={idprojet} />
+                        </div>
+                    </PermissionGuard>
                 </div>
             </div>
         </>

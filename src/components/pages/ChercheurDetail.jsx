@@ -6,6 +6,7 @@ import ChercheurSupprimer from "./ChercheurSupprimer.jsx";
 import {useQuery} from "react-query";
 import {getChercheurDetail} from "../../utils/ApiGet.js";
 import React from "react";
+import PermissionGuard from "../../utils/PermissionGuard.jsx";
 
 function ChercheurDetail() {
     const { getAccessTokenSilently } = useAuth0();
@@ -25,7 +26,7 @@ function ChercheurDetail() {
             return <Spinner/>;
     }
 
-    const { nom, prenom, telephone, cpi, site, email, campus } = chercheur;
+    const { nom, prenom, telephone, cpi, site, email} = chercheur;
 
     const handleNavigation = (path) => {
         navigate(path);
@@ -39,20 +40,23 @@ function ChercheurDetail() {
             {email && <p><FaEnvelope /> Email : <a href={`mailto:${email}`} target="_blank" rel="noopener noreferrer">{email}</a></p>}
             {site && <p><FaGlobe /> Site Web : <a href={site} target="_blank" rel="noopener noreferrer">{site}</a></p>}
             {cpi && <p><FaMapMarkerAlt /> Code postal interne : {cpi}</p>}
-            {/*<p>Campus : {campus}</p>*/}
+
 
             <div className=""> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
-                <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/chercheurModifier/${idche}`)}>
-                    Modifier
-                </Button>
-                {/*<Button variant="danger" className="btn-custom" onClick={() => handleNavigation("/chercheurDelete")}>
+                <PermissionGuard permission={'write:all-information'}>
+                    <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/chercheurModifier/${idche}`)}>
+                        Modifier
+                    </Button>
+                    {/*<Button variant="danger" className="btn-custom" onClick={() => handleNavigation("/chercheurDelete")}>
                     Supprimer
                 </Button>*/}
 
-                <div className="btn-custom">
-                    {/* Affichage du composant ChercheurSupprimer pour la suppression */}
-                    <ChercheurSupprimer idche={idche} />
-                </div>
+                    <div className="btn-custom">
+                        {/* Affichage du composant ChercheurSupprimer pour la suppression */}
+                        <ChercheurSupprimer idche={idche} />
+                    </div>
+                </PermissionGuard>
+
             </div>
 
         </div>

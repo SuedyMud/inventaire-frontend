@@ -134,8 +134,7 @@ function Chercheur() {
                                                 telephone: item.telephone,
                                                 cpi: item.cpi,
                                                 site: item.site,
-                                                email: item.email,
-                                                campus: item.campus
+                                                email: item.email
                                             }
 
                                         }} style={{textDecoration: 'none'}}

@@ -82,7 +82,7 @@ function UniteDetail() {
 
 
                 <div>
-                    {/*<PermissionGuard permission={'write:information'}>*/}
+                    <PermissionGuard permission={'write:all-information'}>
                         <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/uniteModifier/${idunite}`)}>
                             Modifier
                         </Button>
@@ -90,8 +90,7 @@ function UniteDetail() {
                         <div className="btn-custom">
                             <UniteSupprimer idunite={idunite} />
                         </div>
-                   {/* </PermissionGuard>*/}
-
+                    </PermissionGuard>
                 </div>
             </div>
         </>
