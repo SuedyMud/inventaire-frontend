@@ -17,6 +17,7 @@ function App() {
     console.log('isAuthenticated:', isAuthenticated);
     console.log('user:', user);
 
+
     if (isLoading) {
         return <Spinner />;
     }

@@ -1,29 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getUniteDetail} from "../../utils/ApiGet.js";
+import { getUniteDetail } from "../../utils/ApiGet.js";
 import { Button } from "react-bootstrap";
 import UniteSupprimer from "./UniteSupprimer.jsx";
 import { FaEnvelope, FaFax, FaGlobe, FaHome, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
-import chercheur from "./Chercheur.jsx";
 import PermissionGuard from "../../utils/PermissionGuard.jsx";
-
 
 function UniteDetail() {
     const { getAccessTokenSilently } = useAuth0();
     const { idunite } = useParams();
     const navigate = useNavigate();
+    const [showFullDescription, setShowFullDescription] = useState(false);
 
     const { data: unite, isLoading: isLoadingUnite } = useQuery(["uniteDetail", idunite], async () => {
         return getUniteDetail({ accessToken: await getAccessTokenSilently(), idunite: idunite });
     });
 
-   /* const { data: responsable, isLoading: isLoadingResponsable } = useQuery(["responsableUnite", idunite], async () => {
-        return getResponsableUnite({ accessToken: await getAccessTokenSilently(), idunite: idunite });
-    });*/
-
-    if (isLoadingUnite /*|| isLoadingResponsable*/) {
+    if (isLoadingUnite) {
         return <p>Loading...</p>;
     }
 
@@ -31,32 +26,38 @@ function UniteDetail() {
         return null; // Ou vous pouvez retourner un composant de chargement ou un message d'attente
     }
 
-    // Déstructuration des propriétés de l'objet unite
     const { nom, description, localisation, rue, numero, codePostal, localite, email, telephone, fax, site1, site2 } = unite;
 
     const handleNavigation = (path) => {
         navigate(path);
     };
 
-    // Construction de l'URL de Google Maps
     const address = `${rue} ${numero}, ${codePostal} ${localite}`;
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+
+    const toggleDescription = () => {
+        setShowFullDescription(!showFullDescription);
+    };
+
+    const shortDescription = description && description.length > 650 ? `${description.substring(0, 650)}...` : description;
 
     return (
         <>
             <h2>{nom}</h2>
             <div>
                 <p>(Code : {idunite})</p>
-               {/* <p>Responsable de l'unité : {responsable ? `${responsable.nom} ${responsable.prenom}` : "Non défini"}</p>*/}
-
-
-
-
-                {description && (
+                {description ? (
                     <div>
                         <p>Description :</p>
-                        <p>{description}</p>
+                        <p>{showFullDescription ? description : shortDescription}</p>
+                        {description.length > 650 && (
+                            <Button variant="link" onClick={toggleDescription}>
+                                {showFullDescription ? "Voir moins" : "Voir plus"}
+                            </Button>
+                        )}
                     </div>
+                ) : (
+                    <p> Pas de description disponible actuellement ! </p>
                 )}
 
                 <hr />
@@ -70,16 +71,8 @@ function UniteDetail() {
                 {site1 && <p><FaGlobe /> Site Web : <a href={site1} target="_blank" rel="noopener noreferrer">{site1}</a></p>}
                 {site2 && <p><FaGlobe /> Autre Site : <a href={site2} target="_blank" rel="noopener noreferrer">{site2}</a></p>}
 
-                {/*<p> chercheur nom et prénom </p>*/}
-{/*
-                {<p>{chercheur.prenom} {chercheur.nom}</p>}*/}
-
-                {/*<ChercheurDetail/>*/}
-
                 <h5>Domaines Frascati :</h5>
                 <h5>Disciplines CRef :</h5>
-
-
 
                 <div>
                     <PermissionGuard permission={'write:all-information'}>
