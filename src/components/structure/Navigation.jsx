@@ -1,5 +1,5 @@
 import React from "react";
-import {Container, Navbar, Nav, Button} from "react-bootstrap";
+import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import LogoutButton from "../buttons/LogoutButton.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -17,26 +17,18 @@ function Navigation() {
         <Navbar expand="lg" bg="light">
             <Container>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
-
-
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         {isAuthenticated ? (
                             <>
                                 <Nav.Link as={Link} to="/faculte">Faculte / Département</Nav.Link>
-
                                 <PermissionGuard permission={'read:all-information'}>
-
-                                <Nav.Link as={Link} to="/unite">Répertoire des Unités</Nav.Link>
-                                <Nav.Link as={Link} to="/projet">Répertoire des Projets</Nav.Link>
-                                <Nav.Link as={Link} to="/chercheur">Répertoire des Chercheurs</Nav.Link>
-                                <Nav.Link as={Link} to="/frascati">Classement par Frascati</Nav.Link>
-                                <Nav.Link as={Link} to="/discipline">Discipline CREF</Nav.Link>
+                                    <Nav.Link as={Link} to="/unite">Répertoire des Unités</Nav.Link>
+                                    <Nav.Link as={Link} to="/projet">Répertoire des Projets</Nav.Link>
+                                    <Nav.Link as={Link} to="/chercheur">Répertoire des Chercheurs</Nav.Link>
+                                    <Nav.Link as={Link} to="/frascati">Classement par Frascati</Nav.Link>
+                                    <Nav.Link as={Link} to="/discipline">Discipline CREF</Nav.Link>
                                 </PermissionGuard>
-                                {/*<Nav.Link as={Link} to="/recherche">Rechercher</Nav.Link>*/}
-                                {/*<Button variant="success" className="btn-custom" onClick={() => handleNavigation("/uniteAjouter")}>
-                                    Ajouter
-                                </Button>*/}
                             </>
                         ) : null}
                     </Nav>
@@ -46,7 +38,6 @@ function Navigation() {
                             <li>
                                 <p>{user.name}</p>
                             </li>
-
                             <li>
                                 <a href="#"><span className="glyphicon glyphicon-log-out"></span> <LogoutButton /></a>
                             </li>

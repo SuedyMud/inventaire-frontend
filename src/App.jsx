@@ -1,5 +1,4 @@
 import './App.css';
-
 import Header from "./components/structure/Header.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Spinner } from "react-bootstrap";
@@ -13,10 +12,10 @@ import PermissionGuard from "./utils/PermissionGuard.jsx";
 
 function App() {
     const { user, isAuthenticated, isLoading } = useAuth0();
+
     console.log('isLoading:', isLoading);
     console.log('isAuthenticated:', isAuthenticated);
     console.log('user:', user);
-
 
     if (isLoading) {
         return <Spinner />;
@@ -33,12 +32,12 @@ function App() {
 
                     {isAuthenticated ? (
                         <div>
-                              <PermissionGuard permission={'read:information'}>
-
-                            {/*<p>Bonjour {user.name}</p>*/}
-                            <Layout />
-                              </PermissionGuard>
-
+                            <PermissionGuard permission={'read:information'}>
+                                <p>Bonjour {user.name}</p>
+                                <p>Email: {user.email}</p>
+                                <p>ID utilisateur: {user.sub}</p>
+                                <Layout />
+                            </PermissionGuard>
                         </div>
                     ) : (
                         <>

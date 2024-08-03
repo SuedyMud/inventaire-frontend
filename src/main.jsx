@@ -5,7 +5,6 @@ import App from './App';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 createRoot(document.getElementById('root')).render(
     <Auth0Provider
         domain={import.meta.env.VITE_AUTH0_DOMAIN}
@@ -14,11 +13,11 @@ createRoot(document.getElementById('root')).render(
         authorizationParams={{
             redirect_uri: window.location.origin,
             audience: import.meta.env.VITE_AUTH0_AUDIENCE,
-            scope: 'read:information write:information write:all-information read:all-information write:restricted-information read:restricted-information',
+            scope: 'openid profile email read:information write:information write:all-information read:all-information write:restricted-information read:restricted-information',
         }}
     >
         <React.StrictMode>
-                <App />
+            <App />
         </React.StrictMode>
     </Auth0Provider>,
 );
