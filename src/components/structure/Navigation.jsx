@@ -35,8 +35,10 @@ function Navigation() {
 
                     {isAuthenticated ? (
                         <ul className="nav navbar-nav-right">
-                            <li>
-                                <p>{user.name}</p>
+                            <li className="nav-item">
+                                <Button variant="link" as={Link} to="/profil">
+                                    {user.name}
+                                </Button>
                             </li>
                             <li>
                                 <a href="#"><span className="glyphicon glyphicon-log-out"></span> <LogoutButton /></a>

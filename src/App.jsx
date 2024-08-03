@@ -9,6 +9,7 @@ import Navigation from "./components/structure/Navigation.jsx";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Home } from "./components/pages/Home.jsx";
 import PermissionGuard from "./utils/PermissionGuard.jsx";
+import Profil from "./components/structure/Profil"; // Import du composant Profil
 
 function App() {
     const { user, isAuthenticated, isLoading } = useAuth0();
@@ -34,8 +35,7 @@ function App() {
                         <div>
                             <PermissionGuard permission={'read:information'}>
                                 <p>Bonjour {user.name}</p>
-                                <p>Email: {user.email}</p>
-                                <p>ID utilisateur: {user.sub}</p>
+                                <Profil user={user} /> {/* Passage des données utilisateur */}
                                 <Layout />
                             </PermissionGuard>
                         </div>
