@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoutButton from "../buttons/LogoutButton.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoginButton from "../buttons/LoginButton.jsx";
@@ -8,10 +8,15 @@ import PermissionGuard from "../../utils/PermissionGuard.jsx";
 
 function Navigation() {
     const { user, isAuthenticated, isLoading } = useAuth0();
+    const navigate = useNavigate();
 
     if (isLoading) {
         return <p>Loading...</p>;
     }
+
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
 
     return (
         <Navbar expand="lg" bg="light">
@@ -35,13 +40,13 @@ function Navigation() {
 
                     {isAuthenticated ? (
                         <ul className="nav navbar-nav-right">
-                            <li className="nav-item">
-                                <Button variant="link" as={Link} to="/profil">
+                            <li className="nav-item me-2">
+                                <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/profil`)}>
                                     {user.name}
                                 </Button>
                             </li>
-                            <li>
-                                <a href="#"><span className="glyphicon glyphicon-log-out"></span> <LogoutButton /></a>
+                            <li className="nav-item">
+                                <LogoutButton />
                             </li>
                         </ul>
                     ) : (

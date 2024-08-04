@@ -14,9 +14,9 @@ import Profil from "./components/structure/Profil"; // Import du composant Profi
 function App() {
     const { user, isAuthenticated, isLoading } = useAuth0();
 
-    console.log('isLoading:', isLoading);
+    /*console.log('isLoading:', isLoading);
     console.log('isAuthenticated:', isAuthenticated);
-    console.log('user:', user);
+    console.log('user:', user);*/
 
     if (isLoading) {
         return <Spinner />;
@@ -34,8 +34,8 @@ function App() {
                     {isAuthenticated ? (
                         <div>
                             <PermissionGuard permission={'read:information'}>
-                                <p>Bonjour {user.name}</p>
-                                <Profil user={user} /> {/* Passage des données utilisateur */}
+                               {/* <p>Bonjour {user.name}</p>*/}
+                               {/* <Profil user={user} />  Passage des données utilisateur */}
                                 <Layout />
                             </PermissionGuard>
                         </div>

@@ -40,6 +40,7 @@ import ChercheurRecherche from "../pages/ChercheurRecherche.jsx";
 import FrascatiRecherche from "../pages/Frascati.jsx";
 import DisciplineRecherche from "../pages/DisciplineRecherche.jsx";
 import FaculteRecherche from "../pages/FaculteRecherche.jsx";
+import Profil from "./Profil.jsx";
 
 
 function AppRoutes() {
@@ -102,6 +103,7 @@ function AppRoutes() {
 
 
                 <Route path="/recherche" element={<Recherche/>} />
+                <Route path="/profil" element={<Profil />} />
 
 
             </Routes>
