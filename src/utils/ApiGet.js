@@ -58,6 +58,17 @@ export async function getUnite({accessToken, letter}){
     }
 }
 
+
+export const getResponsablesUnite = async ({ accessToken, idunite }) => {
+    const response = await axios.get(`/api/${idunite}/responsables`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
+    return response.data;
+};
+
+
 /*
 export async function getResponsableUnite({ accessToken, idunite }) {
     const trueAccessToken = await accessToken;
@@ -167,7 +178,7 @@ export async function getChercheur({accessToken, letter}) {
             params: {
                 lettre: letter,
                 page: 0, // Page numéro 0 (première page)
-                size: 1000000, // Nombre d'éléments par page
+                size: 10000, // Nombre d'éléments par page
             },
         });
 
@@ -341,6 +352,7 @@ export async function getComposDetail({accessToken,refunite}){
 }
 
 
+/*
 export async function getChercheursByUnite({ accessToken, uniteId }) {
     const trueAccessToken = await accessToken;
 
@@ -360,3 +372,5 @@ export async function getChercheursByUnite({ accessToken, uniteId }) {
         console.error("Erreur lors de la récupération des données : ", error);
     }
 }
+*/
+
