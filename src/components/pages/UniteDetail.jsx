@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getUniteDetail, getResponsablesUnite } from "../../utils/ApiGet.js";  // Importez la nouvelle fonction
+import { getUniteDetail, getResponsablesUnite } from "../../utils/ApiGet.js";
 import { Button } from "react-bootstrap";
 import UniteSupprimer from "./UniteSupprimer.jsx";
 import { FaEnvelope, FaFax, FaGlobe, FaHome, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
@@ -45,7 +45,6 @@ function UniteDetail() {
 
     const shortDescription = description && description.length > 650 ? `${description.substring(0, 650)}...` : description;
 
-    // Éliminer les doublons dans la liste des responsables en se basant sur l'ID unique
     const uniqueResponsables = responsables && responsables.filter((responsable, index, self) =>
             index === self.findIndex((r) => (
                 r.idche === responsable.idche
@@ -65,7 +64,9 @@ function UniteDetail() {
                     <ul>
                         {uniqueResponsables.map(responsable => (
                             <li key={responsable.idche}>
-                                {responsable.nom} {responsable.prenom}
+                                <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${responsable.idche}`)}>
+                                    {responsable.nom} {responsable.prenom}
+                                </Button>
                             </li>
                         ))}
                     </ul>
@@ -84,7 +85,7 @@ function UniteDetail() {
                         )}
                     </div>
                 ) : (
-                    <p> Pas de description disponible actuellement ! </p>
+                    <p>Pas de description disponible actuellement !</p>
                 )}
 
                 <hr />
