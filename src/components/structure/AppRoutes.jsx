@@ -1,11 +1,12 @@
 import {Route, Routes} from "react-router-dom";
 import Faculte from "../pages/Faculte.jsx";
+import FaculteRecherche from "../pages/FaculteRecherche.jsx";
+
 import Unite from "../pages/Unite.jsx";
 import Projet from "../pages/Projet.jsx";
 import Chercheur from "../pages/Chercheur.jsx";
 import Discipline from "../pages/Discipline.jsx";
 import Frascati from "../pages/Frascati.jsx";
-import FaculteDetail from "../pages/FaculteDetail.jsx";
 import UniteDetail from "../pages/UniteDetail.jsx";
 import FaculteStat from "../pages/FaculteStat.jsx";
 import ChercheurDetail from "../pages/ChercheurDetail.jsx";
@@ -39,8 +40,9 @@ import ProjetRecherche from "../pages/ProjetRecherche.jsx";
 import ChercheurRecherche from "../pages/ChercheurRecherche.jsx";
 import FrascatiRecherche from "../pages/Frascati.jsx";
 import DisciplineRecherche from "../pages/DisciplineRecherche.jsx";
-import FaculteRecherche from "../pages/FaculteRecherche.jsx";
+
 import Profil from "./Profil.jsx";
+import FaculteDetail from "../pages/FaculteDetail.jsx";
 
 
 function AppRoutes() {
@@ -51,7 +53,7 @@ function AppRoutes() {
                 <Route path="/faculte" element={<Faculte/>}/>
                 <Route path="/faculteStat" element={<FaculteStat />} />
                 <Route path="/faculteAjouter" element={<FaculteAjouter />} />
-                <Route path="/faculte/:facId" component={FaculteDetail} />
+                <Route path="/faculteDetail/:fac" element={<FaculteDetail/>} />
                 <Route path="/faculteRecherche" element={<FaculteRecherche/>} />
 
 

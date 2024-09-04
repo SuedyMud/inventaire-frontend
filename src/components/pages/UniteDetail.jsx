@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getUniteDetail, getResponsablesUnite } from "../../utils/ApiGet.js";
+import {
+    getUniteDetail,
+    getResponsablesUnite,
+    getFrascatiByUnite,
+    getDisciplinesByUnite,
+    getFaculteByUnite
+} from "../../utils/ApiGet.js";
 import { Button } from "react-bootstrap";
 import UniteSupprimer from "./UniteSupprimer.jsx";
 import { FaEnvelope, FaFax, FaGlobe, FaHome, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
@@ -22,7 +28,19 @@ function UniteDetail() {
         return getResponsablesUnite({ accessToken: await getAccessTokenSilently(), idunite: idunite });
     });
 
-    if (isLoadingUnite || isLoadingResponsables) {
+    const { data: frascati, isLoading: isLoadingFrascati } = useQuery(["frascatiByUnite", idunite], async () => {
+        return getFrascatiByUnite({ accessToken: await getAccessTokenSilently(), idunite: idunite });
+    });
+
+    const { data: disciplines, isLoading: isLoadingDisciplines } = useQuery(["disciplinesByUnite", idunite], async () => {
+        return getDisciplinesByUnite({ accessToken: await getAccessTokenSilently(), idunite: idunite });
+    });
+
+    const { data: facultes, isLoading: isLoadingFaculte } = useQuery(["faculteByUnite", idunite], async () => {
+        return getFaculteByUnite({ accessToken: await getAccessTokenSilently(), idunite: idunite });
+    });
+
+    if (isLoadingUnite || isLoadingResponsables || isLoadingFrascati || isLoadingDisciplines || isLoadingFaculte) {
         return <p>Loading...</p>;
     }
 
@@ -51,12 +69,26 @@ function UniteDetail() {
             ))
     );
 
-    const responsablesLabel = uniqueResponsables && uniqueResponsables.length === 1 ? "Responsable" : "Responsables";
+    const responsablesLabel = uniqueResponsables && uniqueResponsables.length === 1 ? "Responsable de l'unité" : "Responsables de l'unité";
 
     return (
         <>
             <h2>{nom}</h2>
             <div>
+                {facultes && facultes.length > 0 ? (
+                    <ul>
+                        {facultes.map((fa) => (
+                            <li key={fa.fac}> {/* Utilisation d'une clé composée pour garantir l'unicité */}
+                                <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/faculteDetail/${fa.fac}`)}>
+                                    {fa.faculte}
+                                </Button>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>Aucune faculté associé.</p>
+                )}
+
                 <p>(Code : {idunite})</p>
 
                 <p>{responsablesLabel} :</p>
@@ -99,8 +131,35 @@ function UniteDetail() {
                 {site1 && <p><FaGlobe /> Site Web : <a href={site1} target="_blank" rel="noopener noreferrer">{site1}</a></p>}
                 {site2 && <p><FaGlobe /> Autre Site : <a href={site2} target="_blank" rel="noopener noreferrer">{site2}</a></p>}
 
-                <h5>Domaines Frascati :</h5>
-                <h5>Disciplines CRef :</h5>
+                {frascati && frascati.length > 0 && (
+                    <>
+                        <h5>Domaines Frascati :</h5>
+                        <ul>
+                            {frascati.map((f, index) => (
+                                <li key={`${f.idfrascati}-${index}`}> {/* Utilisation d'une clé composée pour garantir l'unicité */}
+                                    <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/frascatiDetail/${f.idfrascati}`)}>
+                                        {f.idfrascati} {f.frascati}
+                                    </Button>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                )}
+
+                {disciplines && disciplines.length > 0 && (
+                    <>
+                        <h5>Disciplines CRef :</h5>
+                        <ul>
+                            {disciplines.map((d, index) => (
+                                <li key={`${d.idcodecref}-${index}`}> {/* Utilisation d'une clé composée pour garantir l'unicité */}
+                                    <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/disciplineDetail/${d.idcodecref}`)}>
+                                        {d.discipline}
+                                    </Button>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                )}
 
                 <div>
                     <PermissionGuard permission={'write:all-information'}>

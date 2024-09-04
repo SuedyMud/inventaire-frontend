@@ -37,7 +37,7 @@ export async function getUnite({accessToken, letter}){
             params: {
                 lettre: letter,
                 page: 0, // Page numéro 0 (première page)
-                size: 10000, // Nombre d'éléments par page
+                size: 1000, // Nombre d'éléments par page
             },
         });
 
@@ -122,7 +122,7 @@ export async function getProjet({accessToken, letter}){
             params: {
                 lettre: letter,
                 page: 0, // Page numéro 0 (première page)
-                size: 10000, // Nombre d'éléments par page
+                size: 1000, // Nombre d'éléments par page
             },
         });
 
@@ -178,7 +178,7 @@ export async function getChercheur({accessToken, letter}) {
             params: {
                 lettre: letter,
                 page: 0, // Page numéro 0 (première page)
-                size: 10000, // Nombre d'éléments par page
+                size: 1000, // Nombre d'éléments par page
             },
         });
 
@@ -226,7 +226,7 @@ export async function getFrascati({accessToken}) {
             params: {
 
                 page: 0, // Page numéro 0 (première page)
-                size: 100, // Nombre d'éléments par page
+                size: 1000, // Nombre d'éléments par page
             },
         });
 
@@ -350,6 +350,67 @@ export async function getComposDetail({accessToken,refunite}){
         console.error("Erreur lors de la récupération du compos : ", error);
     }
 }
+
+export async function getFrascatiByUnite({ accessToken, idunite }) {
+    const trueAccessToken = await accessToken;
+
+    try {
+        const response = await axios.get(`/api/zufrascati/${idunite}`, {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;  // Retourne les domaines Frascati associés à l'unité
+        } else {
+            console.error("Erreur lors de la récupération des domaines Frascati");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des domaines Frascati : ", error);
+    }
+}
+
+export async function getDisciplinesByUnite({ accessToken, idunite }) {
+    const trueAccessToken = await accessToken;
+
+    try {
+        const response = await axios.get(`/api/zudiscipcref/${idunite}`, {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;  // Retourne les disciplines CRef associées à l'unité
+        } else {
+            console.error("Erreur lors de la récupération des disciplines CRef");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des disciplines CRef : ", error);
+    }
+}
+
+export async function getFaculteByUnite({ accessToken, idunite }) {
+    const trueAccessToken = await accessToken;
+
+    try {
+        const response = await axios.get(`/api/zufac/${idunite}`, {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;  // Retourne les disciplines CRef associées à l'unité
+        } else {
+            console.error("Erreur lors de la récupération des facultés");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des facultés : ", error);
+    }
+}
+
 
 
 /*

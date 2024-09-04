@@ -3,9 +3,7 @@ import {useAuth0} from "@auth0/auth0-react";
 import {useParams} from "react-router-dom";
 import {useQuery} from "react-query";
 import {getDiscplineDetail} from "../../utils/ApiGet.js";
-import {FaEnvelope, FaFax, FaGlobe, FaHome, FaMapMarkerAlt, FaPhone} from "react-icons/fa";
-import {Button} from "react-bootstrap";
-import UniteSupprimer from "./UniteSupprimer.jsx";
+
 
 
 function DisciplineDetail(){
