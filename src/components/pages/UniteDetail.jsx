@@ -75,6 +75,7 @@ function UniteDetail() {
         <>
             <h2>{nom}</h2>
             <div>
+                <p>(Code : {idunite})</p>
                 {facultes && facultes.length > 0 ? (
                     <ul>
                         {facultes.map((fa) => (
@@ -89,7 +90,7 @@ function UniteDetail() {
                     <p>Aucune faculté associé.</p>
                 )}
 
-                <p>(Code : {idunite})</p>
+
 
                 <p>{responsablesLabel} :</p>
                 {uniqueResponsables && uniqueResponsables.length > 0 ? (

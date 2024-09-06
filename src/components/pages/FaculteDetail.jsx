@@ -26,9 +26,10 @@ function FaculteDetail() {
     const { faculte, faculteUK} = facultes;
     return (
         <>
-            <h2>{faculte}</h2>
-            <h2>{faculteUK}</h2>
+
             <div>
+                <h2>{faculte}</h2>
+                <h2>{faculteUK}</h2>
                 <p>(Code : {fac})</p>
 
                 {/*<h5>Domaines Frascati :</h5>
@@ -37,7 +38,7 @@ function FaculteDetail() {
 
 
 
-                <div>
+
                     {/*<PermissionGuard permission={'write:information'}>
                     <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/uniteModifier/${idunite}`)}>
                         Modifier
@@ -47,7 +48,7 @@ function FaculteDetail() {
                         <UniteSupprimer idunite={idunite} />
                     </div>
                      </PermissionGuard>*/}
-                </div>
+
             </div>
         </>
     );
