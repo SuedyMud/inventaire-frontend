@@ -65,7 +65,7 @@ function Frascati() {
                                         state: {
                                             description: item.description,
                                             nom: item.nom,
-                                            zufrascati: item.zufrascati // Pass the zufrascati data here
+                                           /* zufrascati: item.zufrascati // Pass the zufrascati data here*/
                                         }
                                     }} style={{ textDecoration: 'none' }}>
                                         <p>{item.idfrascati} {item.frascati}</p>

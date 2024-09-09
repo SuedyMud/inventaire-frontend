@@ -60,36 +60,25 @@ export async function getUnite({accessToken, letter}){
 
 
 export const getResponsablesUnite = async ({ accessToken, idunite }) => {
-    const response = await axios.get(`/api/${idunite}/responsables`, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        }
-    });
-    return response.data;
-};
-
-
-/*
-export async function getResponsableUnite({ accessToken, idunite }) {
-    const trueAccessToken = await accessToken;
 
     try {
-        const response = await axios.get(`/api/zunite/${idunite}/responsable`, {
+        const response = await axios.get(`/api/${idunite}/responsables`, {
             headers: {
-                Authorization: `Bearer ${trueAccessToken}`,
-            },
+                Authorization: `Bearer ${accessToken}`
+            }
         });
 
         if (response.status === 200) {
-            return response.data;
+            return (response.data);
         } else {
-            console.error("Erreur lors de la récupération du responsable");
+            console.error("Erreur lors de la récupération des données");
         }
     } catch (error) {
-        console.error("Erreur lors de la récupération du responsable : ", error);
+        console.error("Erreur lors de la récupération des données : ", error);
     }
-}
-*/
+};
+
+
 
 export async function getUniteDetail({accessToken,idunite }){
     const trueAccessToken = await accessToken;

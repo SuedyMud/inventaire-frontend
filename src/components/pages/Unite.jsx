@@ -97,16 +97,7 @@ function Unite() {
                                         }
                                     }} style={{ textDecoration: 'none' }}>
                                         <p>{item.nom}</p>
-                                        {/*{item.zucompos && item.zucompos.map((zuc) => (
-                                            <p key={zuc.zunite.idunite}>
-                                                {zuc.zunite.idunite} {zuc.zunite.nom}
-                                            </p>
-                                        ))}
-                                        {item.zucompos && item.zucompos.filter(zuc => zuc.responsable === 'Oui').map(responsable => (
-                                            <p key={responsable.zchercheur.idche}>
-                                                Responsable: {responsable.zchercheur.nom} {responsable.zchercheur.prenom}
-                                            </p>
-                                        ))}*/}
+
                                     </Link>
                                 </div>
                             </ListGroup.Item>
