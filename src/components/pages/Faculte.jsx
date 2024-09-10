@@ -1,18 +1,17 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import {Button, ListGroup} from "react-bootstrap";
-import {useQuery} from "react-query";
-import {getFaculte} from "../../utils/ApiGet.js";
-import {Link, useNavigate} from "react-router-dom";
+import { Button, ListGroup } from "react-bootstrap";
+import { useQuery } from "react-query";
+import { getFaculte } from "../../utils/ApiGet.js";
+import { Link, useNavigate } from "react-router-dom";
 import PermissionGuard from "../../utils/PermissionGuard.jsx";
-
 
 function Faculte() {
     const { getAccessTokenSilently } = useAuth0();
     const navigate = useNavigate();
 
-    const {data, isLoading} = useQuery(["faculties"], () =>
-        getFaculte({accessToken : getAccessTokenSilently()
-        }))
+    const { data, isLoading } = useQuery(["faculties"], async () => {
+        return getFaculte({ accessToken: await getAccessTokenSilently() });
+    });
 
     const liensFacultes = {
         "École de Santé publique": "https://esp.ulb.be/fr/la-recherche/les-centres-de-recherche",
@@ -37,30 +36,43 @@ function Faculte() {
 
     return (
         <div>
-
             <div className="row">
-                <div className="col-md-9"> {/* Colonne prenant 9/12 de la largeur */}
+                <div className="col-md-9">
                     <h2>Répertoires des Unités par Facultés, Départements</h2>
                     <p>Classement par Facultés</p>
                 </div>
-                <div className="col-md-3 text-right"> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}
-                    <Button variant="outline-primary" className="btn-custom" onClick={() => handleNavigation("/faculteRecherche")}>
+                <div className="col-md-3 text-right">
+                    <Button
+                        variant="outline-primary"
+                        className="btn-custom"
+                        onClick={() => handleNavigation("/faculteRecherche")}
+                    >
                         Recherche
                     </Button>
 
-                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/faculteStat")}>
+                    <Button
+                        variant="info"
+                        className="btn-custom"
+                        onClick={() => handleNavigation("/faculteStat")}
+                    >
                         Statistiques
                     </Button>
-                    <PermissionGuard permission={'read:all-information'}>
-                    <Button variant="success" className="btn-custom" onClick={() => handleNavigation("/faculteAjouter")}>
-                        Ajouter
-                    </Button>
+                    <PermissionGuard permission={"read:all-information"}>
+                        <Button
+                            variant="success"
+                            className="btn-custom"
+                            onClick={() => handleNavigation("/faculteAjouter")}
+                        >
+                            Ajouter
+                        </Button>
                     </PermissionGuard>
                 </div>
             </div>
 
 
+
             <div>
+
                 {!isLoading && (
                     <ListGroup as="ul">
                         {data.map((item) => (
@@ -78,13 +90,22 @@ function Faculte() {
                                     >
                                         <p>{item.faculte}</p>
                                     </a>
+
+                                    <Link
+                                        to={`/faculteDetail/${item.fac}`}
+                                        state={{
+                                            faculte: item.faculte,
+                                            faculteUK: item.faculteUK,
+                                        }}
+                                    >
+                                        Détails
+                                    </Link>
                                 </div>
                             </ListGroup.Item>
                         ))}
                     </ListGroup>
                 )}
             </div>
-                  {/*</PermissionGuard>*/}
         </div>
     );
 }

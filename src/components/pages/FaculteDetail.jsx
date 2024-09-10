@@ -1,9 +1,8 @@
-import {useParams} from "react-router-dom";
-import {useAuth0} from "@auth0/auth0-react";
-import {useQuery} from "react-query";
-import {getFaculte} from "../../utils/ApiGet.js";
+import { useParams } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useQuery } from "react-query";
+import { getFaculte } from "../../utils/ApiGet.js";
 import React from "react";
-
 
 function FaculteDetail() {
     const { getAccessTokenSilently } = useAuth0();
@@ -13,65 +12,32 @@ function FaculteDetail() {
         return getFaculte({ accessToken: await getAccessTokenSilently(), fac: fac });
     });
 
-    if(isLoadingFaculte)
-    {
+    if (isLoadingFaculte) {
         return <p>Loading...</p>;
     }
 
-
-    if(!facultes){
-        return null;
+    // Vérifiez si 'facultes' contient des données
+    if (!facultes || facultes.length === 0) {
+        return <p>Aucune faculté trouvée</p>;
     }
 
-    const { faculte, faculteUK} = facultes;
+    // Ajoutez une vérification pour l'objet facultes
+    const faculteData = facultes[0]; // Assurez-vous que vous utilisez la bonne indexation si vous avez un tableau
+
+    // Affichage dans la console pour déboguer
+    console.log('Faculté:', faculteData?.faculte); // Utilisez l'opérateur de sécurité optionnel pour éviter les erreurs si les champs sont manquants
+    console.log('FacultéUK:', faculteData?.faculteUK);
+
     return (
         <>
-
             <div>
-                <h2>{faculte}</h2>
-                <h2>{faculteUK}</h2>
+                {/* Si les champs sont définis, les afficher */}
+                <h2>{faculteData?.faculte || 'Nom de faculté non disponible'}</h2>
+                <h2>{faculteData?.faculteUK || 'Nom de faculté (UK) non disponible'}</h2>
                 <p>(Code : {fac})</p>
-
-                {/*<h5>Domaines Frascati :</h5>
-                <h5>Disciplines CRef :</h5>*/}
-
-
-
-
-
-                    {/*<PermissionGuard permission={'write:information'}>
-                    <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/uniteModifier/${idunite}`)}>
-                        Modifier
-                    </Button>
-
-                    <div className="btn-custom">
-                        <UniteSupprimer idunite={idunite} />
-                    </div>
-                     </PermissionGuard>*/}
-
             </div>
         </>
     );
-
-   /* const { facId } = useParams();
-
-    const links = {
-        'G1': 'https://esp.ulb.be/fr/la-recherche/les-centres-de-recherche',
-        'H': 'https://polytech.ulb.be/fr/recherche/sciences-de-l-ingenieur',
-    };
-
-    // Vérifiez si l'ID existe dans les liens, sinon affichez un lien par défaut
-    const link = links[facId] || 'https://cvchercheurs.ulb.ac.be/Site/';
-
-    // Renvoie le contenu correspondant au lien
-    return (
-        <div>
-            <h2>Faculté détaillée</h2>
-            <p>Contenu correspondant à l'ID : {fac}</p>
-            <a href={link} target="_blank" rel="noopener noreferrer">Lien vers les détails</a>
-        </div>
-    );*/
 }
 
 export default FaculteDetail;
-
