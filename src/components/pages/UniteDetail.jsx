@@ -20,66 +20,69 @@ function UniteDetail() {
     const navigate = useNavigate();
     const [showFullDescription, setShowFullDescription] = useState(false);
 
+    // Fetching Unit details
     const { data: unite, isLoading: isLoadingUnite } = useQuery(["uniteDetail", idunite], async () => {
-        return getUniteDetail({ accessToken: await getAccessTokenSilently(), idunite: idunite });
+        return getUniteDetail({ accessToken: await getAccessTokenSilently(), idunite });
     });
 
+    // Fetching Unit Responsibles with filter to avoid duplicates
     const { data: responsables, isLoading: isLoadingResponsables } = useQuery(["responsablesUnite", idunite], async () => {
-        return getResponsablesUnite({ accessToken: await getAccessTokenSilently(), idunite: idunite });
+        const allResponsables = await getResponsablesUnite({ accessToken: await getAccessTokenSilently(), idunite });
+        return allResponsables.filter((responsable, index, self) =>
+            index === self.findIndex((r) => r.idche === responsable.idche)
+        );
     });
 
+    // Fetching Unit's Frascati domains
     const { data: frascati, isLoading: isLoadingFrascati } = useQuery(["frascatiByUnite", idunite], async () => {
-        return getFrascatiByUnite({ accessToken: await getAccessTokenSilently(), idunite: idunite });
+        return getFrascatiByUnite({ accessToken: await getAccessTokenSilently(), idunite });
     });
 
+    // Fetching Unit's disciplines
     const { data: disciplines, isLoading: isLoadingDisciplines } = useQuery(["disciplinesByUnite", idunite], async () => {
-        return getDisciplinesByUnite({ accessToken: await getAccessTokenSilently(), idunite: idunite });
+        return getDisciplinesByUnite({ accessToken: await getAccessTokenSilently(), idunite });
     });
 
+    // Fetching Faculties associated with the Unit
     const { data: facultes, isLoading: isLoadingFaculte } = useQuery(["faculteByUnite", idunite], async () => {
-        return getFaculteByUnite({ accessToken: await getAccessTokenSilently(), idunite: idunite });
+        return getFaculteByUnite({ accessToken: await getAccessTokenSilently(), idunite });
     });
 
+    // Loading state
     if (isLoadingUnite || isLoadingResponsables || isLoadingFrascati || isLoadingDisciplines || isLoadingFaculte) {
         return <p>Loading...</p>;
     }
 
     if (!unite) {
-        return null; // Ou vous pouvez retourner un composant de chargement ou un message d'attente
+        return <p>Aucune unité trouvée.</p>;
     }
 
+    // Data Destructuring for clarity
     const { nom, description, localisation, rue, numero, codePostal, localite, email, telephone, fax, site1, site2 } = unite;
 
-    const handleNavigation = (path) => {
-        navigate(path);
-    };
-
-    const address = `${rue} ${numero}, ${codePostal} ${localite}`;
-    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
-
-    const toggleDescription = () => {
-        setShowFullDescription(!showFullDescription);
-    };
-
+    // Shortened description logic
     const shortDescription = description && description.length > 650 ? `${description.substring(0, 650)}...` : description;
 
-    const uniqueResponsables = responsables && responsables.filter((responsable, index, self) =>
-            index === self.findIndex((r) => (
-                r.idche === responsable.idche
-            ))
-    );
+    const toggleDescription = () => setShowFullDescription(!showFullDescription);
 
-    const responsablesLabel = uniqueResponsables && uniqueResponsables.length === 1 ? "Responsable de l'unité" : "Responsables de l'unité";
+    // Helper for navigation
+    const handleNavigation = (path) => navigate(path);
+
+    // Constructing Google Maps URL
+    const address = `${rue} ${numero}, ${codePostal} ${localite}`;
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
 
     return (
         <>
             <h2>{nom}</h2>
             <div>
                 <p>(Code : {idunite})</p>
+
+                {/* Faculties associated with the Unit */}
                 {facultes && facultes.length > 0 ? (
                     <ul>
                         {facultes.map((fa) => (
-                            <li key={fa.fac}> {/* Utilisation d'une clé composée pour garantir l'unicité */}
+                            <li key={fa.fac}>
                                 <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/faculteDetail/${fa.fac}`)}>
                                     {fa.faculte}
                                 </Button>
@@ -87,15 +90,14 @@ function UniteDetail() {
                         ))}
                     </ul>
                 ) : (
-                    <p>Aucune faculté associé.</p>
+                    <p>Aucune faculté associée.</p>
                 )}
 
-
-
-                <p>{responsablesLabel} :</p>
-                {uniqueResponsables && uniqueResponsables.length > 0 ? (
+                {/* Unit's Responsibles */}
+                <p>{responsables.length === 1 ? "Responsable de l'unité :" : "Responsables de l'unité :"}</p>
+                {responsables.length > 0 ? (
                     <ul>
-                        {uniqueResponsables.map(responsable => (
+                        {responsables.map(responsable => (
                             <li key={responsable.idche}>
                                 <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${responsable.idche}`)}>
                                     {responsable.nom} {responsable.prenom}
@@ -107,6 +109,7 @@ function UniteDetail() {
                     <p>Aucun responsable trouvé pour cette unité.</p>
                 )}
 
+                {/* Description with toggle */}
                 {description ? (
                     <div>
                         <p>Description :</p>
@@ -122,9 +125,11 @@ function UniteDetail() {
                 )}
 
                 <hr />
+
+                {/* Address, Email, and Contact Information */}
                 {localisation && <p><FaMapMarkerAlt /> Localisation : {localisation}</p>}
                 {rue && numero && localite && (
-                    <p><FaHome /> Adresse : <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">{rue} {numero}, {codePostal ? `${codePostal} ` : ''}{localite}</a></p>
+                    <p><FaHome /> Adresse : <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">{address}</a></p>
                 )}
                 {email && <p><FaEnvelope /> Email : <a href={`mailto:${email}`} target="_blank" rel="noopener noreferrer">{email}</a></p>}
                 {telephone && <p><FaPhone /> Téléphone : {telephone}</p>}
@@ -132,12 +137,13 @@ function UniteDetail() {
                 {site1 && <p><FaGlobe /> Site Web : <a href={site1} target="_blank" rel="noopener noreferrer">{site1}</a></p>}
                 {site2 && <p><FaGlobe /> Autre Site : <a href={site2} target="_blank" rel="noopener noreferrer">{site2}</a></p>}
 
+                {/* Frascati Domains */}
                 {frascati && frascati.length > 0 && (
                     <>
-                        <h5>Domaines Frascati :</h5>
+                        <h5>{frascati.length === 1 ? "Domaine Frascati :" : "Domaines Frascati :"}</h5>
                         <ul>
                             {frascati.map((f, index) => (
-                                <li key={`${f.idfrascati}-${index}`}> {/* Utilisation d'une clé composée pour garantir l'unicité */}
+                                <li key={`${f.idfrascati}-${index}`}>
                                     <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/frascatiDetail/${f.idfrascati}`)}>
                                         {f.idfrascati} {f.frascati}
                                     </Button>
@@ -147,12 +153,13 @@ function UniteDetail() {
                     </>
                 )}
 
+                {/* Disciplines CRef */}
                 {disciplines && disciplines.length > 0 && (
                     <>
-                        <h5>Disciplines CRef :</h5>
+                        <h5>{disciplines.length === 1 ? "Discipline CRef :" : "Disciplines CRef :"}</h5>
                         <ul>
                             {disciplines.map((d, index) => (
-                                <li key={`${d.idcodecref}-${index}`}> {/* Utilisation d'une clé composée pour garantir l'unicité */}
+                                <li key={`${d.idcodecref}-${index}`}>
                                     <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/disciplineDetail/${d.idcodecref}`)}>
                                         {d.discipline}
                                     </Button>
@@ -162,6 +169,7 @@ function UniteDetail() {
                     </>
                 )}
 
+                {/* Edit and Delete Buttons */}
                 <div>
                     <PermissionGuard permission={'write:all-information'}>
                         <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/uniteModifier/${idunite}`)}>
