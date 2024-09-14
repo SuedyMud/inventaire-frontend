@@ -1,9 +1,8 @@
 import React from 'react';
 import {useAuth0} from "@auth0/auth0-react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {useQuery} from "react-query";
-import {getDisciplinesByUnite, getDiscplineDetail} from "../../utils/ApiGet.js";
-import {Button} from "react-bootstrap";
+import { getDiscplineDetail} from "../../utils/ApiGet.js";
 
 
 
