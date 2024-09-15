@@ -80,11 +80,15 @@ function ProjetDetail() {
                 {unites && unites.length > 0 ? (
                     <ul>
                         {unites.map((unite) => (
+                            unite ? (
                             <li key={unite.idunite}>
                                 <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/uniteDetail/${unite.idunite}`)}>
                                     {unite.nom} | {unite.idunite}
                                 </Button>
                             </li>
+                        ) : (
+                            <li key={Math.random()}>Unite non trouvé ou supprimé !</li>
+                )
                         ))}
                     </ul>
                 ) : (

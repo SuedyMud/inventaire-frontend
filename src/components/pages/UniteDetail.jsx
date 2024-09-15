@@ -103,11 +103,15 @@ function UniteDetail() {
                 {responsables.length > 0 ? (
                     <ul>
                         {responsables.map(responsable => (
-                            <li key={responsable.idche}>
-                                <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${responsable.idche}`)}>
-                                    {responsable.nom} {responsable.prenom}
-                                </Button>
-                            </li>
+                            responsable ? (
+                                <li key={responsable.idche}>
+                                    <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${responsable.idche}`)}>
+                                        {responsable.nom} {responsable.prenom}
+                                    </Button>
+                                </li>
+                            ) : (
+                                <li key={Math.random()}>Responsable non trouvé ou supprimé !</li>
+                            )
                         ))}
                     </ul>
                 ) : (
@@ -115,20 +119,25 @@ function UniteDetail() {
                 )}
 
                 {/* Unit's Members */}
-                <p>{membres.length === 1 ? "Membre de l'unité :" : "Membres de l'unité :"}</p>
+                <p>{membres && membres.length === 1 ? "Membre de l'unité :" : "Membres de l'unité :"}</p>
                 {membres && membres.length > 0 ? (
                     <ul>
                         {membres.map((membre) => (
-                            <li key={membre.idche}>
-                                <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${membre.idche}`)}>
-                                    {membre.nom} {membre.prenom}
-                                </Button>
-                            </li>
+                            membre ? (
+                                <li key={membre.idche}>
+                                    <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${membre.idche}`)}>
+                                        {membre.nom} {membre.prenom}
+                                    </Button>
+                                </li>
+                            ) : (
+                                <li key={Math.random()}>Membre non trouvé ou supprimé !</li>
+                            )
                         ))}
                     </ul>
                 ) : (
                     <p>Aucun membre trouvé pour cette unité.</p>
                 )}
+
 
                 {/* Description with toggle */}
                 {description ? (
@@ -164,11 +173,15 @@ function UniteDetail() {
                         <h5>{projets.length === 1 ? "Projet :" : "Projets :"}</h5>
                         <ul>
                             {projets.map((projet) => (
+                                projet ? (
                                 <li key={projet.idprojet}>
                                     <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/projetDetail/${projet.idprojet}`)}>
                                         {projet.nom}
                                     </Button>
                                 </li>
+                            ) : (
+                                <li key={Math.random()}>Projet non trouvé ou supprimé !</li>
+                        )
                             ))}
                         </ul>
                     </>
@@ -181,11 +194,15 @@ function UniteDetail() {
                         <h5>{frascati.length === 1 ? "Domaine Frascati :" : "Domaines Frascati :"}</h5>
                         <ul>
                             {frascati.map((f) => (
+                                f ? (
                                 <li key={f.idfrascati}>
                                     <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/frascatiDetail/${f.idfrascati}`)}>
                                         {f.idfrascati} {f.frascati}
                                     </Button>
                                 </li>
+                            ) : (
+                                <li key={Math.random()}>Frascati non trouvé ou supprimé !</li>
+                        )
                             ))}
                         </ul>
                     </>
@@ -197,11 +214,16 @@ function UniteDetail() {
                         <h5>{disciplines.length === 1 ? "Discipline CRef :" : "Disciplines CRef :"}</h5>
                         <ul>
                             {disciplines.map((d) => (
+                                d ? (
                                 <li key={d.idcodecref}>
                                     <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/disciplineDetail/${d.idcodecref}`)}>
                                         {d.discipline}
                                     </Button>
                                 </li>
+                            ) : (
+                                <li key={Math.random()}>Discipline non trouvé ou supprimé !</li>
+                        )
+
                             ))}
                         </ul>
                     </>
