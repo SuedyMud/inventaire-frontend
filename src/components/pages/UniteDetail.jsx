@@ -7,7 +7,9 @@ import {
     getResponsablesUnite,
     getFrascatiByUnite,
     getDisciplinesByUnite,
-    getFaculteByUnite
+    getFaculteByUnite,
+    getProjetsByUnite,
+    getMembresByUnite  // Importation de la fonction pour récupérer les membres
 } from "../../utils/ApiGet.js";
 import { Button } from "react-bootstrap";
 import UniteSupprimer from "./UniteSupprimer.jsx";
@@ -25,7 +27,7 @@ function UniteDetail() {
         return getUniteDetail({ accessToken: await getAccessTokenSilently(), idunite });
     });
 
-    // Fetching Unit Responsibles with filter to avoid duplicates
+    // Fetching Unit Responsibles
     const { data: responsables, isLoading: isLoadingResponsables } = useQuery(["responsablesUnite", idunite], async () => {
         const allResponsables = await getResponsablesUnite({ accessToken: await getAccessTokenSilently(), idunite });
         return allResponsables.filter((responsable, index, self) =>
@@ -33,42 +35,45 @@ function UniteDetail() {
         );
     });
 
-    // Fetching Unit's Frascati domains
-    const { data: frascati, isLoading: isLoadingFrascati } = useQuery(["frascatiByUnite", idunite], async () => {
+    // Fetching Unit's members
+    const { data: membres, isLoading: isLoadingMembres } = useQuery(["membresUnite", idunite], async () => {
+        return getMembresByUnite({ accessToken: await getAccessTokenSilently(), idunite });
+    });
+
+    // Fetching other unit-related data
+    const { data: frascati } = useQuery(["frascatiByUnite", idunite], async () => {
         return getFrascatiByUnite({ accessToken: await getAccessTokenSilently(), idunite });
     });
 
-    // Fetching Unit's disciplines
-    const { data: disciplines, isLoading: isLoadingDisciplines } = useQuery(["disciplinesByUnite", idunite], async () => {
+    const { data: disciplines } = useQuery(["disciplinesByUnite", idunite], async () => {
         return getDisciplinesByUnite({ accessToken: await getAccessTokenSilently(), idunite });
     });
 
-    // Fetching Faculties associated with the Unit
-    const { data: facultes, isLoading: isLoadingFaculte } = useQuery(["faculteByUnite", idunite], async () => {
+    const { data: facultes } = useQuery(["faculteByUnite", idunite], async () => {
         return getFaculteByUnite({ accessToken: await getAccessTokenSilently(), idunite });
     });
 
+    const { data: projets } = useQuery(["projetsByUnite", idunite], async () => {
+        return getProjetsByUnite({ accessToken: await getAccessTokenSilently(), idunite });
+    });
+
     // Loading state
-    if (isLoadingUnite || isLoadingResponsables || isLoadingFrascati || isLoadingDisciplines || isLoadingFaculte) {
-        return <p>Loading...</p>;
+    if (isLoadingUnite || isLoadingResponsables || isLoadingMembres) {
+        return <p>Chargement...</p>;
     }
 
     if (!unite) {
         return <p>Aucune unité trouvée.</p>;
     }
 
-    // Data Destructuring for clarity
     const { nom, description, localisation, rue, numero, codePostal, localite, email, telephone, fax, site1, site2 } = unite;
 
-    // Shortened description logic
     const shortDescription = description && description.length > 650 ? `${description.substring(0, 650)}...` : description;
 
     const toggleDescription = () => setShowFullDescription(!showFullDescription);
 
-    // Helper for navigation
     const handleNavigation = (path) => navigate(path);
 
-    // Constructing Google Maps URL
     const address = `${rue} ${numero}, ${codePostal} ${localite}`;
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
 
@@ -109,6 +114,22 @@ function UniteDetail() {
                     <p>Aucun responsable trouvé pour cette unité.</p>
                 )}
 
+                {/* Unit's Members */}
+                <p>{membres.length === 1 ? "Membre de l'unité :" : "Membres de l'unité :"}</p>
+                {membres && membres.length > 0 ? (
+                    <ul>
+                        {membres.map((membre) => (
+                            <li key={membre.idche}>
+                                <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${membre.idche}`)}>
+                                    {membre.nom} {membre.prenom}
+                                </Button>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>Aucun membre trouvé pour cette unité.</p>
+                )}
+
                 {/* Description with toggle */}
                 {description ? (
                     <div>
@@ -137,13 +158,30 @@ function UniteDetail() {
                 {site1 && <p><FaGlobe /> Site Web : <a href={site1} target="_blank" rel="noopener noreferrer">{site1}</a></p>}
                 {site2 && <p><FaGlobe /> Autre Site : <a href={site2} target="_blank" rel="noopener noreferrer">{site2}</a></p>}
 
+                {/* Projets associés à l'unité */}
+                {projets && projets.length > 0 && (
+                    <>
+                        <h5>{projets.length === 1 ? "Projet :" : "Projets :"}</h5>
+                        <ul>
+                            {projets.map((projet) => (
+                                <li key={projet.idprojet}>
+                                    <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/projetDetail/${projet.idprojet}`)}>
+                                        {projet.nom}
+                                    </Button>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                )}
+
+
                 {/* Frascati Domains */}
                 {frascati && frascati.length > 0 && (
                     <>
                         <h5>{frascati.length === 1 ? "Domaine Frascati :" : "Domaines Frascati :"}</h5>
                         <ul>
-                            {frascati.map((f, index) => (
-                                <li key={`${f.idfrascati}-${index}`}>
+                            {frascati.map((f) => (
+                                <li key={f.idfrascati}>
                                     <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/frascatiDetail/${f.idfrascati}`)}>
                                         {f.idfrascati} {f.frascati}
                                     </Button>
@@ -158,8 +196,8 @@ function UniteDetail() {
                     <>
                         <h5>{disciplines.length === 1 ? "Discipline CRef :" : "Disciplines CRef :"}</h5>
                         <ul>
-                            {disciplines.map((d, index) => (
-                                <li key={`${d.idcodecref}-${index}`}>
+                            {disciplines.map((d) => (
+                                <li key={d.idcodecref}>
                                     <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/disciplineDetail/${d.idcodecref}`)}>
                                         {d.discipline}
                                     </Button>

@@ -322,24 +322,6 @@ export async function getComposDetail({accessToken,refunite}){
     }
 }
 
-export const getResponsablesUnite = async ({ accessToken, idunite }) => {
-
-    try {
-        const response = await axios.get(`/api/zcompos/${idunite}/responsables`, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
-        });
-
-        if (response.status === 200) {
-            return (response.data);
-        } else {
-            console.error("Erreur lors de la récupération des données");
-        }
-    } catch (error) {
-        console.error("Erreur lors de la récupération des données : ", error);
-    }
-};
 
 
 export async function getFrascatiByUnite({ accessToken, idunite }) {
@@ -443,6 +425,48 @@ export const getResponsablesByProjet = async ({ accessToken, idunite, idprojet }
     }
 };
 
+
+export const getResponsablesUnite = async ({ accessToken, idunite }) => {
+
+    try {
+        const response = await axios.get(`/api/zcompos/${idunite}/responsables`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+
+        if (response.status === 200) {
+            return (response.data);
+        } else {
+            console.error("Erreur lors de la récupération des données");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données : ", error);
+    }
+};
+
+export async function getMembresByUnite({ accessToken, idunite }) {
+    const trueAccessToken = await accessToken;
+
+    try {
+        const response = await axios.get(`/api/zcompos/${idunite}/membres`, {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            console.error("Erreur lors de la récupération des membres");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des membres : ", error);
+    }
+}
+
+
+
 // Récupérer les chercheurs d'un projet pour une unité spécifique
 export const getChercheursByProjet = async ({ accessToken, idunite, idprojet }) => {
     const trueAccessToken = await accessToken;
@@ -463,6 +487,27 @@ export const getChercheursByProjet = async ({ accessToken, idunite, idprojet }) 
         console.error("Erreur lors de la récupération des chercheurs : ", error);
     }
 };
+
+export async function getProjetsByUnite({ accessToken, idunite }) {
+    const trueAccessToken = await accessToken;
+
+    try {
+        const response = await axios.get(`/api/zuprojet/${idunite}/projets`, {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;  // Retourne les projets associés à l'unité
+        } else {
+            console.error("Erreur lors de la récupération des projets");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des projets : ", error);
+    }
+}
+
 
 /*
 export async function getChercheursByUnite({ accessToken, uniteId }) {

@@ -25,8 +25,8 @@ function FaculteDetail() {
     const faculteData = facultes[0]; // Assurez-vous que vous utilisez la bonne indexation si vous avez un tableau
 
     // Affichage dans la console pour déboguer
-    console.log('Faculté:', faculteData?.faculte); // Utilisez l'opérateur de sécurité optionnel pour éviter les erreurs si les champs sont manquants
-    console.log('FacultéUK:', faculteData?.faculteUK);
+   /* console.log('Faculté:', faculteData?.faculte); // Utilisez l'opérateur de sécurité optionnel pour éviter les erreurs si les champs sont manquants
+    console.log('FacultéUK:', faculteData?.faculteUK);*/
 
     return (
         <>
