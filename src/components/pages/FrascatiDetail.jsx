@@ -6,6 +6,7 @@ import {getFrascatiDetail} from "../../utils/ApiGet.js";
 import {Button} from "react-bootstrap";
 import FrascatiSupprimer from "./FrascatiSupprimer.jsx";
 import PermissionGuard from "../../utils/PermissionGuard.jsx";
+import ProjetSupprimer from "./ProjetSupprimer.jsx";
 
 
 function FrascatiDetail() {
@@ -44,9 +45,9 @@ function FrascatiDetail() {
 
                 {/*<p> Ci-dessous, la liste des Unités de Recherche ayant déclaré ce domaine</p>*/}
 
-                <PermissionGuard permission={'read:all-information:restricted-information'}>
+                {/*<PermissionGuard permission={'read:all-information:restricted-information'}>
                 <div>
-                    {/*<PermissionGuard permission={'write:information'}>*/}
+                    <PermissionGuard permission={'write:information'}>
                     <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/frascatiModifier/${idfrascati}`)}>
                         Modifier
                     </Button>
@@ -54,10 +55,22 @@ function FrascatiDetail() {
                     <div className="btn-custom">
                         <FrascatiSupprimer idfrascati={idfrascati} />
                     </div>
-                    {/* </PermissionGuard>*/}
+                     </PermissionGuard>
 
                 </div>
-                </PermissionGuard>
+                </PermissionGuard>*/}
+
+                <div>
+                    <PermissionGuard permission={'write:all-information'}>
+                        <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/frascatiModifier/${idfrascati}`)}>
+                            Modifier
+                        </Button>
+
+                        <div className="btn-custom">
+                            <FrascatiSupprimer idfrascati={idfrascati} />
+                        </div>
+                    </PermissionGuard>
+                </div>
             </div>
         </>
     );
