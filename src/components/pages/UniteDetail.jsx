@@ -99,9 +99,12 @@ function UniteDetail() {
                 )}
 
                 {/* Unit's Responsibles */}
-                <p>{responsables.length === 1 ? "Responsable de l'unité :" : "Responsables de l'unité :"}</p>
-                {responsables.length > 0 ? (
-                    <ul>
+
+                {responsables.length > 0 && (
+                    <>
+                        <p>{responsables.length === 1 ? "Responsable de l'unité :" : "Responsables de l'unité :"}</p>
+                        <ul>
+
                         {responsables.map(responsable => (
                             responsable ? (
                                 <li key={responsable.idche}>
@@ -114,28 +117,29 @@ function UniteDetail() {
                             )
                         ))}
                     </ul>
-                ) : (
-                    <p>Aucun responsable trouvé pour cette unité.</p>
+                    </>
                 )}
 
                 {/* Unit's Members */}
-                <p>{membres && membres.length === 1 ? "Membre de l'unité :" : "Membres de l'unité :"}</p>
-                {membres && membres.length > 0 ? (
-                    <ul>
-                        {membres.map((membre) => (
-                            membre ? (
-                                <li key={membre.idche}>
-                                    <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${membre.idche}`)}>
-                                        {membre.nom} {membre.prenom}
-                                    </Button>
-                                </li>
-                            ) : (
-                                <li key={Math.random()}>Membre non trouvé ou supprimé !</li>
-                            )
-                        ))}
-                    </ul>
-                ) : (
-                    <p>Aucun membre trouvé pour cette unité.</p>
+                {membres && membres.length > 0 && (
+                    <>
+                        <p>{membres && membres.length === 1 ? "Membre de l'unité :" : "Membres de l'unité :"}</p>
+
+                        <ul>
+                            {membres.map((membre) => (
+                                membre ? (
+                                    <li key={membre.idche}>
+                                        <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${membre.idche}`)}>
+                                            {membre.nom} {membre.prenom}
+                                        </Button>
+                                    </li>
+                                ) : (
+                                    <li key={Math.random()}>Membre non trouvé ou supprimé !</li>
+                                )
+                            ))}
+                        </ul>
+                    </>
+
                 )}
 
 

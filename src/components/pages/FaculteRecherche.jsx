@@ -69,15 +69,15 @@ function FaculteRecherche() {
                         {filteredData.map((item) => (
                             <ListGroup.Item
                                 as="li"
-                                key={item.idfaculte}
+                                key={item.fac}
                                 className="d-flex justify-content-between align-items-center my-1"
                             >
                                 <div>
                                     <Link to={{
-                                        pathname: `/faculteDetail/${item.idfaculte}`,
+                                        pathname: `/faculteDetail/${item.fac}`,
                                         state: {
                                             faculte: item.faculte,
-                                            FaculteUk: item.FaculteUk,
+                                            faculteUk: item.faculteUk,
 
                                         }
                                     }} style={{ textDecoration: 'none' }}>

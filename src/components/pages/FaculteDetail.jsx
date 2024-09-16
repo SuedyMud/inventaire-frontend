@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useQuery } from "react-query";
-import { getFaculte } from "../../utils/ApiGet.js";
+import {getFacDetail, getFaculte} from "../../utils/ApiGet.js";
 import React from "react";
 
 function FaculteDetail() {
@@ -9,7 +9,7 @@ function FaculteDetail() {
     const { fac } = useParams();
 
     const { data: facultes, isLoading: isLoadingFaculte } = useQuery(["faculteDetail", fac], async () => {
-        return getFaculte({ accessToken: await getAccessTokenSilently(), fac: fac });
+        return getFacDetail({ accessToken: await getAccessTokenSilently(), fac: fac });
     });
 
     if (isLoadingFaculte) {
@@ -17,23 +17,21 @@ function FaculteDetail() {
     }
 
     // Vérifiez si 'facultes' contient des données
-    if (!facultes || facultes.length === 0) {
-        return <p>Aucune faculté trouvée</p>;
+    if (!facultes) {
+        return null;
     }
 
-    // Ajoutez une vérification pour l'objet facultes
-    const faculteData = facultes[0]; // Assurez-vous que vous utilisez la bonne indexation si vous avez un tableau
 
-    // Affichage dans la console pour déboguer
-   /* console.log('Faculté:', faculteData?.faculte); // Utilisez l'opérateur de sécurité optionnel pour éviter les erreurs si les champs sont manquants
-    console.log('FacultéUK:', faculteData?.faculteUK);*/
+    const {faculte, faculteUK} = facultes;
 
     return (
         <>
             <div>
                 {/* Si les champs sont définis, les afficher */}
-                <h2>{faculteData?.faculte || 'Nom de faculté non disponible'}</h2>
-                <h2>{faculteData?.faculteUK || 'Nom de faculté (UK) non disponible'}</h2>
+
+                <h2>{faculte}</h2>
+                <h2>{faculteUK}</h2>
+
                 <p>(Code : {fac})</p>
             </div>
         </>

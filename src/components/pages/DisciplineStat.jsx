@@ -38,7 +38,7 @@ function DisciplineStat() {
                         totalDisciplines: totalDisciplines,
                         totalNom: filteredData.filter((item) => item.discipline === "").length,
                         totalNomUk: filteredData.filter((item) => item.disciplineUK === "").length,
-                        totalDescription: filteredData.filter((item) => item.description === "").length,
+
                     };
 
                     setStatistics(statistics);
@@ -62,7 +62,7 @@ function DisciplineStat() {
 Il y a ${statistics.totalDisciplines} disciplines au total
 ${generateText(statistics.totalNom, "discipline ne possède pas de nom", "disciplines ne possèdent pas de nom")}
 ${generateText(statistics.totalNomUk, "discipline ne possède pas de nom en anglais", "disciplines ne possèdent pas de nom en anglais")}
-${generateText(statistics.totalDescription, "discipline ne possède pas de description", "disciplines ne possèdent pas de description")}
+
         `;
         const blob = new Blob([data], { type: "text/plain" });
         saveAs(blob, "discipline_statistiques.txt");
@@ -74,7 +74,7 @@ ${generateText(statistics.totalDescription, "discipline ne possède pas de descr
             ["Total Disciplines", statistics.totalDisciplines],
             ["Disciplines sans Nom", statistics.totalNom],
             ["Disciplines sans Nom UK", statistics.totalNomUk],
-            ["Disciplines sans Description", statistics.totalDescription],
+
         ];
         const worksheet = XLSX.utils.aoa_to_sheet(data);
         const workbook = XLSX.utils.book_new();
@@ -88,7 +88,6 @@ ${generateText(statistics.totalDescription, "discipline ne possède pas de descr
             <p>Il y a {statistics.totalDisciplines} disciplines au total.</p>
             <p>{generateText(statistics.totalNom, "discipline ne possède pas de nom", "disciplines ne possèdent pas de nom")}.</p>
             <p>{generateText(statistics.totalNomUk, "discipline ne possède pas de nom en anglais", "disciplines ne possèdent pas de nom en anglais")}.</p>
-            <p>{generateText(statistics.totalDescription, "discipline ne possède pas de description", "disciplines ne possèdent pas de description")}.</p>
 
             <Button variant="primary" className="btn-custom" onClick={downloadTxtFile}>Télécharger en format texte</Button>
             <Button variant="primary" className="btn-custom" onClick={downloadExcelFile}>Télécharger en format Excel</Button>

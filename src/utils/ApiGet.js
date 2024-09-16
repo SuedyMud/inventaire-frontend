@@ -165,6 +165,31 @@ export async function getChercheur({accessToken, letter}) {
     }
 }
 
+
+export async function getFacDetail({ accessToken, fac }) {
+    try {
+        // Récupérer le token
+        const trueAccessToken = await accessToken;
+
+        // Effectuer la requête vers l'API avec le token et l'ID de la faculté requis
+        const response = await axios.get(`/api/zfac/${fac}`, {
+            headers: {
+                Authorization: `Bearer ${trueAccessToken}`,
+            },
+        });
+
+        // Vérifier si la requête est réussie (code 200)
+        if (response.status === 200) {
+            return response.data; // Retourner les données de la faculté
+        } else {
+            console.error("Erreur lors de la récupération des données de la faculté");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données de la faculté : ", error);
+    }
+}
+
+
 export async function getChercheurDetail({accessToken, idche}) {
     const trueAccessToken = await accessToken;
 

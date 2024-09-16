@@ -42,7 +42,7 @@ function FrascatiDetail() {
 
                {/* <p>unité : {zufrascati}</p>*/}
 
-                <p> Ci-dessous, la liste des Unités de Recherche ayant déclaré ce domaine</p>
+                {/*<p> Ci-dessous, la liste des Unités de Recherche ayant déclaré ce domaine</p>*/}
 
                 <PermissionGuard permission={'read:all-information:restricted-information'}>
                 <div>
