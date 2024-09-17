@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-import { saveAs } from "file-saver";
-import * as XLSX from "xlsx";
-import { Button } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Link } from 'react-router-dom';
+import { saveAs } from 'file-saver'; // Pour le téléchargement TXT
+import * as XLSX from 'xlsx'; // Pour le téléchargement Excel
 
 function FaculteStat() {
     const { getAccessTokenSilently } = useAuth0();
 
     const [statistics, setStatistics] = useState({
         totalFacultes: 0,
-        totalFaculteUk: 0,
-        totalSigles: 0,
-        totalDateMajs: 0,
-        totalTactifs: 0,
-        totalGroupes: 0,
+        facultesSansNomUk: [],
+        facultesSansSigleIee: [],
+        facultesSansDateMaj: [],
+        facultesInactives: [],
+        facultesSansPoleSante: [],
         pourcentage: 0,
     });
 
@@ -37,18 +37,21 @@ function FaculteStat() {
                     );
 
                     const totalFacultes = filteredData.length;
+                    const facultesSansNomUk = filteredData.filter((item) => item.faculteUK === "");
+                    const facultesSansSigleIee = filteredData.filter((item) => item.sigle !== "IEE");
+                    const facultesSansDateMaj = filteredData.filter((item) => !item.dmaj);
+                    const facultesInactives = filteredData.filter((item) => item.actif !== 1);
+                    const facultesSansPoleSante = filteredData.filter((item) => item.groupe !== "PoLE SANTÉ");
 
-                    const statistics = {
+                    setStatistics({
                         totalFacultes: totalFacultes,
-                        totalFaculteUk: filteredData.filter((item) => item.faculteUK === "").length,
-                        totalSigles: filteredData.filter((item) => item.sigle !== "IEE").length,
-                        totalDateMajs: filteredData.filter((item) => item.dmaj === null).length,
-                        totalTactifs: filteredData.filter((item) => item.actif !== 1).length,
-                        totalGroupes: filteredData.filter((item) => item.groupe !== "PoLE SANTÉ").length,
-                        pourcentage: ((filteredData.filter((item) => item.faculteUK === "").length / totalFacultes) * 100).toFixed(0),
-                    };
-
-                    setStatistics(statistics);
+                        facultesSansNomUk: facultesSansNomUk,
+                        facultesSansSigleIee: facultesSansSigleIee,
+                        facultesSansDateMaj: facultesSansDateMaj,
+                        facultesInactives: facultesInactives,
+                        facultesSansPoleSante: facultesSansPoleSante,
+                        pourcentage: ((facultesSansNomUk.length / totalFacultes) * 100).toFixed(0),
+                    });
                 } else {
                     console.error("Erreur lors de la récupération des données");
                 }
@@ -60,51 +63,60 @@ function FaculteStat() {
         fetchData();
     }, [getAccessTokenSilently]);
 
-    const generateText = (count, singularText, pluralText) => {
-        return count === 1 ? `${count} ${singularText}` : `${count} ${pluralText}`;
-    };
-
-    const downloadTxtFile = () => {
+    const generateTextFile = () => {
         const data = `
-Il y a ${statistics.totalFacultes} facultés au total
-${generateText(statistics.totalFaculteUk, "faculté ne possède pas de nom en anglais", "facultés ne possèdent pas de nom en anglais")} (${statistics.pourcentage}%)
-${generateText(statistics.totalSigles, "faculté ne provient pas de l'Institut d'Enseignement Interfacultaire", "facultés ne proviennent pas de l'Institut d'Enseignement Interfacultaire")}
-${generateText(statistics.totalDateMajs, "faculté ne possède pas de date de mise à jour", "facultés ne possèdent pas de date de mise à jour")}
-${generateText(statistics.totalTactifs, "faculté n'est pas active", "facultés ne sont pas actives")}
-${generateText(statistics.totalGroupes, "faculté ne provient pas du PoLE SANTÉ", "facultés ne proviennent pas du PoLE SANTÉ")}
+Il y a ${statistics.totalFacultes} facultés au total.
+Facultés sans nom en anglais : ${statistics.facultesSansNomUk.length}
+Facultés sans sigle IEE : ${statistics.facultesSansSigleIee.length}
+Facultés sans date de mise à jour : ${statistics.facultesSansDateMaj.length}
+Facultés inactives : ${statistics.facultesInactives.length}
+Facultés hors PoLE SANTÉ : ${statistics.facultesSansPoleSante.length}
         `;
-        const blob = new Blob([data], { type: "text/plain" });
-        saveAs(blob, "faculte_statistiques.txt");
+        const blob = new Blob([data], { type: 'text/plain' });
+        saveAs(blob, 'faculte_statistiques.txt');
     };
 
-    const downloadExcelFile = () => {
+    const generateExcelFile = () => {
         const data = [
-            ["Statistiques", "Valeurs"],
-            ["Total Facultés", statistics.totalFacultes],
-            ["Facultés sans Nom UK", statistics.totalFaculteUk],
-            ["Facultés sans Sigle IEE", statistics.totalSigles],
-            ["Facultés sans Date de Mise à Jour", statistics.totalDateMajs],
-            ["Facultés Inactives", statistics.totalTactifs],
-            ["Facultés sans Groupe PoLE SANTÉ", statistics.totalGroupes],
+            ['Catégorie', 'Nombre'],
+            ['Facultés sans nom en anglais', statistics.facultesSansNomUk.length],
+            ['Facultés sans sigle IEE', statistics.facultesSansSigleIee.length],
+            ['Facultés sans date de mise à jour', statistics.facultesSansDateMaj.length],
+            ['Facultés inactives', statistics.facultesInactives.length],
+            ['Facultés hors PoLE SANTÉ', statistics.facultesSansPoleSante.length],
         ];
+
         const worksheet = XLSX.utils.aoa_to_sheet(data);
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Statistiques");
-        XLSX.writeFile(workbook, "faculte_statistiques.xlsx");
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Statistiques');
+        XLSX.writeFile(workbook, 'faculte_statistiques.xlsx');
     };
 
     return (
         <div className="container">
             <h2>Les statistiques des facultés</h2>
-            <p>{generateText(statistics.totalFacultes, "faculté au total", "facultés au total")}</p>
-            <p>{generateText(statistics.totalFaculteUk, "faculté ne possède pas de nom en anglais", "facultés ne possèdent pas de nom en anglais")} ({statistics.pourcentage}%)</p>
-            <p>{generateText(statistics.totalSigles, "faculté ne provient pas de l'Institut d'Enseignement Interfacultaire", "facultés ne proviennent pas de l'Institut d'Enseignement Interfacultaire")}</p>
-            <p>{generateText(statistics.totalDateMajs, "faculté ne possède pas de date de mise à jour", "facultés ne possèdent pas de date de mise à jour")}</p>
-            <p>{generateText(statistics.totalTactifs, "faculté n'est pas active", "facultés ne sont pas actives")}</p>
-            <p>{generateText(statistics.totalGroupes, "faculté ne provient pas du PoLE SANTÉ", "facultés ne proviennent pas du PoLE SANTÉ")}</p>
+            <p>Total des facultés : {statistics.totalFacultes}</p>
 
-            <Button variant="primary" className="btn-custom" onClick={downloadTxtFile}>Télécharger en format texte</Button>
-            <Button variant="primary" className="btn-custom" onClick={downloadExcelFile}>Télécharger en format Excel</Button>
+            <ul>
+                <li>
+                    <Link to="/faculte-details/sans-nom-uk">Facultés sans nom en anglais ({statistics.facultesSansNomUk.length})</Link>
+                </li>
+                <li>
+                    <Link to="/faculte-details/sans-sigle-iee">Facultés sans sigle IEE ({statistics.facultesSansSigleIee.length})</Link>
+                </li>
+                <li>
+                    <Link to="/faculte-details/sans-date-maj">Facultés sans date de mise à jour ({statistics.facultesSansDateMaj.length})</Link>
+                </li>
+                <li>
+                    <Link to="/faculte-details/inactives">Facultés inactives ({statistics.facultesInactives.length})</Link>
+                </li>
+                <li>
+                    <Link to="/faculte-details/sans-pole-sante">Facultés hors PoLE SANTÉ ({statistics.facultesSansPoleSante.length})</Link>
+                </li>
+            </ul>
+
+            <button onClick={generateTextFile} className=" btn-custom btn btn-primary">Télécharger en TXT</button>
+            <button onClick={generateExcelFile} className="btn-custom  btn btn-primary">Télécharger en Excel</button>
         </div>
     );
 }
