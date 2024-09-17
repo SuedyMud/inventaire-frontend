@@ -165,7 +165,7 @@ function ChercheurModifier() {
 
 
 
-                <Form.Group controlId="campus">
+               {/* <Form.Group controlId="campus">
                     <Form.Label>Campus :</Form.Label>
                     <Form.Control
                         type="text"
@@ -174,7 +174,7 @@ function ChercheurModifier() {
                         onChange={handleChange}
                     />
                 </Form.Group>
-
+*/}
 
 
                 <div className="col-md-3 text-right">

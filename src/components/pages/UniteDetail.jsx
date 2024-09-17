@@ -121,10 +121,9 @@ function UniteDetail() {
                 )}
 
                 {/* Unit's Members */}
-                {membres && membres.length > 0 && (
+                {membres && membres.length > 0 ? (
                     <>
-                        <p>{membres && membres.length === 1 ? "Membre de l'unité :" : "Membres de l'unité :"}</p>
-
+                        <p>{membres.length === 1 ? "Membre de l'unité :" : "Membres de l'unité :"}</p>
                         <ul>
                             {membres.map((membre) => (
                                 membre ? (
@@ -139,8 +138,10 @@ function UniteDetail() {
                             ))}
                         </ul>
                     </>
-
+                ) : (
+                    <p>Aucun membre trouvé dans cette unité.</p>
                 )}
+
 
 
                 {/* Description with toggle */}

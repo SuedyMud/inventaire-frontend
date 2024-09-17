@@ -43,6 +43,8 @@ import DisciplineRecherche from "../pages/DisciplineRecherche.jsx";
 
 import Profil from "./Profil.jsx";
 import FaculteDetail from "../pages/FaculteDetail.jsx";
+import DisciplineModifier from "../pages/DisciplineModifier.jsx";
+import DisciplineSupprimer from "../pages/DisciplineSupprimer.jsx";
 
 
 function AppRoutes() {
@@ -102,6 +104,9 @@ function AppRoutes() {
                 <Route path="/disciplineStat" element={<DisciplineStat />} />
                 <Route path="/disciplineDetail/:idcodecref" element={<DisciplineDetail />} />
                 <Route path="/disciplineRecherche" element={<DisciplineRecherche/>} />
+                <Route path="/disciplineModifier/:idcodecref" element={<DisciplineModifier />} />
+                <Route path="/disciplineSupprimer/:idcodecref" element={<DisciplineSupprimer />} />
+
 
 
                 <Route path="/recherche" element={<Recherche/>} />

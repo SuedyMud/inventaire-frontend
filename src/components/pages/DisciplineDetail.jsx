@@ -1,15 +1,18 @@
 import React from 'react';
 import {useAuth0} from "@auth0/auth0-react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useQuery} from "react-query";
 import { getDiscplineDetail} from "../../utils/ApiGet.js";
+import PermissionGuard from "../../utils/PermissionGuard.jsx";
+import {Button} from "react-bootstrap";
+import DisciplineSupprimer from "./DisciplineSupprimer.jsx";
 
 
 
 function DisciplineDetail(){
     const { getAccessTokenSilently } = useAuth0();
     const { idcodecref} = useParams();
-
+    const navigate = useNavigate();
 
     const { data: discipcref, isLoading: isLoadingDispline } = useQuery(["disciplineDetail", idcodecref], async () => {
         return getDiscplineDetail({ accessToken: await getAccessTokenSilently(), idcodecref: idcodecref });
@@ -28,7 +31,9 @@ function DisciplineDetail(){
     }
 
     const { discipline, disciplineUK} = discipcref;
-
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
 
     return (
         <>
@@ -36,6 +41,18 @@ function DisciplineDetail(){
             <h2>{disciplineUK}</h2>
             <div>
                 <p>(Code : {idcodecref})</p>
+
+                <div>
+                    <PermissionGuard permission={'write:all-information'}>
+                        <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/disciplineModifier/${idcodecref}`)}>
+                            Modifier
+                        </Button>
+
+                        <div className="btn-custom">
+                            <DisciplineSupprimer idcodecref={idcodecref} />
+                        </div>
+                    </PermissionGuard>
+                </div>
 
             </div>
         </>
