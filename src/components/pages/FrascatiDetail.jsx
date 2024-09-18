@@ -69,7 +69,12 @@ function FrascatiDetail() {
                         <div className="btn-custom">
                             <FrascatiSupprimer idfrascati={idfrascati} />
                         </div>
+
                     </PermissionGuard>
+
+                    <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/frascatiStat")}>
+                        Statistique
+                    </Button>
                 </div>
             </div>
         </>
