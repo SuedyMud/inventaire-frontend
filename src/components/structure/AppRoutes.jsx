@@ -52,6 +52,7 @@ import UniteDetails from "../pages/UniteDetails.jsx";
 import ProjetDetails from "../pages/ProjetDetails.jsx";
 import ChercheurDetails from "../pages/ChercheurDetails.jsx";
 import FrascatiDetails from "../pages/FrascatiDetails.jsx";
+import DisciplineDetails from "../pages/DisciplineDetails.jsx";
 
 
 function AppRoutes() {
@@ -120,7 +121,7 @@ function AppRoutes() {
                 <Route path="/disciplineRecherche" element={<DisciplineRecherche/>} />
                 <Route path="/disciplineModifier/:idcodecref" element={<DisciplineModifier />} />
                 <Route path="/disciplineSupprimer/:idcodecref" element={<DisciplineSupprimer />} />
-
+                <Route path="/discipline-details/:type" element={<DisciplineDetails />} />
 
                 <Route path="/recherche" element={<Recherche/>} />
                 <Route path="/profil" element={<Profil />} />

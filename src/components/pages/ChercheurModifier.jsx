@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import {Form, Button, Alert, Row, Col} from "react-bootstrap";
+import { Form, Button, Alert, Row, Col } from "react-bootstrap";
+import { useQueryClient } from "react-query"; // Importation du hook useQueryClient
 
 function ChercheurModifier() {
     const { getAccessTokenSilently } = useAuth0();
@@ -19,6 +20,7 @@ function ChercheurModifier() {
 
     const [showNotif, setShowNotif] = useState(false);
     const navigate = useNavigate();
+    const queryClient = useQueryClient(); // Création de l'instance de queryClient
 
     useEffect(() => {
         const fetchChercheur = async () => {
@@ -63,9 +65,14 @@ function ChercheurModifier() {
             if (response.status === 200) {
                 console.log("Chercheur modifié avec succès");
                 setShowNotif(true);
+
+                // Invalidation du cache pour forcer la mise à jour des données de l'unité après modification
+                queryClient.invalidateQueries(['uniteDetail', idche]);
+                queryClient.invalidateQueries('chercheurDetail'); // Invalidation des détails du chercheur aussi
+
                 setTimeout(() => {
                     navigate(`/chercheurDetail/${idche}`);
-                }, 1000); // 900 -1 secondes de délai avant la redirection
+                }, 1000); // 1 seconde de délai avant la redirection
             } else {
                 console.error("Erreur lors de la modification du chercheur");
             }
@@ -91,8 +98,6 @@ function ChercheurModifier() {
                             value={chercheur.nom}
                             onChange={handleChange}
                             required
-                            /*pattern="^[A-Za-zÀ-ÿ\s]{1,25}$"
-                            title = "Le nom ne peut pas contenir des chiffres (25 caractères)"*/
                         />
                     </Form.Group>
 
@@ -104,8 +109,6 @@ function ChercheurModifier() {
                             value={chercheur.prenom}
                             onChange={handleChange}
                             required
-                           /* pattern="^[A-Za-zÀ-ÿ\s]{1,25}$"
-                            title = "Le prénom ne peut pas contenir des chiffres (25 caractères)"*/
                         />
                     </Form.Group>
                 </Row>
@@ -119,8 +122,6 @@ function ChercheurModifier() {
                             value={chercheur.telephone}
                             onChange={handleChange}
                             required
-                           /* pattern="^\+\d{2} \d{9}$"
-                            title="Le numéro de téléphone doit être au format +32 4XXXXXXX"*/
                         />
                     </Form.Group>
 
@@ -132,8 +133,6 @@ function ChercheurModifier() {
                             value={chercheur.email}
                             onChange={handleChange}
                             required
-                           /* pattern= "^[A-Za-z0-9._-]+@[A-Za-z0-9-]+\\.[A-Za-z0-9.-]+$"
-                            title = "L'adresse e-mail n'est pas au format valide"*/
                         />
                     </Form.Group>
                 </Row>
@@ -146,9 +145,6 @@ function ChercheurModifier() {
                             name="cpi"
                             value={chercheur.cpi}
                             onChange={handleChange}
-
-                           /* pattern="^[0-9\s]{1,8}$"
-                            title="Le CPI doit contenir que des chiffres (8 caractères max)"*/
                         />
                     </Form.Group>
 
@@ -163,34 +159,18 @@ function ChercheurModifier() {
                     </Form.Group>
                 </Row>
 
-
-
-               {/* <Form.Group controlId="campus">
-                    <Form.Label>Campus :</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="campus"
-                        value={chercheur.campus}
-                        onChange={handleChange}
-                    />
-                </Form.Group>
-*/}
-
-
                 <div className="col-md-3 text-right">
                     <hr />
                     <p>* Information requise</p>
-                    <Button variant="primary" className="btn-custom"type="submit">
+                    <Button variant="primary" className="btn-custom" type="submit">
                         Confirmer
                     </Button>
                     <Button variant="secondary" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${idche}`)}>
                         Annuler
                     </Button>
                 </div>
-
-
-
             </Form>
+
             {showNotif && (
                 <Alert variant="success" onClose={() => setShowNotif(false)} dismissible>
                     Le chercheur a été modifié avec succès.

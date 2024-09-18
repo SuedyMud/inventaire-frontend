@@ -9,7 +9,7 @@ import {
     getDisciplinesByUnite,
     getFaculteByUnite,
     getProjetsByUnite,
-    getMembresByUnite  // Importation de la fonction pour récupérer les membres
+    getMembresByUnite
 } from "../../utils/ApiGet.js";
 import { Button } from "react-bootstrap";
 import UniteSupprimer from "./UniteSupprimer.jsx";
@@ -22,25 +22,25 @@ function UniteDetail() {
     const navigate = useNavigate();
     const [showFullDescription, setShowFullDescription] = useState(false);
 
-    // Fetching Unit details
-    const { data: unite, isLoading: isLoadingUnite } = useQuery(["uniteDetail", idunite], async () => {
-        return getUniteDetail({ accessToken: await getAccessTokenSilently(), idunite });
-    });
+    // Fetching Unit details, responsables, and membres in parallel
+    const { data: allData, isLoading: isLoadingAll } = useQuery(
+        ["uniteDetail", "responsablesUnite", "membresUnite", idunite],
+        async () => {
+            const accessToken = await getAccessTokenSilently();
+            const [uniteData, responsablesData, membresData] = await Promise.all([
+                getUniteDetail({ accessToken, idunite }),
+                getResponsablesUnite({ accessToken, idunite }),
+                getMembresByUnite({ accessToken, idunite })
+            ]);
+            return { uniteData, responsablesData, membresData };
+        },
+        {
+            staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
+            cacheTime: 10 * 60 * 1000 // Keep cached data for 10 minutes
+        }
+    );
 
-    // Fetching Unit Responsibles
-    const { data: responsables, isLoading: isLoadingResponsables } = useQuery(["responsablesUnite", idunite], async () => {
-        const allResponsables = await getResponsablesUnite({ accessToken: await getAccessTokenSilently(), idunite });
-        return allResponsables.filter((responsable, index, self) =>
-            index === self.findIndex((r) => r.idche === responsable.idche)
-        );
-    });
-
-    // Fetching Unit's members
-    const { data: membres, isLoading: isLoadingMembres } = useQuery(["membresUnite", idunite], async () => {
-        return getMembresByUnite({ accessToken: await getAccessTokenSilently(), idunite });
-    });
-
-    // Fetching other unit-related data
+    // Fetching other unit-related data lazily
     const { data: frascati } = useQuery(["frascatiByUnite", idunite], async () => {
         return getFrascatiByUnite({ accessToken: await getAccessTokenSilently(), idunite });
     });
@@ -58,15 +58,16 @@ function UniteDetail() {
     });
 
     // Loading state
-    if (isLoadingUnite || isLoadingResponsables || isLoadingMembres) {
+    if (isLoadingAll) {
         return <p>Chargement...</p>;
     }
 
-    if (!unite) {
+    if (!allData?.uniteData) {
         return <p>Aucune unité trouvée.</p>;
     }
 
-    const { nom, description, localisation, rue, numero, codePostal, localite, email, telephone, fax, site1, site2 } = unite;
+    const { uniteData, responsablesData, membresData } = allData;
+    const { nom, description, localisation, rue, numero, codePostal, localite, email, telephone, fax, site1, site2 } = uniteData;
 
     const shortDescription = description && description.length > 650 ? `${description.substring(0, 650)}...` : description;
 
@@ -83,7 +84,6 @@ function UniteDetail() {
             <div>
                 <p>(Code : {idunite})</p>
 
-                {/* Faculties associated with the Unit */}
                 {facultes && facultes.length > 0 ? (
                     <ul>
                         {facultes.map((fa) => (
@@ -98,34 +98,32 @@ function UniteDetail() {
                     <p>Aucune faculté associée.</p>
                 )}
 
-                {/* Unit's Responsibles */}
-
-                {responsables.length > 0 && (
+                {responsablesData && responsablesData.length > 0 ? (
                     <>
-                        <p>{responsables.length === 1 ? "Responsable de l'unité :" : "Responsables de l'unité :"}</p>
+                        <p>{responsablesData.length === 1 ? "Responsable de l'unité :" : "Responsables de l'unité :"}</p>
                         <ul>
-
-                        {responsables.map(responsable => (
-                            responsable ? (
-                                <li key={responsable.idche}>
-                                    <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${responsable.idche}`)}>
-                                        {responsable.nom} {responsable.prenom}
-                                    </Button>
-                                </li>
-                            ) : (
-                                <li key={Math.random()}>Responsable non trouvé ou supprimé !</li>
-                            )
-                        ))}
-                    </ul>
+                            {responsablesData.map(responsable => (
+                                responsable ? (
+                                    <li key={responsable.idche}>
+                                        <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${responsable.idche}`)}>
+                                            {responsable.nom} {responsable.prenom}
+                                        </Button>
+                                    </li>
+                                ) : (
+                                    <li key={Math.random()}>Responsable non trouvé ou supprimé !</li>
+                                )
+                            ))}
+                        </ul>
                     </>
+                ) : (
+                    <p>Aucun membre trouvé dans cette unité.</p>
                 )}
 
-                {/* Unit's Members */}
-                {membres && membres.length > 0 ? (
+                {membresData && membresData.length > 0 ? (
                     <>
-                        <p>{membres.length === 1 ? "Membre de l'unité :" : "Membres de l'unité :"}</p>
+                        <p>{membresData.length === 1 ? "Membre de l'unité :" : "Membres de l'unité :"}</p>
                         <ul>
-                            {membres.map((membre) => (
+                            {membresData.map((membre) => (
                                 membre ? (
                                     <li key={membre.idche}>
                                         <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${membre.idche}`)}>
@@ -142,9 +140,6 @@ function UniteDetail() {
                     <p>Aucun membre trouvé dans cette unité.</p>
                 )}
 
-
-
-                {/* Description with toggle */}
                 {description ? (
                     <div>
                         <p>Description :</p>
@@ -161,7 +156,6 @@ function UniteDetail() {
 
                 <hr />
 
-                {/* Address, Email, and Contact Information */}
                 {localisation && <p><FaMapMarkerAlt /> Localisation : {localisation}</p>}
                 {rue && numero && localite && (
                     <p><FaHome /> Adresse : <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">{address}</a></p>
@@ -172,69 +166,64 @@ function UniteDetail() {
                 {site1 && <p><FaGlobe /> Site Web : <a href={site1} target="_blank" rel="noopener noreferrer">{site1}</a></p>}
                 {site2 && <p><FaGlobe /> Autre Site : <a href={site2} target="_blank" rel="noopener noreferrer">{site2}</a></p>}
 
-                {/* Projets associés à l'unité */}
-                {projets && projets.length > 0 && (
+                {projets && projets.length > 0 ? (
                     <>
                         <h5>{projets.length === 1 ? "Projet :" : "Projets :"}</h5>
                         <ul>
                             {projets.map((projet) => (
                                 projet ? (
-                                <li key={projet.idprojet}>
-                                    <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/projetDetail/${projet.idprojet}`)}>
-                                        {projet.nom}
-                                    </Button>
-                                </li>
-                            ) : (
-                                <li key={Math.random()}>Projet non trouvé ou supprimé !</li>
-                        )
+                                    <li key={projet.idprojet}>
+                                        <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/projetDetail/${projet.idprojet}`)}>
+                                            {projet.nom}
+                                        </Button>
+                                    </li>
+                                ) : (
+                                    <li key={Math.random()}>Projet non trouvé ou supprimé !</li>
+                                )
                             ))}
                         </ul>
                     </>
-                )}
+                ) : null}
 
-
-                {/* Frascati Domains */}
-                {frascati && frascati.length > 0 && (
+                {frascati && frascati.length > 0 ? (
                     <>
                         <h5>{frascati.length === 1 ? "Domaine Frascati :" : "Domaines Frascati :"}</h5>
                         <ul>
                             {frascati.map((f) => (
                                 f ? (
-                                <li key={f.idfrascati}>
-                                    <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/frascatiDetail/${f.idfrascati}`)}>
-                                        {f.idfrascati} {f.frascati}
-                                    </Button>
-                                </li>
-                            ) : (
-                                <li key={Math.random()}>Frascati non trouvé ou supprimé !</li>
-                        )
+                                    <li key={f.idfrascati}>
+                                        <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/frascatiDetail/${f.idfrascati}`)}>
+                                            {f.idfrascati} {f.frascati}
+                                        </Button>
+                                    </li>
+                                ) : (
+                                    <li key={Math.random()}>Frascati non trouvé ou supprimé !</li>
+                                )
                             ))}
                         </ul>
                     </>
-                )}
+                ) : null}
 
-                {/* Disciplines CRef */}
-                {disciplines && disciplines.length > 0 && (
+                {disciplines && disciplines.length > 0 ? (
                     <>
                         <h5>{disciplines.length === 1 ? "Discipline CRef :" : "Disciplines CRef :"}</h5>
                         <ul>
                             {disciplines.map((d) => (
                                 d ? (
-                                <li key={d.idcodecref}>
-                                    <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/disciplineDetail/${d.idcodecref}`)}>
-                                        {d.discipline}
-                                    </Button>
-                                </li>
-                            ) : (
-                                <li key={Math.random()}>Discipline non trouvé ou supprimé !</li>
-                        )
+                                    <li key={d.idcodecref}>
+                                        <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/disciplineDetail/${d.idcodecref}`)}>
+                                            {d.discipline}
+                                        </Button>
+                                    </li>
+                                ) : (
+                                    <li key={Math.random()}>Discipline non trouvé ou supprimé !</li>
+                                )
 
                             ))}
                         </ul>
                     </>
-                )}
+                ) : null}
 
-                {/* Edit and Delete Buttons */}
                 <div>
                     <PermissionGuard permission={'write:all-information'}>
                         <Button variant="primary" className="btn-custom" onClick={() => handleNavigation(`/uniteModifier/${idunite}`)}>

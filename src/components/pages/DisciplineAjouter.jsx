@@ -39,6 +39,7 @@ function DisciplineAjouter() {
                 setShowNotif(true);
                 setTimeout(() => setShowNotif(false), 2000);
 
+
                 setTimeout(() => {
                     navigate("/discipline");
                 }, 1000);
@@ -65,7 +66,7 @@ function DisciplineAjouter() {
                     <Form.Group as={Col} controlId="formGridIdDiscipline">
                         <Form.Label>Id Discipline *</Form.Label>
                         <Form.Control
-                            type="text"
+                            type="number"
                             name="idcodecref"
                             value={disciplines.idcodecref}
                             onChange={handleChange}

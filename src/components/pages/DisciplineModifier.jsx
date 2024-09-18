@@ -9,6 +9,7 @@ function ModifierDiscipline() {
     const { idcodecref } = useParams();
     const navigate = useNavigate();
     const [discipline, setDiscipline] = useState({
+        idcodecref: "",
         discipline: "",
         disciplineUK: ""
     });
@@ -61,9 +62,10 @@ function ModifierDiscipline() {
             if (response.status === 200) {
                 setShowNotif(true);
                 setTimeout(() => setShowNotif(false), 3000);
+
                 setTimeout(() => {
-                    navigate("/discipline"); // Rediriger vers la liste des disciplines après la mise à jour
-                }, 3000);
+                    handleNavigation(`/disciplineDetail/${idcodecref}`);
+                }, 2000);
             } else {
                 setError("Erreur lors de la mise à jour de la discipline.");
             }
@@ -84,6 +86,17 @@ function ModifierDiscipline() {
 
             <Form onSubmit={handleFormSubmit}>
                 <Row className="mb-3">
+                    <Form.Group as={Col} controlId="formGridIdDiscipline">
+                        <Form.Label>Id Discipline *</Form.Label>
+                        <Form.Control
+                            type="number"
+                            name="idcodecref"
+                            value={discipline.idcodecref}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
+
                     <Form.Group as={Col} controlId="formDiscipline">
                         <Form.Label>Discipline *</Form.Label>
                         <Form.Control

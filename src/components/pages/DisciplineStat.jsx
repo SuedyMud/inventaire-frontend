@@ -1,25 +1,24 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-import { saveAs } from "file-saver";
-import * as XLSX from "xlsx";
-import { Button } from "react-bootstrap";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Link } from 'react-router-dom';
+import { saveAs } from 'file-saver'; // Pour le téléchargement TXT
+import * as XLSX from 'xlsx'; // Pour le téléchargement Excel
+import { Button } from 'react-bootstrap';
 
 function DisciplineStat() {
     const { getAccessTokenSilently } = useAuth0();
 
     const [statistics, setStatistics] = useState({
         totalDisciplines: 0,
-        totalNom: 0,
-        totalNomUk: 0,
-        totalDescription: 0,
+        disciplinesSansNom: [],
+        disciplinesSansNomUK: []
     });
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const accessToken = await getAccessTokenSilently();
-
                 const response = await axios.get("/api/zdiscipcref/liste", {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -32,16 +31,11 @@ function DisciplineStat() {
                 if (response.status === 200) {
                     const filteredData = response.data.content;
 
-                    const totalDisciplines = filteredData.length;
-
-                    const statistics = {
-                        totalDisciplines: totalDisciplines,
-                        totalNom: filteredData.filter((item) => item.discipline === "").length,
-                        totalNomUk: filteredData.filter((item) => item.disciplineUK === "").length,
-
-                    };
-
-                    setStatistics(statistics);
+                    setStatistics({
+                        totalDisciplines: filteredData.length,
+                        disciplinesSansNom: filteredData.filter((item) => item.discipline === ""),
+                        disciplinesSansNomUK: filteredData.filter((item) => item.disciplineUK === "")
+                    });
                 } else {
                     console.error("Erreur lors de la récupération des données");
                 }
@@ -53,44 +47,45 @@ function DisciplineStat() {
         fetchData();
     }, [getAccessTokenSilently]);
 
-    const generateText = (count, singularText, pluralText) => {
-        return count === 1 ? `${count} ${singularText}` : `${count} ${pluralText}`;
-    };
-
-    const downloadTxtFile = () => {
+    const generateTextFile = () => {
         const data = `
-Il y a ${statistics.totalDisciplines} disciplines au total
-${generateText(statistics.totalNom, "discipline ne possède pas de nom", "disciplines ne possèdent pas de nom")}
-${generateText(statistics.totalNomUk, "discipline ne possède pas de nom en anglais", "disciplines ne possèdent pas de nom en anglais")}
-
+Il y a ${statistics.totalDisciplines} disciplines au total.
+Disciplines sans nom : ${statistics.disciplinesSansNom.length}
+Disciplines sans nom en anglais : ${statistics.disciplinesSansNomUK.length}
         `;
-        const blob = new Blob([data], { type: "text/plain" });
-        saveAs(blob, "discipline_statistiques.txt");
+        const blob = new Blob([data], { type: 'text/plain' });
+        saveAs(blob, 'discipline_statistiques.txt');
     };
 
-    const downloadExcelFile = () => {
+    const generateExcelFile = () => {
         const data = [
-            ["Statistiques", "Valeurs"],
-            ["Total Disciplines", statistics.totalDisciplines],
-            ["Disciplines sans Nom", statistics.totalNom],
-            ["Disciplines sans Nom UK", statistics.totalNomUk],
-
+            ['Catégorie', 'Nombre'],
+            ['Disciplines sans nom', statistics.disciplinesSansNom.length],
+            ['Disciplines sans nom en anglais', statistics.disciplinesSansNomUK.length]
         ];
+
         const worksheet = XLSX.utils.aoa_to_sheet(data);
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Statistiques");
-        XLSX.writeFile(workbook, "discipline_statistiques.xlsx");
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Statistiques');
+        XLSX.writeFile(workbook, 'discipline_statistiques.xlsx');
     };
 
     return (
         <div className="container">
             <h2>Les statistiques des disciplines</h2>
-            <p>Il y a {statistics.totalDisciplines} disciplines au total.</p>
-            <p>{generateText(statistics.totalNom, "discipline ne possède pas de nom", "disciplines ne possèdent pas de nom")}.</p>
-            <p>{generateText(statistics.totalNomUk, "discipline ne possède pas de nom en anglais", "disciplines ne possèdent pas de nom en anglais")}.</p>
+            <p>Total des disciplines : {statistics.totalDisciplines}</p>
 
-            <Button variant="primary" className="btn-custom" onClick={downloadTxtFile}>Télécharger en format texte</Button>
-            <Button variant="primary" className="btn-custom" onClick={downloadExcelFile}>Télécharger en format Excel</Button>
+            <ul>
+                <li>
+                    <Link to="/discipline-details/sans-nom">Disciplines sans nom ({statistics.disciplinesSansNom.length})</Link>
+                </li>
+                <li>
+                    <Link to="/discipline-details/sans-nom-uk">Disciplines sans nom en anglais ({statistics.disciplinesSansNomUK.length})</Link>
+                </li>
+            </ul>
+
+            <Button onClick={generateTextFile} className="btn-custom primary">Télécharger en TXT</Button>
+            <Button onClick={generateExcelFile} className="btn-custom primary">Télécharger en Excel</Button>
         </div>
     );
 }
