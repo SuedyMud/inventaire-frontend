@@ -9,7 +9,7 @@ import {
     getDisciplinesByUnite,
     getFaculteByUnite,
     getProjetsByUnite,
-    getMembresByUnite
+    getMembresByUnite  // Importation de la fonction pour récupérer les membres
 } from "../../utils/ApiGet.js";
 import { Button } from "react-bootstrap";
 import UniteSupprimer from "./UniteSupprimer.jsx";
@@ -22,52 +22,58 @@ function UniteDetail() {
     const navigate = useNavigate();
     const [showFullDescription, setShowFullDescription] = useState(false);
 
-    // Fetching Unit details, responsables, and membres in parallel
-    const { data: allData, isLoading: isLoadingAll } = useQuery(
-        ["uniteDetail", "responsablesUnite", "membresUnite", idunite],
-        async () => {
-            const accessToken = await getAccessTokenSilently();
-            const [uniteData, responsablesData, membresData] = await Promise.all([
-                getUniteDetail({ accessToken, idunite }),
-                getResponsablesUnite({ accessToken, idunite }),
-                getMembresByUnite({ accessToken, idunite })
-            ]);
-            return { uniteData, responsablesData, membresData };
-        },
-        {
-            staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
-            cacheTime: 10 * 60 * 1000 // Keep cached data for 10 minutes
-        }
-    );
+    // Fetching Unit details
+    const { data: unite, isLoading: isLoadingUnite } = useQuery(["uniteDetail", idunite], async () => {
+        const accessToken = await getAccessTokenSilently();
+        return getUniteDetail({ accessToken, idunite });
+    });
 
-    // Fetching other unit-related data lazily
+    // Fetching Unit Responsables
+    const { data: responsables, isLoading: isLoadingResponsables } = useQuery(["responsablesUnite", idunite], async () => {
+        const accessToken = await getAccessTokenSilently();
+        const allResponsables = await getResponsablesUnite({ accessToken, idunite });
+        return allResponsables.filter((responsable, index, self) =>
+            index === self.findIndex((r) => r.idche === responsable.idche)
+        );
+    });
+
+    // Fetching Unit's members
+    const { data: membres, isLoading: isLoadingMembres } = useQuery(["membresUnite", idunite], async () => {
+        const accessToken = await getAccessTokenSilently();
+        return getMembresByUnite({ accessToken, idunite });
+    });
+
+    // Fetching other unit-related data
     const { data: frascati } = useQuery(["frascatiByUnite", idunite], async () => {
-        return getFrascatiByUnite({ accessToken: await getAccessTokenSilently(), idunite });
+        const accessToken = await getAccessTokenSilently();
+        return getFrascatiByUnite({ accessToken, idunite });
     });
 
     const { data: disciplines } = useQuery(["disciplinesByUnite", idunite], async () => {
-        return getDisciplinesByUnite({ accessToken: await getAccessTokenSilently(), idunite });
+        const accessToken = await getAccessTokenSilently();
+        return getDisciplinesByUnite({ accessToken, idunite });
     });
 
     const { data: facultes } = useQuery(["faculteByUnite", idunite], async () => {
-        return getFaculteByUnite({ accessToken: await getAccessTokenSilently(), idunite });
+        const accessToken = await getAccessTokenSilently();
+        return getFaculteByUnite({ accessToken, idunite });
     });
 
     const { data: projets } = useQuery(["projetsByUnite", idunite], async () => {
-        return getProjetsByUnite({ accessToken: await getAccessTokenSilently(), idunite });
+        const accessToken = await getAccessTokenSilently();
+        return getProjetsByUnite({ accessToken, idunite });
     });
 
     // Loading state
-    if (isLoadingAll) {
+    if (isLoadingUnite || isLoadingResponsables || isLoadingMembres) {
         return <p>Chargement...</p>;
     }
 
-    if (!allData?.uniteData) {
+    if (!unite) {
         return <p>Aucune unité trouvée.</p>;
     }
 
-    const { uniteData, responsablesData, membresData } = allData;
-    const { nom, description, localisation, rue, numero, codePostal, localite, email, telephone, fax, site1, site2 } = uniteData;
+    const { nom, description, localisation, rue, numero, codePostal, localite, email, telephone, fax, site1, site2 } = unite;
 
     const shortDescription = description && description.length > 650 ? `${description.substring(0, 650)}...` : description;
 
@@ -98,11 +104,11 @@ function UniteDetail() {
                     <p>Aucune faculté associée.</p>
                 )}
 
-                {responsablesData && responsablesData.length > 0 ? (
+                {responsables && responsables.length > 0 ? (
                     <>
-                        <p>{responsablesData.length === 1 ? "Responsable de l'unité :" : "Responsables de l'unité :"}</p>
+                        <p>{responsables.length === 1 ? "Responsable de l'unité :" : "Responsables de l'unité :"}</p>
                         <ul>
-                            {responsablesData.map(responsable => (
+                            {responsables.map(responsable => (
                                 responsable ? (
                                     <li key={responsable.idche}>
                                         <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${responsable.idche}`)}>
@@ -116,14 +122,14 @@ function UniteDetail() {
                         </ul>
                     </>
                 ) : (
-                    <p>Aucun membre trouvé dans cette unité.</p>
+                    <p>Aucun responsable trouvé dans cette unité.</p>
                 )}
 
-                {membresData && membresData.length > 0 ? (
+                {membres && membres.length > 0 ? (
                     <>
-                        <p>{membresData.length === 1 ? "Membre de l'unité :" : "Membres de l'unité :"}</p>
+                        <p>{membres.length === 1 ? "Membre de l'unité :" : "Membres de l'unité :"}</p>
                         <ul>
-                            {membresData.map((membre) => (
+                            {membres.map((membre) => (
                                 membre ? (
                                     <li key={membre.idche}>
                                         <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${membre.idche}`)}>
@@ -197,7 +203,7 @@ function UniteDetail() {
                                         </Button>
                                     </li>
                                 ) : (
-                                    <li key={Math.random()}>Frascati non trouvé ou supprimé !</li>
+                                    <li key={Math.random()}>Frascati non trouvé ou supprimé ou supprimé !</li>
                                 )
                             ))}
                         </ul>
@@ -216,9 +222,8 @@ function UniteDetail() {
                                         </Button>
                                     </li>
                                 ) : (
-                                    <li key={Math.random()}>Discipline non trouvé ou supprimé !</li>
+                                    <li key={Math.random()}>Discipline non trouvée ou supprimée !</li>
                                 )
-
                             ))}
                         </ul>
                     </>
@@ -241,3 +246,4 @@ function UniteDetail() {
 }
 
 export default UniteDetail;
+

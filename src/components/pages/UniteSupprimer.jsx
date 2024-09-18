@@ -8,6 +8,7 @@ function UniteSupprimer({ idunite }) {
     const { getAccessTokenSilently } = useAuth0();
     const [showNotif, setShowNotif] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [errorMsg, setErrorMsg] = useState(null);  // Ajout pour gérer les erreurs
     const navigate = useNavigate();
 
     const handleDeleteClick = async () => {
@@ -24,13 +25,17 @@ function UniteSupprimer({ idunite }) {
                 setShowNotif(true);
                 console.log("Unité supprimée avec succès");
 
-
                 setTimeout(() => {
                     navigate("/unite");
                 }, 1000);
             }
         } catch (error) {
             console.error("Erreur lors de la suppression de l'unité : ", error);
+            if (error.response && error.response.status === 409) {
+                setErrorMsg("Impossible de supprimer l'unité car elle est encore associée à d'autres entités.");
+            } else {
+                setErrorMsg("Une erreur inattendue est survenue lors de la suppression de l'unité.");
+            }
         }
     };
 
@@ -51,6 +56,12 @@ function UniteSupprimer({ idunite }) {
                 </Alert>
             )}
 
+            {errorMsg && (
+                <Alert variant="warning" onClose={() => setErrorMsg(null)} dismissible>
+                    {errorMsg}
+                </Alert>
+            )}
+
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Confirmer la suppression</Modal.Title>
@@ -59,6 +70,7 @@ function UniteSupprimer({ idunite }) {
                     Êtes-vous sûr de vouloir supprimer cette unité ? Cette action est irréversible.
                 </Modal.Body>
                 <Modal.Footer>
+
                     <Button variant="secondary" onClick={() => setShowModal(false)}>
                         Annuler
                     </Button>
