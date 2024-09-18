@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 function FaculteDetails() {
     const { getAccessTokenSilently } = useAuth0();
@@ -71,7 +71,21 @@ function FaculteDetails() {
             <h2>{title}</h2>
             <ul>
                 {facultes.map((faculte) => (
-                    <li key={faculte.idfaculte}>{faculte.faculte}</li>
+                    <li key={faculte.fac}>
+                        {/* Redirection vers la page de détails de la faculté */}
+                        <Link
+                            to={{
+                                pathname: `/faculteDetail/${faculte.fac}`,
+                                state: {
+                                    faculte: faculte.faculte,
+                                    faculteUk: faculte.faculteUK
+                                }
+                            }}
+                            style={{ textDecoration: 'none' }}
+                        >
+                            <p>{faculte.faculte}</p>
+                        </Link>
+                    </li>
                 ))}
             </ul>
         </div>

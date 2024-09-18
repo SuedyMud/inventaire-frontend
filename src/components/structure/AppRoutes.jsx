@@ -46,6 +46,8 @@ import FaculteDetail from "../pages/FaculteDetail.jsx";
 import DisciplineModifier from "../pages/DisciplineModifier.jsx";
 import DisciplineSupprimer from "../pages/DisciplineSupprimer.jsx";
 import FaculteDetails from "../pages/FaculteDetails.jsx";
+import FaculteModifier from "../pages/FaculteModifier.jsx";
+import FaculteSupprimer from "../pages/FaculteSupprimer.jsx";
 
 
 function AppRoutes() {
@@ -59,6 +61,8 @@ function AppRoutes() {
                 <Route path="/faculteDetail/:fac" element={<FaculteDetail/>} />
                 <Route path="/faculte-details/:type" element={<FaculteDetails/>} />
                 <Route path="/faculteRecherche" element={<FaculteRecherche/>} />
+                <Route path="/faculteModifier/:fac" element={<FaculteModifier/>} />
+                <Route path="/faculteSupprimer/:fac" element={<FaculteSupprimer/>} />
 
 
                 <Route path="/unite" element={<Unite/>}/>

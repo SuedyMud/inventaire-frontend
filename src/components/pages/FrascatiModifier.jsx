@@ -63,11 +63,11 @@ function FrascatiModifier() {
             if (response.status === 200) {
                 console.log("Frascati modifié avec succès");
                 setShowNotif(true);
-                setTimeout(() => setShowNotif(false), 3000);
+                setTimeout(() => setShowNotif(false), 2500);
 
                 setTimeout(() => {
-                    navigate("/frascati");
-                }, 3000);
+                    handleNavigation(`/frascatiDetail/${idfrascati}`);
+                }, 2000);
             } else {
                 console.error("Erreur lors de la modification du Frascati");
                 setError("Une erreur s'est produite lors de la modification du Frascati.");
@@ -172,7 +172,7 @@ function FrascatiModifier() {
                     <hr />
                     <p>* Information requise</p>
                     <Button variant="primary" className="btn-custom" type="submit">
-                        Modifier
+                        Confirmer
                     </Button>
                     <Button variant="secondary" className="btn-custom" onClick={() => handleNavigation(`/frascatiDetail/${idfrascati}`)}>
                         Annuler
