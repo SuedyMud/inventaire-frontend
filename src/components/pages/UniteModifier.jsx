@@ -76,11 +76,15 @@ function UniteModifier() {
             if (response.status === 200) {
                 console.log("Unité modifiée avec succès");
                 setShowNotif(true);
-                setTimeout(() => setShowNotif(false), 3000);
+                setTimeout(() => setShowNotif(false), 2500);
+
+                /*setTimeout(() => {
+                    navigate("/unite");
+                }, 1000);*/
 
                 setTimeout(() => {
-                    navigate("/unite");
-                }, 1000);
+                    handleNavigation(`/uniteDetail/${idunite}`);
+                }, 2000);
             } else {
                 console.error("Erreur lors de la modification de l'unité");
                 setError("Une erreur s'est produite lors de la modification de l'unité.");
@@ -291,7 +295,7 @@ function UniteModifier() {
                     <hr />
                     <p>* Information requise</p>
                     <Button variant="primary" className="btn-custom"type="submit">
-                        Modifier
+                        Confirmer
                     </Button>
                     <Button variant="secondary" className="btn-custom" onClick={() => handleNavigation(`/uniteDetail/${idunite}`)}>
                         Annuler

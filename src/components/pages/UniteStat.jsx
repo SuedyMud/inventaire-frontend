@@ -1,35 +1,33 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-import { saveAs } from "file-saver";
-import * as XLSX from "xlsx";
-import { Button } from "react-bootstrap";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Link } from 'react-router-dom';
+import { saveAs } from 'file-saver'; // Pour le téléchargement TXT
+import * as XLSX from 'xlsx'; // Pour le téléchargement Excel
+import { Button } from 'react-bootstrap';
 
 function UniteStat() {
     const { getAccessTokenSilently } = useAuth0();
 
     const [statistics, setStatistics] = useState({
         totalUnites: 0,
-        totalNom: 0,
-        totalNomUk: 0,
-        totalDescription: 0,
-        totalLocalite: 0,
-        totalTelephone: 0,
-        totalFax: 0,
-        totalRue: 0,
-        totalEmail: 0,
-        totalSite1: 0,
-        totalSite2: 0,
-        totalRemarque: 0,
-        totalUniteProjets: 0,
-        moyenneProjetsParUnite: 0
+        unitesSansNom: [],
+        unitesSansNomUk: [],
+        unitesSansDescription: [],
+        unitesSansLocalite: [],
+        unitesSansTelephone: [],
+        unitesSansFax: [],
+        unitesSansRue: [],
+        unitesSansEmail: [],
+        unitesSansSite1: [],
+        unitesSansSite2: [],
+        unitesSansRemarque: [],
     });
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const accessToken = await getAccessTokenSilently();
-
                 const response = await axios.get("/api/zunite/liste", {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -44,26 +42,20 @@ function UniteStat() {
                         (item) => item.datefin === null
                     );
 
-                    const totalUnites = filteredData.length;
-
-                    const statistics = {
-                        totalUnites: totalUnites,
-                        totalNom: filteredData.filter((item) => item.nom === "").length,
-                        totalNomUk: filteredData.filter((item) => item.nomUK === "").length,
-                        totalDescription: filteredData.filter((item) => item.description === "").length,
-                        totalLocalite: filteredData.filter((item) => item.localite === "").length,
-                        totalTelephone: filteredData.filter((item) => item.telephone === "").length,
-                        totalFax: filteredData.filter((item) => item.fax === "" || item.fax === "NEANT").length,
-                        totalRue: filteredData.filter((item) => item.rue === "").length,
-                        totalEmail: filteredData.filter((item) => item.email === "").length,
-                        totalSite1: filteredData.filter((item) => item.site1 === "").length,
-                        totalSite2: filteredData.filter((item) => item.site2 === "").length,
-                        totalRemarque: filteredData.filter((item) => item.remarque === "").length,
-                        totalUniteProjets: filteredData.length,
-                        moyenneProjetsParUnite: totalUnites > 0 ? filteredData.length / totalUnites : 0,
-                    };
-
-                    setStatistics(statistics);
+                    setStatistics({
+                        totalUnites: filteredData.length,
+                        unitesSansNom: filteredData.filter((item) => item.nom === ""),
+                        unitesSansNomUk: filteredData.filter((item) => item.nomUK === ""),
+                        unitesSansDescription: filteredData.filter((item) => item.description === ""),
+                        unitesSansLocalite: filteredData.filter((item) => item.localite === ""),
+                        unitesSansTelephone: filteredData.filter((item) => item.telephone === ""),
+                        unitesSansFax: filteredData.filter((item) => item.fax === "" || item.fax === "NEANT"),
+                        unitesSansRue: filteredData.filter((item) => item.rue === ""),
+                        unitesSansEmail: filteredData.filter((item) => item.email === ""),
+                        unitesSansSite1: filteredData.filter((item) => item.site1 === ""),
+                        unitesSansSite2: filteredData.filter((item) => item.site2 === ""),
+                        unitesSansRemarque: filteredData.filter((item) => item.remarque === ""),
+                    });
                 } else {
                     console.error("Erreur lors de la récupération des données");
                 }
@@ -75,73 +67,81 @@ function UniteStat() {
         fetchData();
     }, [getAccessTokenSilently]);
 
-    const generateText = (count, singularText, pluralText) => {
-        return count === 1 ? `${count} ${singularText}` : `${count} ${pluralText}`;
-    };
-
-    const downloadTxtFile = () => {
+    const generateTextFile = () => {
         const data = `
-Il y a ${statistics.totalUnites} unités au total
-${generateText(statistics.totalNom, "unité ne possède pas de nom", "unités ne possèdent pas de nom")}
-${generateText(statistics.totalNomUk, "unité ne possède pas de nom en anglais", "unités ne possèdent pas de nom en anglais")}
-${generateText(statistics.totalDescription, "unité ne possède pas de description", "unités ne possèdent pas de description")}
-${generateText(statistics.totalLocalite, "unité ne possède pas de localité spécifiée", "unités ne possèdent pas de localité spécifiée")}
-${generateText(statistics.totalTelephone, "unité ne possède pas de numéro de téléphone", "unités ne possèdent pas de numéro de téléphone")}
-${generateText(statistics.totalFax, "unité ne possède pas de fax", "unités ne possèdent pas de fax")}
-${generateText(statistics.totalRue, "unité ne possède pas d'adresse physique", "unités ne possèdent pas d'adresse physique")}
-${generateText(statistics.totalEmail, "unité ne possède pas d'adresse e-mail", "unités ne possèdent pas d'adresse e-mail")}
-${generateText(statistics.totalSite1, "unité ne possède pas de site internet", "unités ne possèdent pas de site internet")}
-${generateText(statistics.totalSite2, "unité ne possède pas de deuxième site internet", "unités ne possèdent pas de deuxième site internet")}
-${generateText(statistics.totalRemarque, "unité ne comporte pas de remarque", "unités ne comportent pas de remarque")}
-Voici le nombre de projets par unité : ${statistics.totalUniteProjets} avec une moyenne de projets par unité de ${statistics.moyenneProjetsParUnite}
+Il y a ${statistics.totalUnites} unités au total.
+Unités sans nom : ${statistics.unitesSansNom.length}
+Unités sans nom en anglais : ${statistics.unitesSansNomUk.length}
+Unités sans description : ${statistics.unitesSansDescription.length}
+Unités sans localité spécifiée : ${statistics.unitesSansLocalite.length}
+Unités sans numéro de téléphone : ${statistics.unitesSansTelephone.length}
+Unités sans fax : ${statistics.unitesSansFax.length}
+Unités sans adresse physique : ${statistics.unitesSansRue.length}
+Unités sans email : ${statistics.unitesSansEmail.length}
+Unités sans site internet : ${statistics.unitesSansSite1.length}
+Unités sans deuxième site internet : ${statistics.unitesSansSite2.length}
+Unités sans remarque : ${statistics.unitesSansRemarque.length}
         `;
-        const blob = new Blob([data], { type: "text/plain" });
-        saveAs(blob, "unite_statistiques.txt");
+        const blob = new Blob([data], { type: 'text/plain' });
+        saveAs(blob, 'unite_statistiques.txt');
     };
 
-    const downloadExcelFile = () => {
+    const generateExcelFile = () => {
         const data = [
-            ["Statistiques", "Valeurs"],
-            ["Total Unités", statistics.totalUnites],
-            ["Unités sans Nom", statistics.totalNom],
-            ["Unités sans Nom UK", statistics.totalNomUk],
-            ["Unités sans Description", statistics.totalDescription],
-            ["Unités sans Localité", statistics.totalLocalite],
-            ["Unités sans Téléphone", statistics.totalTelephone],
-            ["Unités sans Fax", statistics.totalFax],
-            ["Unités sans Rue", statistics.totalRue],
-            ["Unités sans Email", statistics.totalEmail],
-            ["Unités sans Site1", statistics.totalSite1],
-            ["Unités sans Site2", statistics.totalSite2],
-            ["Unités sans Remarque", statistics.totalRemarque],
-            ["Total Unité Projets", statistics.totalUniteProjets],
-            ["Moyenne Projets par Unité", statistics.moyenneProjetsParUnite],
+            ['Catégorie', 'Nombre'],
+            ['Unités sans nom', statistics.unitesSansNom.length],
+            ['Unités sans nom en anglais', statistics.unitesSansNomUk.length],
+            ['Unités sans description', statistics.unitesSansDescription.length],
+            ['Unités sans localité', statistics.unitesSansLocalite.length],
+            ['Unités sans téléphone', statistics.unitesSansTelephone.length],
+            ['Unités sans fax', statistics.unitesSansFax.length],
+            ['Unités sans rue', statistics.unitesSansRue.length],
+            ['Unités sans email', statistics.unitesSansEmail.length],
+            ['Unités sans site internet', statistics.unitesSansSite1.length],
+            ['Unités sans deuxième site internet', statistics.unitesSansSite2.length],
+            ['Unités sans remarque', statistics.unitesSansRemarque.length],
         ];
+
         const worksheet = XLSX.utils.aoa_to_sheet(data);
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Statistiques");
-        XLSX.writeFile(workbook, "unite_statistiques.xlsx");
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Statistiques');
+        XLSX.writeFile(workbook, 'unite_statistiques.xlsx');
     };
 
     return (
         <div className="container">
             <h2>Les statistiques des unités</h2>
-            <p>Il y a {statistics.totalUnites} unités au total.</p>
-            <p>{generateText(statistics.totalNom, "unité ne possède pas de nom", "unités ne possèdent pas de nom")}.</p>
-            <p>{generateText(statistics.totalNomUk, "unité ne possède pas de nom en anglais", "unités ne possèdent pas de nom en anglais")}.</p>
-            <p>{generateText(statistics.totalDescription, "unité ne possède pas de description", "unités ne possèdent pas de description")}.</p>
-            <p>{generateText(statistics.totalLocalite, "unité ne possède pas de localité spécifiée", "unités ne possèdent pas de localité spécifiée")}.</p>
-            <p>{generateText(statistics.totalTelephone, "unité ne possède pas de numéro de téléphone", "unités ne possèdent pas de numéro de téléphone")}.</p>
-            <p>{generateText(statistics.totalFax, "unité ne possède pas de fax", "unités ne possèdent pas de fax")}.</p>
-            <p>{generateText(statistics.totalRue, "unité ne possède pas d'adresse physique", "unités ne possèdent pas d'adresse physique")}.</p>
-            <p>{generateText(statistics.totalEmail, "unité ne possède pas d'adresse e-mail", "unités ne possèdent pas d'adresse e-mail")}.</p>
-            <p>{generateText(statistics.totalSite1, "unité ne possède pas de site internet", "unités ne possèdent pas de site internet")}.</p>
-            <p>{generateText(statistics.totalSite2, "unité ne possède pas de deuxième site internet", "unités ne possèdent pas de deuxième site internet")}.</p>
-            <p>{generateText(statistics.totalRemarque, "unité ne comporte pas de remarque", "unités ne comportent pas de remarque")}.</p>
-            <p>Voici le nombre de projets par unité : {statistics.totalUniteProjets} avec une moyenne de projets par unité de {statistics.moyenneProjetsParUnite}.</p>
+            <p>Total des unités : {statistics.totalUnites}</p>
 
-            <Button variant="primary" className="btn-custom" onClick={downloadTxtFile}>Télécharger en format texte</Button>
-            <Button variant="primary" className="btn-custom" onClick={downloadExcelFile}>Télécharger en format Excel</Button>
+            <ul>
+                <li>
+                    <Link to="/unite-details/sans-nom">Unités sans nom ({statistics.unitesSansNom.length})</Link>
+                </li>
+                <li>
+                    <Link to="/unite-details/sans-nom-uk">Unités sans nom en anglais ({statistics.unitesSansNomUk.length})</Link>
+                </li>
+                <li>
+                    <Link to="/unite-details/sans-description">Unités sans description ({statistics.unitesSansDescription.length})</Link>
+                </li>
+                <li>
+                    <Link to="/unite-details/sans-localite">Unités sans localité ({statistics.unitesSansLocalite.length})</Link>
+                </li>
+                <li>
+                    <Link to="/unite-details/sans-telephone">Unités sans téléphone ({statistics.unitesSansTelephone.length})</Link>
+                </li>
+                <li>
+                    <Link to="/unite-details/sans-fax">Unités sans fax ({statistics.unitesSansFax.length})</Link>
+                </li>
+                <li>
+                    <Link to="/unite-details/sans-rue">Unités sans adresse physique ({statistics.unitesSansRue.length})</Link>
+                </li>
+                <li>
+                    <Link to="/unite-details/sans-email">Unités sans email ({statistics.unitesSansEmail.length})</Link>
+                </li>
+            </ul>
+
+            <button onClick={generateTextFile} className="btn-custom btn btn-primary">Télécharger en TXT</button>
+            <button onClick={generateExcelFile} className="btn-custom btn btn-primary">Télécharger en Excel</button>
         </div>
     );
 }

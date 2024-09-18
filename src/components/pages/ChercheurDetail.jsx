@@ -41,21 +41,7 @@ function ChercheurDetail() {
             {site && <p><FaGlobe /> Site Web : <a href={site} target="_blank" rel="noopener noreferrer">{site}</a></p>}
             {cpi && <p><FaMapMarkerAlt /> Code postal interne : {cpi}</p>}
 
-{/*
-            <h5>Membres de l'unité :</h5>
-            {membres && membres.length > 0 ? (
-                <ul>
-                    {membres.map((membre) => (
-                        <li key={membre.idche}>
-                            <Button variant="link" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${membre.idche}`)}>
-                                {membre.nom} {membre.prenom}
-                            </Button>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>Aucun membre trouvé pour cette unité.</p>
-            )}*/}
+
 
 
             <div className=""> {/* Colonne prenant 3/12 de la largeur et alignée à droite */}

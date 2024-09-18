@@ -119,6 +119,10 @@ function ProjetDetail() {
                             <ProjetSupprimer idprojet={idprojet} />
                         </div>
                     </PermissionGuard>
+                    {/*<Button variant="outline-info" className="btn-custom" onClick={() => handleNavigation(`/projet-details/${idprojet}`)}>
+                        Retour
+                    </Button>*/}
+
                 </div>
             </div>
         </>

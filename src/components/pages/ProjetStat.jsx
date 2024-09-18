@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-import { saveAs } from "file-saver";
-import * as XLSX from "xlsx";
-import { Button } from "react-bootstrap";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Link } from 'react-router-dom';
+import { saveAs } from 'file-saver'; // Pour le téléchargement TXT
+import * as XLSX from 'xlsx'; // Pour le téléchargement Excel
+import { Button } from 'react-bootstrap';
 
 function ProjetStat() {
     const { getAccessTokenSilently } = useAuth0();
 
     const [statistics, setStatistics] = useState({
         totalProjets: 0,
-        totalNom: 0,
-        totalNomUk: 0,
-        totalNomProgramme: 0,
-        totalNomProgrammeUk: 0,
-        totalResume: 0,
-        totalResumeUk: 0,
-        totalDateMaj: 0,
-        totalSite: 0,
-        totalUniteProjets: 0
+        projetsSansNom: [],
+        projetsSansNomUk: [],
+        projetsSansNomProgramme: [],
+        projetsSansNomProgrammeUk: [],
+        projetsSansResume: [],
+        projetsSansResumeUk: [],
+        projetsSansDateMaj: [],
+        projetsSansSite: [],
+        projetsSansUnite: []
     });
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const accessToken = await getAccessTokenSilently();
-
                 const response = await axios.get("/api/zprojet/liste", {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -40,22 +40,18 @@ function ProjetStat() {
                         (item) => item.datefin === null
                     );
 
-                    const totalProjets = filteredData.length;
-
-                    const statistics = {
-                        totalProjets: totalProjets,
-                        totalNom: filteredData.filter((item) => item.nom === "").length,
-                        totalNomUk: filteredData.filter((item) => item.nomUK === "").length,
-                        totalNomProgramme: filteredData.filter((item) => item.nomprogramme === "").length,
-                        totalNomProgrammeUk: filteredData.filter((item) => item.nomprogrammeUK === "").length,
-                        totalResume: filteredData.filter((item) => item.resume === "").length,
-                        totalResumeUk: filteredData.filter((item) => item.resumeUK === "").length,
-                        totalDateMaj: filteredData.filter((item) => item.datemaj === "").length,
-                        totalSite: filteredData.filter((item) => item.site === "").length,
-                        totalUniteProjets: filteredData.reduce((acc, cur) => acc + (!cur.refunite ? 1 : 0), 0)
-                    };
-
-                    setStatistics(statistics);
+                    setStatistics({
+                        totalProjets: filteredData.length,
+                        projetsSansNom: filteredData.filter((item) => item.nom === ""),
+                        projetsSansNomUk: filteredData.filter((item) => item.nomUK === ""),
+                        projetsSansNomProgramme: filteredData.filter((item) => item.nomprogramme === ""),
+                        projetsSansNomProgrammeUk: filteredData.filter((item) => item.nomprogrammeUK === ""),
+                        projetsSansResume: filteredData.filter((item) => item.resume === ""),
+                        projetsSansResumeUk: filteredData.filter((item) => item.resumeUK === ""),
+                        projetsSansDateMaj: filteredData.filter((item) => item.datemaj === ""),
+                        projetsSansSite: filteredData.filter((item) => item.site === ""),
+                        projetsSansUnite: filteredData.filter((item) => !item.refunite)
+                    });
                 } else {
                     console.error("Erreur lors de la récupération des données");
                 }
@@ -67,63 +63,80 @@ function ProjetStat() {
         fetchData();
     }, [getAccessTokenSilently]);
 
-    const generateText = (count, singularText, pluralText) => {
-        return count === 1 ? `${count} ${singularText}` : `${count} ${pluralText}`;
-    };
-
-    const downloadTxtFile = () => {
+    const generateTextFile = () => {
         const data = `
-Il y a ${statistics.totalProjets} projets au total
-${generateText(statistics.totalNom, "projet ne possède pas de nom", "projets ne possèdent pas de nom")}
-${generateText(statistics.totalNomUk, "projet ne possède pas de nom en anglais", "projets ne possèdent pas de nom en anglais")}
-${generateText(statistics.totalNomProgramme, "projet ne possède pas de nom de programme", "projets ne possèdent pas de nom de programme")}
-${generateText(statistics.totalNomProgrammeUk, "projet ne possède pas de nom de programme en anglais", "projets ne possèdent pas de nom de programme en anglais")}
-${generateText(statistics.totalResume, "projet ne possède pas de résumé", "projets ne possèdent pas de résumé")}
-${generateText(statistics.totalResumeUk, "projet ne possède pas de résumé en anglais", "projets ne possèdent pas de résumé en anglais")}
-${generateText(statistics.totalDateMaj, "projet ne possède pas de date de mise à jour", "projets ne possèdent pas de date de mise à jour")}
-${generateText(statistics.totalSite, "projet ne possède pas de site internet", "projets ne possèdent pas de site internet")}
-${generateText(statistics.totalUniteProjets, "projet n'a pas d'unité", "projets n'ont pas d'unité")}
+Il y a ${statistics.totalProjets} projets au total.
+Projets sans nom : ${statistics.projetsSansNom.length}
+Projets sans nom en anglais : ${statistics.projetsSansNomUk.length}
+Projets sans nom de programme : ${statistics.projetsSansNomProgramme.length}
+Projets sans nom de programme en anglais : ${statistics.projetsSansNomProgrammeUk.length}
+Projets sans résumé : ${statistics.projetsSansResume.length}
+Projets sans résumé en anglais : ${statistics.projetsSansResumeUk.length}
+Projets sans date de mise à jour : ${statistics.projetsSansDateMaj.length}
+Projets sans site internet : ${statistics.projetsSansSite.length}
+Projets sans unité : ${statistics.projetsSansUnite.length}
         `;
-        const blob = new Blob([data], { type: "text/plain" });
-        saveAs(blob, "projet_statistiques.txt");
+        const blob = new Blob([data], { type: 'text/plain' });
+        saveAs(blob, 'projet_statistiques.txt');
     };
 
-    const downloadExcelFile = () => {
+    const generateExcelFile = () => {
         const data = [
-            ["Statistiques", "Valeurs"],
-            ["Total Projets", statistics.totalProjets],
-            ["Projets sans Nom", statistics.totalNom],
-            ["Projets sans Nom UK", statistics.totalNomUk],
-            ["Projets sans Nom Programme", statistics.totalNomProgramme],
-            ["Projets sans Nom Programme UK", statistics.totalNomProgrammeUk],
-            ["Projets sans Résumé", statistics.totalResume],
-            ["Projets sans Résumé UK", statistics.totalResumeUk],
-            ["Projets sans Date de Mise à Jour", statistics.totalDateMaj],
-            ["Projets sans Site", statistics.totalSite],
-            ["Projets sans Unité", statistics.totalUniteProjets],
+            ['Catégorie', 'Nombre'],
+            ['Projets sans nom', statistics.projetsSansNom.length],
+            ['Projets sans nom en anglais', statistics.projetsSansNomUk.length],
+            ['Projets sans nom de programme', statistics.projetsSansNomProgramme.length],
+            ['Projets sans nom de programme en anglais', statistics.projetsSansNomProgrammeUk.length],
+            ['Projets sans résumé', statistics.projetsSansResume.length],
+            ['Projets sans résumé en anglais', statistics.projetsSansResumeUk.length],
+            ['Projets sans date de mise à jour', statistics.projetsSansDateMaj.length],
+            ['Projets sans site internet', statistics.projetsSansSite.length],
+            ['Projets sans unité', statistics.projetsSansUnite.length],
         ];
+
         const worksheet = XLSX.utils.aoa_to_sheet(data);
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Statistiques");
-        XLSX.writeFile(workbook, "projet_statistiques.xlsx");
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Statistiques');
+        XLSX.writeFile(workbook, 'projet_statistiques.xlsx');
     };
 
     return (
         <div className="container">
             <h2>Les statistiques des projets</h2>
-            <p>{generateText(statistics.totalProjets, "projet au total", "projets au total")}</p>
-            <p>{generateText(statistics.totalNom, "projet ne possède pas de nom", "projets ne possèdent pas de nom")}</p>
-            <p>{generateText(statistics.totalNomUk, "projet ne possède pas de nom en anglais", "projets ne possèdent pas de nom en anglais")}</p>
-            <p>{generateText(statistics.totalNomProgramme, "projet ne possède pas de nom de programme", "projets ne possèdent pas de nom de programme")}</p>
-            <p>{generateText(statistics.totalNomProgrammeUk, "projet ne possède pas de nom de programme en anglais", "projets ne possèdent pas de nom de programme en anglais")}</p>
-            <p>{generateText(statistics.totalResume, "projet ne possède pas de résumé", "projets ne possèdent pas de résumé")}</p>
-            <p>{generateText(statistics.totalResumeUk, "projet ne possède pas de résumé en anglais", "projets ne possèdent pas de résumé en anglais")}</p>
-            <p>{generateText(statistics.totalDateMaj, "projet ne possède pas de date de mise à jour", "projets ne possèdent pas de date de mise à jour")}</p>
-            <p>{generateText(statistics.totalSite, "projet ne possède pas de site internet", "projets ne possèdent pas de site internet")}</p>
-            <p>{generateText(statistics.totalUniteProjets, "projet n'a pas d'unité", "projets n'ont pas d'unité")}</p>
+            <p>Total des projets : {statistics.totalProjets}</p>
 
-            <Button variant="primary" className="btn-custom" onClick={downloadTxtFile}>Télécharger en format texte</Button>
-            <Button variant="primary" className="btn-custom" onClick={downloadExcelFile}>Télécharger en format Excel</Button>
+            <ul>
+                <li>
+                    <Link to="/projet-details/sans-nom">Projets sans nom ({statistics.projetsSansNom.length})</Link>
+                </li>
+                <li>
+                    <Link to="/projet-details/sans-nom-uk">Projets sans nom en anglais ({statistics.projetsSansNomUk.length})</Link>
+                </li>
+                <li>
+                    <Link to="/projet-details/sans-nom-programme">Projets sans nom de programme ({statistics.projetsSansNomProgramme.length})</Link>
+                </li>
+                <li>
+                    <Link to="/projet-details/sans-nom-programme-uk">Projets sans nom de programme en anglais ({statistics.projetsSansNomProgrammeUk.length})</Link>
+                </li>
+                <li>
+                    <Link to="/projet-details/sans-resume">Projets sans résumé ({statistics.projetsSansResume.length})</Link>
+                </li>
+                <li>
+                    <Link to="/projet-details/sans-resume-uk">Projets sans résumé en anglais ({statistics.projetsSansResumeUk.length})</Link>
+                </li>
+                <li>
+                    <Link to="/projet-details/sans-datemaj">Projets sans date de mise à jour ({statistics.projetsSansDateMaj.length})</Link>
+                </li>
+                <li>
+                    <Link to="/projet-details/sans-site">Projets sans site internet ({statistics.projetsSansSite.length})</Link>
+                </li>
+                <li>
+                    <Link to="/projet-details/sans-unite">Projets sans unité ({statistics.projetsSansUnite.length})</Link>
+                </li>
+            </ul>
+
+            <Button onClick={generateTextFile} className="btn-custom btn btn-primary">Télécharger en TXT</Button>
+            <Button onClick={generateExcelFile} className="btn-custom btn btn-primary">Télécharger en Excel</Button>
         </div>
     );
 }

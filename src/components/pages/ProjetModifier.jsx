@@ -72,11 +72,12 @@ function ProjetModifier() {
             if (response.status === 200) {
                 console.log("Projet modifié avec succès");
                 setShowNotif(true);
-                setTimeout(() => setShowNotif(false), 3000);
+                setTimeout(() => setShowNotif(false), 2500);
 
                 setTimeout(() => {
-                    navigate("/projet");
-                }, 1000);
+                    handleNavigation(`/projetDetail/${idprojet}`);
+                }, 2000);
+
             } else {
                 console.error("Erreur lors de la modification du projet");
                 setError("Une erreur s'est produite lors de la modification du projet.");
@@ -276,7 +277,7 @@ function ProjetModifier() {
                     <hr />
                     <p>* Information requise</p>
                     <Button variant="primary" className="btn-custom" type="submit">
-                    Modifier
+                        Confirmer
                     </Button>
                     <Button variant="secondary" className="btn-custom" onClick={() => handleNavigation(`/projetDetail/${idprojet}`)}>
                         Annuler

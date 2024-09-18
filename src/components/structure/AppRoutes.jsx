@@ -48,6 +48,9 @@ import DisciplineSupprimer from "../pages/DisciplineSupprimer.jsx";
 import FaculteDetails from "../pages/FaculteDetails.jsx";
 import FaculteModifier from "../pages/FaculteModifier.jsx";
 import FaculteSupprimer from "../pages/FaculteSupprimer.jsx";
+import UniteDetails from "../pages/UniteDetails.jsx";
+import ProjetDetails from "../pages/ProjetDetails.jsx";
+import ChercheurDetails from "../pages/ChercheurDetails.jsx";
 
 
 function AppRoutes() {
@@ -72,6 +75,7 @@ function AppRoutes() {
                 <Route path="/uniteModifier/:idunite" element={<UniteModifier/>} />
                 <Route path="/uniteSupprimer/:idunite" element={<UniteSupprimer/>} />
                 <Route path="/uniteRecherche" element={<UniteRecherche/>} />
+                <Route path="/unite-details/:type" element={<UniteDetails />} />
 
 
                 <Route path="/compos" element={<Compos/>} />
@@ -84,6 +88,7 @@ function AppRoutes() {
                 <Route path="/projetModifier/:idprojet" element={<ProjetModifier/>} />
                 <Route path="/projetSupprimer/:idprojet" element={<ProjetSupprimer/>} />
                 <Route path="/projetRecherche" element={<ProjetRecherche/>} />
+                <Route path="/projet-details/:type" element={<ProjetDetails />} />
 
                 <Route path="/chercheur" element={<Chercheur/>}/>
                 <Route path="/chercheurStat" element={<ChercheurStat />} />
@@ -92,6 +97,7 @@ function AppRoutes() {
                 <Route path="/chercheurModifier/:idche" element={<ChercheurModifier />} />
                 <Route path="/chercheurSupprimer/:idche" element={<ChercheurSupprimer />} />
                 <Route path="/chercheurRecherche" element={<ChercheurRecherche/>} />
+                <Route path="/chercheur-details/:type" element={<ChercheurDetails />} />
 
 
                 <Route path="/frascati" element={<Frascati/>}/>
@@ -112,7 +118,6 @@ function AppRoutes() {
                 <Route path="/disciplineRecherche" element={<DisciplineRecherche/>} />
                 <Route path="/disciplineModifier/:idcodecref" element={<DisciplineModifier />} />
                 <Route path="/disciplineSupprimer/:idcodecref" element={<DisciplineSupprimer />} />
-
 
 
                 <Route path="/recherche" element={<Recherche/>} />

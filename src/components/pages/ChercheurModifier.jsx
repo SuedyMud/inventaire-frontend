@@ -65,7 +65,7 @@ function ChercheurModifier() {
                 setShowNotif(true);
                 setTimeout(() => {
                     navigate(`/chercheurDetail/${idche}`);
-                }, 900); // -1 secondes de délai avant la redirection
+                }, 1000); // 900 -1 secondes de délai avant la redirection
             } else {
                 console.error("Erreur lors de la modification du chercheur");
             }
@@ -181,7 +181,7 @@ function ChercheurModifier() {
                     <hr />
                     <p>* Information requise</p>
                     <Button variant="primary" className="btn-custom"type="submit">
-                        Modifier
+                        Confirmer
                     </Button>
                     <Button variant="secondary" className="btn-custom" onClick={() => handleNavigation(`/chercheurDetail/${idche}`)}>
                         Annuler
