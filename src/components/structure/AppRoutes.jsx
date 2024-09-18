@@ -51,6 +51,7 @@ import FaculteSupprimer from "../pages/FaculteSupprimer.jsx";
 import UniteDetails from "../pages/UniteDetails.jsx";
 import ProjetDetails from "../pages/ProjetDetails.jsx";
 import ChercheurDetails from "../pages/ChercheurDetails.jsx";
+import FrascatiDetails from "../pages/FrascatiDetails.jsx";
 
 
 function AppRoutes() {
@@ -107,6 +108,7 @@ function AppRoutes() {
                 <Route path="/frascatiSupprimer" element={<FrascatiSupprimer />}/>
                 <Route path="/frascatiModifier/:idfrascati" element={<FrascatiModifier />}/>
                 <Route path="/frascatiRecherche" element={<FrascatiRecherche/>} />
+                <Route path="/frascati-details/:type" element={<FrascatiDetails />} />
 
 
 
