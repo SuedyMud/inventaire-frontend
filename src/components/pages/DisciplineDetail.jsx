@@ -39,7 +39,7 @@ function DisciplineDetail(){
         <>
             <h2>{discipline}</h2>
             <h2>{disciplineUK}</h2>
-            <div>
+            <>
                 <p>(Code : {idcodecref})</p>
 
                 <div>
@@ -54,7 +54,15 @@ function DisciplineDetail(){
                     </PermissionGuard>
                 </div>
 
-            </div>
+                <Button variant="outline-info" className="btn-custom" onClick={() => handleNavigation("/disciplineStat")}>
+                    Statistique
+                </Button>
+
+                <Button variant="outline-secondary" className="btn-custom" onClick={() => handleNavigation("/disciplineStat")}>
+                    Disciplines
+                </Button>
+
+            </>
         </>
     );
 }

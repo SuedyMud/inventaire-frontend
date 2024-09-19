@@ -28,8 +28,8 @@ function DisciplineSupprimer({ idcodecref }) {
                 console.log("Discipline supprimée avec succès");
 
                 setTimeout(() => {
-                    navigate("/disciplines"); // Redirection vers la liste des disciplines après suppression
-                }, 3000);
+                    navigate("/discipline"); // Redirection vers la liste des disciplines après suppression
+                }, 1500);
             } else {
                 setError("Erreur lors de la suppression de la discipline.");
             }
