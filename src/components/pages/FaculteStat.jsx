@@ -33,7 +33,7 @@ function FaculteStat() {
 
                 if (response.status === 200) {
                     const filteredData = response.data.content.filter(
-                        (item) => item.actif === 1
+                        (item) => item.actif === 1 && item.invent20 === 1
                     );
 
                     const totalFacultes = filteredData.length;

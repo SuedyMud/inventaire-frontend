@@ -24,7 +24,7 @@ function FaculteDetails() {
 
                 if (response.status === 200) {
                     const filteredData = response.data.content.filter(
-                        (item) => item.actif === 1
+                        (item) => item.actif === 1 && item.invent20 === 1
                     );
 
                     let filteredFacultes;
@@ -72,7 +72,7 @@ function FaculteDetails() {
 
             <ul>
                 {facultes.map((faculte) => (
-                    <li key={faculte.idfrascati}>
+                    <li key={faculte.fac}>
                         <Link to={`/faculteDetail/${faculte.fac}`}>
                             {faculte.faculte}
                         </Link>

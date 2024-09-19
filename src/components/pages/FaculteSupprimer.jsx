@@ -30,8 +30,8 @@ function FaculteSupprimer({ fac }) {
 
                 // Redirection après la suppression
                 setTimeout(() => {
-                    navigate("/facultes");
-                }, 3000);
+                    navigate("/faculte");
+                }, 1700);
             } else {
                 setError("Erreur lors de la suppression de la faculté.");
             }

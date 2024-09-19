@@ -27,7 +27,7 @@ function FaculteDetail() {
     }
 
 
-    const {faculte, faculteUK, sigle, cc, actif, groupe} = facultes;
+    const {faculte, faculteUK, sigle, cc,dmaj, actif, groupe} = facultes;
 
     const handleNavigation = (path) => {
         navigate(path);
@@ -44,6 +44,9 @@ function FaculteDetail() {
                 <p>(Code : {fac})</p>
                 <p>Sigle : {sigle}</p>
                 <p>Code Comptabilité : {cc}</p>
+                <p>Date de mise à jour : {dmaj === "0000-00-00 00:00:00.000000" || !dmaj ? "Indisponible" : new Date(dmaj).toLocaleDateString('fr-FR')}</p>
+
+
                 <p>Actif : {actif > 0 ? "Oui" : "Non"}</p>
 
                 <p>Groupe : {groupe}</p>

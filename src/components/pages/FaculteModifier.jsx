@@ -11,7 +11,7 @@ function FaculteModifier() {
         faculte: "",
         faculteUK: "",
         sigle: "",
-        dMaj: "",
+        dMaj: new Date().toISOString().substr(0, 10),
         cc: "",
         infofin: "",
         idFac: "",
@@ -108,7 +108,7 @@ function FaculteModifier() {
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridFaculteUK">
-                        <Form.Label>Nom UK</Form.Label>
+                        <Form.Label>Nom FacultéUK</Form.Label>
                         <Form.Control
                             type="text"
                             name="faculteUK"
@@ -141,7 +141,7 @@ function FaculteModifier() {
                 </Row>
 
                 <Row className="mb-3">
-                    <Form.Group as={Col} controlId="formGridIdFac">
+                    {/*<Form.Group as={Col} controlId="formGridIdFac">
                         <Form.Label>ID Faculté </Form.Label>
                         <Form.Control
                             type="text"
@@ -149,6 +149,17 @@ function FaculteModifier() {
                             value={faculte.idFac}
                             onChange={handleChange}
                             required
+                        />
+                    </Form.Group>*/}
+
+                    <Form.Group as={Col} controlId="formGridIdFac">
+                        <Form.Label>Date de mise a jour</Form.Label>
+                        <Form.Control
+                            type="date"
+                            name="dMaj"
+                            value={faculte.dMaj}
+                            onChange={handleChange}
+                            disabled
                         />
                     </Form.Group>
 
