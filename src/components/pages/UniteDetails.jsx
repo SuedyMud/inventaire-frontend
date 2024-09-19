@@ -85,7 +85,7 @@ function UniteDetails() {
                 {unites.map((unite) => (
                     <li key={unite.idunite}>
                         <Link to={`/uniteDetail/${unite.idunite}`}>
-                            {unite.nom} {/*(ID: {unite.idunite})*/}
+                            {unite.nom}
                         </Link>
                     </li>
                 ))}

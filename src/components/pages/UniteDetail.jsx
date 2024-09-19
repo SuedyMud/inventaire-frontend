@@ -11,7 +11,7 @@ import {
     getProjetsByUnite,
     getMembresByUnite  // Importation de la fonction pour récupérer les membres
 } from "../../utils/ApiGet.js";
-import { Button } from "react-bootstrap";
+import {Button, Spinner} from "react-bootstrap";
 import UniteSupprimer from "./UniteSupprimer.jsx";
 import { FaEnvelope, FaFax, FaGlobe, FaHome, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
 import PermissionGuard from "../../utils/PermissionGuard.jsx";
@@ -22,13 +22,13 @@ function UniteDetail() {
     const navigate = useNavigate();
     const [showFullDescription, setShowFullDescription] = useState(false);
 
-    // Fetching Unit details
+
     const { data: unite, isLoading: isLoadingUnite } = useQuery(["uniteDetail", idunite], async () => {
         const accessToken = await getAccessTokenSilently();
         return getUniteDetail({ accessToken, idunite });
     });
 
-    // Fetching Unit Responsables
+
     const { data: responsables, isLoading: isLoadingResponsables } = useQuery(["responsablesUnite", idunite], async () => {
         const accessToken = await getAccessTokenSilently();
         const allResponsables = await getResponsablesUnite({ accessToken, idunite });
@@ -37,13 +37,13 @@ function UniteDetail() {
         );
     });
 
-    // Fetching Unit's members
+
     const { data: membres, isLoading: isLoadingMembres } = useQuery(["membresUnite", idunite], async () => {
         const accessToken = await getAccessTokenSilently();
         return getMembresByUnite({ accessToken, idunite });
     });
 
-    // Fetching other unit-related data
+
     const { data: frascati } = useQuery(["frascatiByUnite", idunite], async () => {
         const accessToken = await getAccessTokenSilently();
         return getFrascatiByUnite({ accessToken, idunite });
@@ -64,9 +64,9 @@ function UniteDetail() {
         return getProjetsByUnite({ accessToken, idunite });
     });
 
-    // Loading state
+
     if (isLoadingUnite || isLoadingResponsables || isLoadingMembres) {
-        return <p>Chargement...</p>;
+        return <Spinner/>;
     }
 
     if (!unite) {
@@ -239,6 +239,14 @@ function UniteDetail() {
                             <UniteSupprimer idunite={idunite} />
                         </div>
                     </PermissionGuard>
+
+                    <Button variant="outline-info" className="btn-custom" onClick={() => handleNavigation("/uniteStat")}>
+                        Statistique
+                    </Button>
+
+                    <Button variant="outline-secondary" className="btn-custom" onClick={() => handleNavigation("/unite")}>
+                        Unités
+                    </Button>
                 </div>
             </div>
         </>

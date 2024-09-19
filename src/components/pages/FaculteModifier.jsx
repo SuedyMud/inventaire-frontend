@@ -142,7 +142,7 @@ function FaculteModifier() {
 
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridIdFac">
-                        <Form.Label>ID Faculté *</Form.Label>
+                        <Form.Label>ID Faculté </Form.Label>
                         <Form.Control
                             type="text"
                             name="idFac"

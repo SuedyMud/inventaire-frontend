@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import {getFacDetail} from "../../utils/ApiGet.js";
 import React from "react";
 import PermissionGuard from "../../utils/PermissionGuard.jsx";
-import {Button} from "react-bootstrap";
+import {Button, Spinner} from "react-bootstrap";
 import FrascatiSupprimer from "./FrascatiSupprimer.jsx";
 import FaculteSupprimer from "./FaculteSupprimer.jsx";
 
@@ -18,16 +18,16 @@ function FaculteDetail() {
     });
 
     if (isLoadingFaculte) {
-        return <p>Loading...</p>;
+        return <Spinner/>;
     }
 
-    // Vérifiez si 'facultes' contient des données
+
     if (!facultes) {
-        return null;
+        return <p>Aucune faculté trouvée.</p>;
     }
 
 
-    const {faculte, faculteUK} = facultes;
+    const {faculte, faculteUK, sigle, cc, actif, groupe} = facultes;
 
     const handleNavigation = (path) => {
         navigate(path);
@@ -42,6 +42,11 @@ function FaculteDetail() {
                 <h2>{faculteUK}</h2>
 
                 <p>(Code : {fac})</p>
+                <p>Sigle : {sigle}</p>
+                <p>Code Comptabilité : {cc}</p>
+                <p>Actif : {actif > 0 ? "Oui" : "Non"}</p>
+
+                <p>Groupe : {groupe}</p>
 
                 <div>
                     <PermissionGuard permission={'write:all-information'}>
@@ -53,6 +58,14 @@ function FaculteDetail() {
                             <FaculteSupprimer fac={fac} />
                         </div>
                     </PermissionGuard>
+
+                    <Button variant="outline-info" className="btn-custom" onClick={() => handleNavigation("/faculteStat")}>
+                        Statistique
+                    </Button>
+
+                    <Button variant="outline-secondary" className="btn-custom" onClick={() => handleNavigation("/faculte")}>
+                        Facultés
+                    </Button>
                 </div>
 
 

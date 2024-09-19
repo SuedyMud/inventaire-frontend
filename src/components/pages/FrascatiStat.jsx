@@ -98,8 +98,8 @@ Frascatis sans description en anglais : ${statistics.frascatisSansDescriptionUK.
                 </li>
             </ul>
 
-            <Button onClick={generateTextFile} className="btn btn-primary">Télécharger en TXT</Button>
-            <Button onClick={generateExcelFile} className="btn btn-primary">Télécharger en Excel</Button>
+            <Button onClick={generateTextFile} className="btn-custom primary">Télécharger en TXT</Button>
+            <Button onClick={generateExcelFile} className="btn-custom primary">Télécharger en Excel</Button>
         </div>
     );
 }

@@ -69,21 +69,12 @@ function FaculteDetails() {
     return (
         <div className="container">
             <h2>{title}</h2>
+
             <ul>
                 {facultes.map((faculte) => (
-                    <li key={faculte.fac}>
-                        {/* Redirection vers la page de détails de la faculté */}
-                        <Link
-                            to={{
-                                pathname: `/faculteDetail/${faculte.fac}`,
-                                state: {
-                                    faculte: faculte.faculte,
-                                    faculteUk: faculte.faculteUK
-                                }
-                            }}
-                            style={{ textDecoration: 'none' }}
-                        >
-                            <p>{faculte.faculte}</p>
+                    <li key={faculte.idfrascati}>
+                        <Link to={`/faculteDetail/${faculte.fac}`}>
+                            {faculte.faculte}
                         </Link>
                     </li>
                 ))}
