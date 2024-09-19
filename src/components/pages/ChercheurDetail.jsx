@@ -59,6 +59,14 @@ function ChercheurDetail() {
                     </div>
                 </PermissionGuard>
 
+                <Button variant="outline-info" className="btn-custom" onClick={() => handleNavigation("/chercheurStat")}>
+                    Statistique
+                </Button>
+
+                <Button variant="outline-secondary" className="btn-custom" onClick={() => handleNavigation("/chercheur")}>
+                    Chercheur
+                </Button>
+
             </div>
 
         </div>
