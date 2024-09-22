@@ -26,11 +26,25 @@ function FrascatiAjouter() {
         return (Math.random() * 9 + 1).toFixed(1);
     };
 
+    // Extraire la partie entière (avant la virgule) et la partie décimale (après la virgule)
+    const extractParts = (floatingNumber) => {
+        const [integerPart, decimalPart] = floatingNumber.split(".");
+        return {
+            integerPart, // Partie entière
+            decimalPart, // Partie après la virgule
+        };
+    };
+
     // Initialiser les valeurs générées lors du montage du composant
     useEffect(() => {
+        const idFrascati = generateFloatingId();
+        const { integerPart, decimalPart } = extractParts(idFrascati);
+
         setFrascatis(prevFrascati => ({
             ...prevFrascati,
-            idfrascati: generateFloatingId(),
+            idfrascati: idFrascati,      // ID flottant complet
+            refgrdiscip: integerPart,    // Partie entière pour 'refgrdiscip'
+            ordre: decimalPart,          // Partie décimale pour 'ordre'
         }));
     }, []);
 
@@ -146,7 +160,7 @@ function FrascatiAjouter() {
                         <Form.Control
                             type="text"
                             name="refgrdiscip"
-                            value={frascatis.refgrdiscip}
+                            value={frascatis.refgrdiscip} // Affiche uniquement la partie entière
                             onChange={handleChange}
                             required
                         />
@@ -157,7 +171,7 @@ function FrascatiAjouter() {
                         <Form.Control
                             type="text"
                             name="ordre"
-                            value={frascatis.ordre}
+                            value={frascatis.ordre} // Affiche uniquement la partie décimale
                             onChange={handleChange}
                             required
                         />

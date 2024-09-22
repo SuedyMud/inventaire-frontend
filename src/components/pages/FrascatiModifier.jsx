@@ -8,6 +8,7 @@ function FrascatiModifier() {
     const { getAccessTokenSilently } = useAuth0();
     const { idfrascati } = useParams();
     const [frascatis, setFrascatis] = useState({
+        idfrascati: "",
         frascati: "",
         frascatiUK: "",
         description: "",
@@ -86,7 +87,19 @@ function FrascatiModifier() {
         <>
             <h2>Modifier un Frascati :</h2>
             <Form onSubmit={handleFormSubmit}>
+
                 <Row className="mb-3">
+                    {/*<Form.Group as={Col} controlId="formGridIdFrascatie">
+                        <Form.Label>Id Frascati *</Form.Label>
+                        <Form.Control
+                            type="number"
+                            name="idfrascati"
+                            value={frascatis.idfrascati}
+                            onChange={handleChange}
+                            min="1.0"  // Empêche la saisie de nombres négatifs
+                            step="0.1" // Autorise la saisie de valeurs décimales (flottantes)
+                        />
+                    </Form.Group>*/}
                     <Form.Group as={Col} controlId="formGridFrascati">
                         <Form.Label>Nom *</Form.Label>
                         <Form.Control
@@ -145,10 +158,11 @@ function FrascatiModifier() {
                     <Form.Group as={Col} controlId="formGridRefGrDiscip">
                         <Form.Label>Référence Groupe Discipline *</Form.Label>
                         <Form.Control
-                            type="text"
+                            type="number"
                             name="refgrdiscip"
                             value={frascatis.refgrdiscip}
                             onChange={handleChange}
+                            min="1" // Empêche la saisie de nombre négatifs
                             required
                         />
                     </Form.Group>
@@ -156,10 +170,11 @@ function FrascatiModifier() {
                     <Form.Group as={Col} controlId="formGridOrdre">
                         <Form.Label>Ordre *</Form.Label>
                         <Form.Control
-                            type="text"
+                            type="number"
                             name="ordre"
                             value={frascatis.ordre}
                             onChange={handleChange}
+                            min="0" // Empêche la saisie de nombre négatifs
                             required
                         />
                     </Form.Group>

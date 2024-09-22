@@ -26,7 +26,7 @@ function FrascatiDetail() {
         return null;
     }
 
-    const {frascati, description} = zfrascati;
+    const {frascati, description, refgrdiscip, ordre} = zfrascati;
     const handleNavigation = (path) => {
         navigate(path);
     };
@@ -39,7 +39,11 @@ function FrascatiDetail() {
                 <p>(Code : {idfrascati})</p>
                {/* <p>Unité : </p>*/}
 
+                <p>Description : </p>
                 <p>{description}</p>
+
+                <p>Référence Groupe Discipline : {refgrdiscip}</p>
+                <p>Ordre : {ordre}</p>
 
                {/* <p>unité : {zufrascati}</p>*/}
 
