@@ -29,7 +29,7 @@ function FrascatiSupprimer({ idfrascati }) {
 
                 setTimeout(() => {
                     navigate("/frascati");
-                }, 3000);
+                }, 1500);
             } else {
                 setError("Erreur lors de la suppression du Frascati.");
             }

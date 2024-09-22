@@ -97,6 +97,9 @@ function Frascati() {
                     <Button variant="outline-primary" className="btn-custom" onClick={() => handleNavigation("/frascatiRecherche")}>
                         Recherche
                     </Button>
+
+
+
                     <Button variant="info" className="btn-custom" onClick={() => handleNavigation("/frascatiStat")}>
                         Statistiques
                     </Button>

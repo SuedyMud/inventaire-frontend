@@ -38,7 +38,7 @@ import Recherche from "../pages/Recherche.jsx";
 import UniteRecherche from "../pages/UniteRecherche.jsx";
 import ProjetRecherche from "../pages/ProjetRecherche.jsx";
 import ChercheurRecherche from "../pages/ChercheurRecherche.jsx";
-import FrascatiRecherche from "../pages/Frascati.jsx";
+
 import DisciplineRecherche from "../pages/DisciplineRecherche.jsx";
 
 import Profil from "./Profil.jsx";
@@ -53,6 +53,7 @@ import ProjetDetails from "../pages/ProjetDetails.jsx";
 import ChercheurDetails from "../pages/ChercheurDetails.jsx";
 import FrascatiDetails from "../pages/FrascatiDetails.jsx";
 import DisciplineDetails from "../pages/DisciplineDetails.jsx";
+import FrascatiRecherche from "../pages/FrascatiRecherche.jsx";
 
 
 function AppRoutes() {
@@ -108,9 +109,8 @@ function AppRoutes() {
                 <Route path="/frascatiAjouter" element={<FrascatiAjouter />}/>
                 <Route path="/frascatiSupprimer" element={<FrascatiSupprimer />}/>
                 <Route path="/frascatiModifier/:idfrascati" element={<FrascatiModifier />}/>
-                <Route path="/frascatiRecherche" element={<FrascatiRecherche/>} />
+                <Route path="/frascatiRecherche" element={< FrascatiRecherche />} />
                 <Route path="/frascati-details/:type" element={<FrascatiDetails />} />
-
 
 
                 <Route path="/discipline" element={<Discipline/>}/>

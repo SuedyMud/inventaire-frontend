@@ -14,7 +14,7 @@ function FrascatiRecherche() {
         const accessToken = await getAccessTokenSilently();
         return getFrascati({ accessToken });
     }, {
-        enabled: false // Disable automatic refetch on mount
+        enabled: false
     });
 
     useEffect(() => {

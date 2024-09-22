@@ -230,6 +230,7 @@ export async function getFrascati({accessToken}) {
             },
         });
 
+
         if (response.status === 200) {
             return(response.data.content);
         } else {

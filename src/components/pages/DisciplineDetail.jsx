@@ -52,15 +52,17 @@ function DisciplineDetail(){
                             <DisciplineSupprimer idcodecref={idcodecref} />
                         </div>
                     </PermissionGuard>
+
+                    <Button variant="outline-info" className="btn-custom" onClick={() => handleNavigation("/disciplineStat")}>
+                        Statistique
+                    </Button>
+
+                    <Button variant="outline-secondary" className="btn-custom" onClick={() => handleNavigation("/disciplineStat")}>
+                        Disciplines
+                    </Button>
                 </div>
 
-                <Button variant="outline-info" className="btn-custom" onClick={() => handleNavigation("/disciplineStat")}>
-                    Statistique
-                </Button>
 
-                <Button variant="outline-secondary" className="btn-custom" onClick={() => handleNavigation("/disciplineStat")}>
-                    Disciplines
-                </Button>
 
             </>
         </>

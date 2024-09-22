@@ -43,7 +43,7 @@ function FaculteDetail() {
 
                 <p>(Code : {fac})</p>
                 <p>Sigle : {sigle}</p>
-                <p>Code Comptabilité : {cc}</p>
+                <p>Abréviation : {cc}</p>
                 <p>Date de mise à jour : {dmaj === "0000-00-00 00:00:00.000000" || !dmaj ? "Indisponible" : new Date(dmaj).toLocaleDateString('fr-FR')}</p>
 
 
