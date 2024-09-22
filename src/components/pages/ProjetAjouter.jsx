@@ -127,13 +127,13 @@ function ProjetAjouter() {
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridNomProgrammeUK">
-                        <Form.Label>Nom Programme UK *</Form.Label>
+                        <Form.Label>Nom Programme UK </Form.Label>
                         <Form.Control
                             type="text"
                             name="nomprogrammeUK"
                             value={projet.nomprogrammeUK}
                             onChange={handleChange}
-                            required
+                            /*required*/
                             pattern="^[A-Za-zÀ-ÿ\s]{1,100}$"
                             title="Le nom du programme UK ne peut pas contenir des chiffres (100 caractères max)"
                         />
@@ -155,13 +155,13 @@ function ProjetAjouter() {
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridResumeUK">
-                        <Form.Label>Résumé UK *</Form.Label>
+                        <Form.Label>Résumé UK </Form.Label>
                         <Form.Control
                             as="textarea"
                             name="resumeUK"
                             value={projet.resumeUK}
                             onChange={handleChange}
-                            required
+                            /*required*/
                             maxLength="2500"
                             title="Le résumé UK ne peut pas contenir plus de 2500 caractères"
                         />
@@ -211,12 +211,14 @@ function ProjetAjouter() {
                             name="ordre"
                             value={projet.ordre}
                             onChange={handleChange}
+                            min="1"
                             required
+
                         />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridSite">
-                        <Form.Label>Site *</Form.Label>
+                        <Form.Label>Site </Form.Label>
                         <Form.Control
                             type="text"
                             name="site"
@@ -229,7 +231,7 @@ function ProjetAjouter() {
 
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridDDebut">
-                        <Form.Label>D Début *</Form.Label>
+                        <Form.Label>Année Début *</Form.Label>
                         <Form.Control
                             type="text"
                             name="dDebut"
@@ -240,7 +242,7 @@ function ProjetAjouter() {
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridDFin">
-                        <Form.Label>D Fin</Form.Label>
+                        <Form.Label>Année Fin</Form.Label>
                         <Form.Control
                             type="text"
                             name="dFin"
