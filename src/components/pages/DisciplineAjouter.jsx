@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import axios from "axios";
@@ -15,6 +15,19 @@ function DisciplineAjouter() {
     const [showNotif, setShowNotif] = useState(false);
     const [error, setError] = useState("");
     const navigate = useNavigate();
+
+    // Générateur d'identifiant numérique pour 'idcodecref'
+    const generateNumericId = () => {
+        return Math.floor(1000 + Math.random() * 9000); // Génère un ID de 4 chiffres
+    };
+
+    // Initialiser les valeurs générées lors du montage du composant
+    useEffect(() => {
+        setDisciplines(prevDiscipline => ({
+            ...prevDiscipline,
+            idcodecref: generateNumericId(),
+        }));
+    }, []);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -38,7 +51,6 @@ function DisciplineAjouter() {
                 console.log("Discipline créée avec succès");
                 setShowNotif(true);
                 setTimeout(() => setShowNotif(false), 2000);
-
 
                 setTimeout(() => {
                     navigate("/discipline");
@@ -66,11 +78,11 @@ function DisciplineAjouter() {
                     <Form.Group as={Col} controlId="formGridIdDiscipline">
                         <Form.Label>Id Discipline *</Form.Label>
                         <Form.Control
-                            type="number"
+
                             name="idcodecref"
                             value={disciplines.idcodecref}
                             onChange={handleChange}
-                            required
+                            readOnly // Empêche la modification manuelle
                         />
                     </Form.Group>
 

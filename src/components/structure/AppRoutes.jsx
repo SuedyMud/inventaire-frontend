@@ -52,8 +52,9 @@ import UniteDetails from "../pages/UniteDetails.jsx";
 import ProjetDetails from "../pages/ProjetDetails.jsx";
 import ChercheurDetails from "../pages/ChercheurDetails.jsx";
 import FrascatiDetails from "../pages/FrascatiDetails.jsx";
-import DisciplineDetails from "../pages/DisciplineDetails.jsx";
+
 import FrascatiRecherche from "../pages/FrascatiRecherche.jsx";
+import DisciplineDetails from "../pages/DisciplineDetails.jsx";
 
 
 function AppRoutes() {
@@ -117,7 +118,7 @@ function AppRoutes() {
                 <Route path="/disciplineDetail/:idcodecref" element={<DisciplineDetail />} />
                 <Route path="/disciplineAjouter" element={<DisciplineAjouter />} />
                 <Route path="/disciplineStat" element={<DisciplineStat />} />
-                <Route path="/disciplineDetail/:idcodecref" element={<DisciplineDetail />} />
+                <Route path="/disciplineDetail/:idcodecref" element={< DisciplineDetail/>} />
                 <Route path="/disciplineRecherche" element={<DisciplineRecherche/>} />
                 <Route path="/disciplineModifier/:idcodecref" element={<DisciplineModifier />} />
                 <Route path="/disciplineSupprimer/:idcodecref" element={<DisciplineSupprimer />} />
