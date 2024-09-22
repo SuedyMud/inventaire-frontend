@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Form, Button, Alert, Col, Row } from "react-bootstrap";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 function FrascatiAjouter() {
     const { getAccessTokenSilently } = useAuth0();
     const [frascatis, setFrascatis] = useState({
+        idfrascati: "",
         frascati: "",
         frascatiUK: "",
         description: "",
@@ -18,6 +19,20 @@ function FrascatiAjouter() {
     const [showNotif, setShowNotif] = useState(false);
     const [error, setError] = useState("");
     const navigate = useNavigate();
+
+    // Générateur d'identifiant flottant pour 'idfrascati'
+    const generateFloatingId = () => {
+        // Génère un nombre flottant entre 1.0 et 9.9
+        return (Math.random() * 9 + 1).toFixed(1);
+    };
+
+    // Initialiser les valeurs générées lors du montage du composant
+    useEffect(() => {
+        setFrascatis(prevFrascati => ({
+            ...prevFrascati,
+            idfrascati: generateFloatingId(),
+        }));
+    }, []);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -37,10 +52,13 @@ function FrascatiAjouter() {
                 },
             });
 
-            if (response.status === 200) {
+            if (response.status === 201) {
                 console.log("Frascati ajouté avec succès");
                 setShowNotif(true);
-                setTimeout(() => setShowNotif(false), 3000);
+                setTimeout(() => setShowNotif(false), 2000);
+                setTimeout(() => {
+                    navigate("/frascati");
+                }, 1000);
             } else {
                 console.error("Erreur lors de l'ajout du Frascati");
             }
@@ -59,6 +77,15 @@ function FrascatiAjouter() {
             <h2>Ajouter nouveau Frascati :</h2>
             <Form onSubmit={handleFormSubmit}>
                 <Row className="mb-3">
+                    <Form.Group as={Col} controlId="formGridIdFrascatie">
+                        <Form.Label>Id Frascati *</Form.Label>
+                        <Form.Control
+                            name="idfrascati"
+                            value={frascatis.idfrascati}
+                            readOnly // Empêche la modification manuelle
+                        />
+                    </Form.Group>
+
                     <Form.Group as={Col} controlId="formGridFrascati">
                         <Form.Label>Nom *</Form.Label>
                         <Form.Control

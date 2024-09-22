@@ -57,7 +57,7 @@ function DisciplineDetail(){
                         Statistique
                     </Button>
 
-                    <Button variant="outline-secondary" className="btn-custom" onClick={() => handleNavigation("/disciplineStat")}>
+                    <Button variant="outline-secondary" className="btn-custom" onClick={() => handleNavigation("/discipline")}>
                         Disciplines
                     </Button>
                 </div>
