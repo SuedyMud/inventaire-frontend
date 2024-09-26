@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { saveAs } from 'file-saver'; // Pour le téléchargement TXT
-import * as XLSX from 'xlsx'; // Pour le téléchargement Excel
+import * as XLSX from 'xlsx';
+import {Button} from "react-bootstrap"; // Pour le téléchargement Excel
 
 function FaculteStat() {
     const { getAccessTokenSilently } = useAuth0();
+    const navigate = useNavigate();
 
     const [statistics, setStatistics] = useState({
         totalFacultes: 0,
@@ -92,6 +94,10 @@ Facultés hors PoLE SANTÉ : ${statistics.facultesSansPoleSante.length}
         XLSX.writeFile(workbook, 'faculte_statistiques.xlsx');
     };
 
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
+
     return (
         <div className="container">
             <h2>Les statistiques des facultés</h2>
@@ -117,6 +123,10 @@ Facultés hors PoLE SANTÉ : ${statistics.facultesSansPoleSante.length}
 
             <button onClick={generateTextFile} className=" btn-custom btn btn-primary">Télécharger en TXT</button>
             <button onClick={generateExcelFile} className="btn-custom  btn btn-primary">Télécharger en Excel</button>
+
+            <Button variant="outline-secondary" className="btn-custom" onClick={() => handleNavigation("/faculte")}>
+                Facultés
+            </Button>
         </div>
     );
 }

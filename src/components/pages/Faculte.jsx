@@ -25,9 +25,9 @@ function Faculte() {
         "Faculté des Sciences": "https://sciences.ulb.be/la-recherche/unites-de-recherche",
         "Faculté des Sciences de la Motricité": "https://fsm.ulb.be/fr/recherche/les-unites-de-recherche",
         "Faculté des Sciences psychologiques et de l'éducation": "https://psycho.ulb.be/la-recherche/les-centres-et-unites-de-recherche-1",
-        "Faculté Solvay Brussels School of Economics and Managements": "https://sbsem.ulb.be/centres-de-recherche",
+        "Faculté Solvay Brussels School of Economics and Management": "https://sbsem.ulb.be/centres-de-recherche",
         "Institut d'études européennes": "https://www.iee-ulb.eu/en/",
-        "Instituts d'Enseignement Interfacultaire": "https://www.ulb.be/fr/instituts-ressources-contacts/instituts-interfacultaires",
+        "Instituts interfacultaires": "https://www.ulb.be/fr/instituts-ressources-contacts/instituts-interfacultaires",
     };
 
     const handleNavigation = (path) => {
